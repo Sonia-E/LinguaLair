@@ -40,8 +40,9 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             //Insertamos datos
             $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, roles) VALUES ('1','chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', 'standard')";
             $sql2 = "INSERT INTO user (id, username, password,  email, country, roles) VALUES ('2','Sauron','bu','hola1@gmail', 'Mordor', 'standard')";
+            $sql3 = "INSERT INTO user (id, username, password,  email, country, roles) VALUES ('3','Kakashi','bu','hola2@gmail', 'Konoha', 'standard')";
             
-            if ($mysqli->query($sql1) && $mysqli->query($sql2)) {
+            if ($mysqli->query($sql1) && $mysqli->query($sql2) && $mysqli->query($sql3)) {
                 echo "<br>";
                 echo "Inserción para tabla user realizada con éxito";
             }
@@ -118,8 +119,10 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE, './img/Qi\'ra avatar.jpg')";
             $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_active) 
             VALUES ('2', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
+            $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_active) 
+            VALUES ('3', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
             
-            if ($mysqli->query($sql1) && $mysqli->query($sql2)) {
+            if ($mysqli->query($sql1) === TRUE && $mysqli->query($sql2) === TRUE && $mysqli->query($sql3) === TRUE) {
                 echo "<br>";
                 echo "Inserción para tabla profile realizada con éxito";
             }
@@ -184,6 +187,32 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             event_date DATE,
             FOREIGN KEY (user_id) REFERENCES user(id))";
         
+        // Creamos la tabla events
+        if ($mysqli->query($createTable6) === TRUE) {
+            echo "<br>";
+            echo "Tabla events creada con éxito";
+
+            // Insertamos el primer registro de evento
+            $sql3 = "INSERT INTO events (name, description, user_id, creation_date, event_date)
+                    VALUES ('Language Exchange Meetup', 'Join us for a casual language exchange session. Practice speaking and meet new people!',
+                    '1', '2025-04-05', '2025-04-15')";
+
+            // Insertamos el segundo registro de evento
+            $sql4 = "INSERT INTO events (name, description, user_id, creation_date, event_date)
+                    VALUES ('Online Japanese Conversation Club', 'Practice your Japanese speaking skills in a relaxed online environment.',
+                    '2', '2025-04-07', '2025-04-20')";
+
+            if ($mysqli->query($sql3) === TRUE && $mysqli->query($sql4) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla events realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla events: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla events: " . $mysqli->error; // Importante mostrar el error
+        }
 
         //---------------------------------------------------------------RELATION TABLES
 
@@ -191,7 +220,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //######## 6. TABLA FOLLOWERS ###########
         //#######################################
 
-        // Definimos la tabla Profile
+        // Definimos la tabla followers
         $createTable5= "CREATE TABLE IF NOT EXISTS followers (
             follower_id INT NOT NULL,
             followed_id INT NOT NULL,
@@ -202,6 +231,35 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             // follower_id INT NOT NULL, -- id of user following another user
             // followed_id INT NOT NULL, -- id of the followed user
 
+        // Creamos la tabla followers
+        if ($mysqli->query($createTable5) === TRUE) {
+            echo "<br>";
+            echo "Tabla followers creada con éxito";
+
+            // Insertamos la primera relación de seguimiento
+            $sql5 = "INSERT INTO followers (follower_id, followed_id)
+                    VALUES ('1', '2')"; // El usuario con ID 1 sigue al usuario con ID 2
+
+            // Insertamos la segunda relación de seguimiento
+            $sql6 = "INSERT INTO followers (follower_id, followed_id)
+                    VALUES ('2', '3')"; // El usuario con ID 2 sigue al usuario con ID 3
+
+            // Insertamos la tercera relación de seguimiento
+            $sql7 = "INSERT INTO followers (follower_id, followed_id)
+                    VALUES ('3', '1')"; // El usuario con ID 3 sigue al usuario con ID 1
+
+            if ($mysqli->query($sql5) === TRUE && $mysqli->query($sql6) === TRUE && $mysqli->query($sql7) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla followers realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla followers: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla followers: " . $mysqli->error; // Importante mostrar el error
+        }
+
         //#######################################
         //######## 7. USER_ACHIEVEMENTS #########
         //#######################################
@@ -210,8 +268,37 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             user_id INT,
             achievement_id INT,
             PRIMARY KEY (user_id, achievement_id),
-            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (user_id) REFERENCES user(id),
             FOREIGN KEY (achievement_id) REFERENCES achievements(id))";
+        
+        // Creamos la tabla user_achievements
+        if ($mysqli->query($createTable2) === TRUE) {
+            echo "<br>";
+            echo "Tabla user_achievements creada con éxito";
+
+            // Insertamos la primera asignación de logro a usuario
+            $sql8 = "INSERT INTO user_achievements (user_id, achievement_id)
+                    VALUES ('1', '1')"; // El usuario con ID 1 ha obtenido el logro con ID 101
+
+            // Insertamos la segunda asignación de logro a usuario
+            $sql9 = "INSERT INTO user_achievements (user_id, achievement_id)
+                    VALUES ('2', '2')"; // El usuario con ID 2 ha obtenido el logro con ID 102
+
+            // Insertamos la tercera asignación de logro a usuario
+            $sql10 = "INSERT INTO user_achievements (user_id, achievement_id)
+                    VALUES ('1', '3')"; // El usuario con ID 1 ha obtenido el logro con ID 103
+
+            if ($mysqli->query($sql8) === TRUE && $mysqli->query($sql9) === TRUE && $mysqli->query($sql10) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla user_achievements realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla user_achievements: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla user_achievements: " . $mysqli->error; // Importante mostrar el error
+        }
 
         //#######################################
         //############ 8. BOOKING ###############
@@ -221,8 +308,38 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             user_id INT,
             event_id INT,
             PRIMARY KEY (user_id, event_id),
-            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (user_id) REFERENCES user(id),
             FOREIGN KEY (event_id) REFERENCES events(id))";
+
+        // Creamos la tabla booking
+        if ($mysqli->query($createTable2) === TRUE) {
+            echo "<br>";
+            echo "Tabla booking creada con éxito";
+
+            // Insertamos la primera reserva
+            $sql11 = "INSERT INTO booking (user_id, event_id)
+                    VALUES ('1', '1')"; // El usuario con ID 1 se ha registrado en el evento con ID 1
+
+            // Insertamos la segunda reserva
+            $sql12 = "INSERT INTO booking (user_id, event_id)
+                    VALUES ('2', '1')"; // El usuario con ID 2 se ha registrado en el evento con ID 1
+
+            // Insertamos la tercera reserva
+            $sql13 = "INSERT INTO booking (user_id, event_id)
+                    VALUES ('1', '2')"; // El usuario con ID 1 se ha registrado en el evento con ID 2
+
+            if ($mysqli->query($sql11) === TRUE && $mysqli->query($sql12) === TRUE && $mysqli->query($sql13) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla booking realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla booking: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla booking: " . $mysqli->error; // Importante mostrar el error
+        }
+
     } 
     else echo "Error creando la BD";
 

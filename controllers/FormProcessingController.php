@@ -94,13 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $modelo->addLog($user_id, $description, $language, $type, $duration, $log_date);
 
-    // Ejemplo de cómo mostrar los datos recibidos:
-    echo "Descripción: " . htmlspecialchars($description) . "<br>";
-    echo "Idioma: " . htmlspecialchars($language) . "<br>";
-    echo "Tipo de Actividad: " . htmlspecialchars($type) . "<br>";
-    echo "Duración (minutos): " . htmlspecialchars($duration) . "<br>";
-    echo "Fecha de la Actividad: " . htmlspecialchars($date) . "<br>";
-
     // Después de procesar los datos, puedes redirigir al usuario a otra página:
     header("Location: /LinguaLair/");
 } else {

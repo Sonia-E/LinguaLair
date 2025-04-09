@@ -19,10 +19,20 @@
      * @return void
      */
     function get_profile_data($modelo, $id) {
-        // Obtener los artículos desde el modelo
+        // Obtener los datos del usuario
         $array_usuario = $modelo->getUser($id);
         $usuario = $array_usuario[0][0];
         $logs = $array_usuario[0][1];
+
+        // Contar los logs del usuario
+        $totalLogs = $modelo->contarLogsUsuario($id);
+
+        // Obtener el total de horas de estudio
+        $totalHoras = $modelo->obtenerTotalHorasUsuario($id);
+
+        // Obtener el total de minutos para the title control
+        $totalMinutosRaw = $modelo->obtenerTotalMinutosUsuario($id);
+
         // Cargar la vista para mostrar la lista de artículos
         require './vistas/home.php';
     }

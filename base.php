@@ -152,12 +152,12 @@
                         <span class="dabbling hidden">Dabbling:</span>
                     </div>
                     <div class="logs">
-                        <span class="nb">54</span>
+                        <span class="nb"><?php echo $totalLogs ?? 0; ?></span>
                         <span class="title">Logs</span>
                     </div>
                     <div class="logs">
-                        <span class="nb">20</span>
-                        <span class="title">Study Hours</span>
+                        <span class="nb"><?php echo $totalHoras ?? 0; ?></span>
+                        <span class="title"><?php echo ($totalMinutosRaw >= 60) ? "Study Hours" : "Minutes"; ?></span>
                     </div>
                     <div class="logs">
                         <span class="nb">5</span>

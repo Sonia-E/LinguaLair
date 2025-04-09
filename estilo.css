@@ -87,6 +87,7 @@ body {
     align-items: center;
     text-align: justify;
     border: 2px dotted gray;
+    flex: 1;
     border-radius: 10px;
     padding: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -540,6 +541,10 @@ header .stats .logs {
     background-color: var(--color-barra-lateral);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: transform 0.3s ease-in-out;
+}
+.dashboard .feed .log:hover {
+    transform: scale(1.05);
 }
 
 

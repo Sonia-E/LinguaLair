@@ -171,7 +171,24 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         }
 
         //#######################################
-        //######## 5. TABLA FOLLOWERS ###########
+        //########## 5. TABLA EVENTS ############
+        //#######################################
+
+        // Definimos la tabla events
+        $createTable6= "CREATE TABLE IF NOT EXISTS events (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(300) NOT NULL,
+            description TEXT,
+            user_id INT,
+            creation_date DATE,
+            event_date DATE,
+            FOREIGN KEY (user_id) REFERENCES user(id))";
+        
+
+        //---------------------------------------------------------------RELATION TABLES
+
+        //#######################################
+        //######## 6. TABLA FOLLOWERS ###########
         //#######################################
 
         // Definimos la tabla Profile
@@ -186,18 +203,26 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             // followed_id INT NOT NULL, -- id of the followed user
 
         //#######################################
-        //########## 6. TABLA EVENTS ############
+        //######## 7. USER_ACHIEVEMENTS #########
         //#######################################
 
-        // Definimos la tabla events
-        $createTable6= "CREATE TABLE IF NOT EXISTS events (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(300) NOT NULL,
-            description TEXT,
+        $createTable2= "CREATE TABLE IF NOT EXISTS user_achievements  (
             user_id INT,
-            creation_date DATE,
-            event_date DATE,
-            FOREIGN KEY (user_id) REFERENCES user(id))";
+            achievement_id INT,
+            PRIMARY KEY (user_id, achievement_id),
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (achievement_id) REFERENCES achievements(id))";
+
+        //#######################################
+        //############ 8. BOOKING ###############
+        //#######################################
+
+        $createTable2= "CREATE TABLE IF NOT EXISTS booking  (
+            user_id INT,
+            event_id INT,
+            PRIMARY KEY (user_id, event_id),
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (event_id) REFERENCES events(id))";
     } 
     else echo "Error creando la BD";
 

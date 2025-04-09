@@ -22,20 +22,7 @@
     position: absolute;
     z-index: 1;
   }
-  
-  /* Popup arrow */
-  /* .popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 30%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-   */
-  /* Toggle this class when clicking on the popup container (hide and show the popup) */
+
   .popup .show {
     visibility: visible;
     -webkit-animation: fadeIn 0.2s ease-in-out;

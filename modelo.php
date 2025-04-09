@@ -75,39 +75,44 @@
             return $this->cargarDatosUsuario($id);
         }
     
+        /**
+         * Retrieves logs, optionally for a specific user, ordered by post_date descending.
+         *
+         * @param int|null $user_id The ID of the user to filter logs for (optional).
+         * @return array|null An array of log objects, or null on error.
+         */
         public function getLogs($user_id = null) {
             if (!$this->conexion) return null;
-    
+
             $consulta = "SELECT
                             logs.*,
                             user.username,
                             user.nickname
-                         FROM logs
-                         INNER JOIN user ON logs.user_id = user.id";
+                        FROM logs
+                        INNER JOIN user ON logs.user_id = user.id";
+
             if (!is_null($user_id)) {
                 $consulta .= " WHERE logs.user_id = ?";
-                $stmt = $this->conexion->prepare($consulta);
-                if ($stmt) {
-                    $stmt->bind_param("i", $user_id);
-                    $stmt->execute();
-                    $resultado = $stmt->get_result();
-                    $stmt->close();
-                } else {
-                    echo "Error al preparar la consulta: " . $this->conexion->error;
-                    return null;
-                }
-            } else {
-                $resultado = $this->conexion->query($consulta);
             }
-    
-            if ($resultado) {
+
+            $consulta .= " ORDER BY logs.post_date DESC"; // Add the ORDER BY clause
+
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                if (!is_null($user_id)) {
+                    $stmt->bind_param("i", $user_id);
+                }
+                $stmt->execute();
+                $resultado = $stmt->get_result();
                 $logs = [];
                 while ($log = $resultado->fetch_object()) {
                     $logs[] = $log;
                 }
+                $stmt->close();
                 return $logs;
             } else {
-                echo "Error al consultar BD: " . $this->conexion->error;
+                echo "Error al preparar la consulta para obtener logs: " . $this->conexion->error;
                 return null;
             }
         }
@@ -133,6 +138,103 @@
             } else {
                 echo "Error al preparar la consulta de inserción: " . $this->conexion->error;
                 return false;
+            }
+        }
+
+        /**
+         * Counts the total number of logs for a specific user.
+         *
+         * @param int $user_id The ID of the user.
+         * @return int|null The total number of logs for the user, or null on error.
+         */
+        public function contarLogsUsuario($user_id) {
+            if (!$this->conexion) return null;
+
+            $consulta = "SELECT COUNT(*) AS total_logs FROM logs WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+
+                if ($resultado && $resultado->num_rows > 0) {
+                    $fila = $resultado->fetch_assoc();
+                    return (int) $fila['total_logs'];
+                } else {
+                    return 0; // User might not have any logs yet
+                }
+            } else {
+                echo "Error al preparar la consulta para contar logs: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        /**
+         * Gets the total duration of all logs for a specific user in hours.
+         *
+         * @param int $user_id The ID of the user.
+         * @return float|null The total duration in hours, or null on error.
+         */
+        public function obtenerTotalHorasUsuario($user_id) {
+            if (!$this->conexion) return null;
+
+            $consulta = "SELECT SUM(duration) AS total_minutes FROM logs WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+    
+                if ($resultado && $resultado->num_rows > 0) {
+                    $fila = $resultado->fetch_assoc();
+                    $totalMinutes = (int) $fila['total_minutes'];
+    
+                    if ($totalMinutes < 60) {
+                        return $totalMinutes;
+                    } else {
+                        $totalHours = round($totalMinutes / 60, 2);
+                        return $totalHours;
+                    }
+                } else {
+                    return "0"; // User might not have any logs yet
+                }
+            } else {
+                echo "Error al preparar la consulta para obtener la duración total: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        /**
+         * Gets the total duration of all logs for a specific user in minutes.
+         *
+         * @param int $user_id The ID of the user.
+         * @return int|null The total duration in minutes, or null on error.
+         */
+        public function obtenerTotalMinutosUsuario($user_id) {
+            if (!$this->conexion) return null;
+
+            $consulta = "SELECT SUM(duration) AS total_minutes FROM logs WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+
+                if ($resultado && $resultado->num_rows > 0) {
+                    $fila = $resultado->fetch_assoc();
+                    return (int) $fila['total_minutes'];
+                } else {
+                    return 0;
+                }
+            } else {
+                echo "Error al preparar la consulta para obtener la duración total en minutos: " . $this->conexion->error;
+                return null;
             }
         }
     

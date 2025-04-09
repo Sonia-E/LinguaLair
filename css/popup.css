@@ -1,0 +1,174 @@
+/* Popup container */
+.popup {
+    position: fixed;
+    display: inline-block;
+    cursor: pointer;
+    top: 10%;
+    left: 40%;
+    z-index: 1001;
+  }
+  
+  /* The actual popup (appears on top) */
+  .popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    min-height: 300px;
+    min-width: 500px;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  /* Popup arrow */
+  /* .popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 30%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+   */
+  /* Toggle this class when clicking on the popup container (hide and show the popup) */
+  .popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 0.2s ease-in-out;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+    z-index: 100; /* Asegurarse de que esté por debajo del popup */
+    visibility: hidden;
+  }
+  
+#overlay .show {
+    visibility: visible;
+  }
+
+  /* Botón de cierre */
+.popup .popuptext .close-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.popup .popuptext .close-button:hover {
+  color: white;
+  background-color: #6d6d6d;
+  border-radius: 5px;
+}
+
+/* ----------FORM */
+.log-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #eee;
+}
+
+.form-group textarea,
+.form-group select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  margin: 0 10px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+/* Estilos para la fila de duración y fecha */
+.form-group.row-inputs {
+  display: flex; /* Habilita flexbox para los elementos hijos */
+  gap: 20px; /* Espacio entre los elementos hijos */
+}
+
+.form-group.row-inputs .input-group {
+  flex: 1; /* Hace que los divs .input-group se expandan por igual */
+}
+
+.form-group.row-inputs .input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #eee;
+}
+
+.form-group.row-inputs .input-group input[type="number"],
+.form-group.row-inputs .input-group input[type="date"] {
+  width: calc(100% - 10px); /* Ajusta el ancho para el padding */
+  padding: 8px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  margin: 0 5px;
+}
+
+.log-form button[type="submit"] {
+  background-color: darkslateblue;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 3px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 20px auto 0;
+  width: fit-content;
+}
+
+.log-form button[type="submit"]:hover {
+  background-color: #5e5aa4;
+}
+  
+  /* Add animation (fade in the popup) */
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+  }

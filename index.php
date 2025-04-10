@@ -11,34 +11,52 @@
     // Importamos el modelo
     require_once './modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    // Importamos el LoginFormController
+    require_once './controllers/LoginFormController.php';
 
     
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-    if ($uri == '/LinguaLair/') {
+    $uri = str_replace('/LinguaLair/', '', $uri);
+
+    if ($uri == '') {
         // // Iniciar una nueva sesión o reanudar la existente 
-        // session_start(); 
-        // // Comprobar si ya existe una sesión
-        // if (isset($_SESSION["usuario"])) {
-        //     // Si existe redireccionamos a home
-        //     header("Location: index.html"); // CAMBIAR X HOME.PHP CUANDO LO PASE TODO A PHP
-        //     // Evitamos que se siga ejecutando código de ésta página
-        //     exit; 
-        // }
-        // Establecemos la conexión con la base de datos Libros
-        // $conexion = conexion("localhost", "foc", "foc", 'LinguaLair');
-        get_profile_data($modelo, 1);
-    } elseif ($uri == '/LinguaLair/index.php/signin') {
+        // session_start();
+        // Comprobar si ya existe una sesión
+        if (!isset($_SESSION["user_id"])) {
+            // Si existe redireccionamos a home
+            header("Location: login");
+            // Evitamos que se siga ejecutando código de ésta página
+            exit; 
+        }
+        get_profile_data($modelo, $_SESSION["user_id"]); // Comentar este y descomentar el otro cuando tenga ya el login
+        // get_profile_data($modelo, $_SESSION["user_id"]);
+    } elseif ($uri == '/LinguaLair/index.php/signup') {
         // Cargar formulario de registro
         
-    } elseif ($uri == '/LinguaLair/index.php/login') {
-        // Cargar formulario de loggeo
+    } elseif ($uri == 'login') {
+        // Comprobar si ya existe una sesión
+        if (isset($_SESSION["user_id"])) {
+            // Si ya hay una sesión, redirigir al usuario a la página principal (o a donde corresponda)
+            header("Location: /LinguaLair/"); // Ajusta la ruta según tu aplicación
+            exit();
+        } else {
+            // Si no hay sesión, verificar si es un envío de formulario (POST)
+            $loginForm = new LoginFormController($modelo);
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $loginForm->procesarFormulario($modelo);
+                // El método procesarFormulario() debería manejar la redirección
+                // en caso de inicio de sesión exitoso.
+            } else {
+                // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                $loginForm->open_page();
+            }
+        }
+    } elseif ($uri == 'explore') {
         
-    } elseif ($uri == '/LinguaLair/index.php/home') {
-        // Cargar dashboard
         
-    } elseif ($uri == '/LinguaLair/controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA
+    } elseif ($uri == 'controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA
         // **Enrutamos la petición al FormProcessingController**
         // $logController = new FormProcessingController($modelo); // Instanciamos el controlador
         // $logController->procesarFormulario(); // Llamamos al método para procesar el formulario

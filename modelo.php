@@ -40,6 +40,31 @@
                 return null;
             }
         }
+
+        public function searchUser($username = null, $email = null) {
+            if (!$this->conexion) return null;
+    
+            $consulta = "SELECT * FROM user
+                         WHERE username = ?";
+    
+            $stmt = $this->conexion->prepare($consulta);
+            if ($stmt) {
+                $stmt->bind_param("i", $username);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+    
+                if ($resultado && $resultado->num_rows > 0) {
+                    $usuario = $resultado->fetch_object();
+                    return $usuario;
+                } else {
+                    return null;
+                }
+            } else {
+                echo "Error al preparar la consulta: " . $this->conexion->error;
+                return null;
+            }
+        }
     
         public function cargarDatosUsuario($id) {
             if (!$this->conexion) return null;

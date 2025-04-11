@@ -41,15 +41,15 @@
             }
         }
 
-        public function searchUser($username = null, $email = null) {
+        public function getUserByUsernameOrEmail($login_identifier) {
             if (!$this->conexion) return null;
     
             $consulta = "SELECT * FROM user
-                         WHERE username = ?";
+                         WHERE username = ? OR email = ?";
     
             $stmt = $this->conexion->prepare($consulta);
             if ($stmt) {
-                $stmt->bind_param("i", $username);
+                $stmt->bind_param("ss", $login_identifier, $login_identifier);
                 $stmt->execute();
                 $resultado = $stmt->get_result();
                 $stmt->close();

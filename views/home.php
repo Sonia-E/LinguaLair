@@ -17,7 +17,7 @@
                         <button class="logs">My logs</button>
                     </div>
                     <div class="following show">
-                        <?php include './vistas/feed.php' ?>
+                        <?php include './views/feed.php' ?>
                         <div class="log">
                             <div class="usuario">
                                 <div class="log-user">

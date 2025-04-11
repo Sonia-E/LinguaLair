@@ -21,8 +21,6 @@
     $uri = str_replace('/LinguaLair/', '', $uri);
 
     if ($uri == '') {
-        // // Iniciar una nueva sesión o reanudar la existente 
-        // session_start();
         // Comprobar si ya existe una sesión
         if (!isset($_SESSION["user_id"])) {
             // Si existe redireccionamos a home
@@ -30,8 +28,7 @@
             // Evitamos que se siga ejecutando código de ésta página
             exit; 
         }
-        get_profile_data($modelo, $_SESSION["user_id"]); // Comentar este y descomentar el otro cuando tenga ya el login
-        // get_profile_data($modelo, $_SESSION["user_id"]);
+        get_profile_data($modelo, $_SESSION["user_id"]);
     } elseif ($uri == '/LinguaLair/index.php/signup') {
         // Cargar formulario de registro
         
@@ -46,14 +43,12 @@
             $loginForm = new LoginFormController($modelo);
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $loginForm->procesarFormulario($modelo);
-                // El método procesarFormulario() debería manejar la redirección
-                // en caso de inicio de sesión exitoso.
             } else {
                 // Si no hay sesión y no es un envío de formulario, mostrar la página de login
                 $loginForm->open_page();
             }
         }
-    } elseif ($uri == 'explore') {
+    } elseif ($uri == 'signup') {
         
         
     } elseif ($uri == 'controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA

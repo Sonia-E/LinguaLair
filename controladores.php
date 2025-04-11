@@ -34,7 +34,7 @@
         $totalMinutosRaw = $modelo->obtenerTotalMinutosUsuario($id);
 
         // Cargar la vista para mostrar la lista de artículos
-        require './vistas/home.php';
+        require './views/home.php';
     }
 
     

@@ -7,7 +7,7 @@
 ?>
 <!-- Importamos la librería PHP Template Inheritance -->
 <?php require_once './libreria/ti.php' ?>
-<?php include './vistas/logCard.php' ?>
+<?php include './views/logCard.php' ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

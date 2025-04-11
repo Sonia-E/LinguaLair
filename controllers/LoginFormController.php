@@ -11,14 +11,24 @@
 
     
         public function open_page() {
-            require './vistas/login.php';
+            require './views/login.php';
         }
     
-        public function check_login($modelo, $username) {
-            $usuario = $modelo->searchUser($username);
-            // $password = $usuario->password;
-    
-            return $usuario; // Devolver
+        public function check_login($modelo, $login_identifier, $password) {
+            // Buscar al usuario por nombre de usuario O por correo electrónico
+            $usuario = $modelo->getUserByUsernameOrEmail($login_identifier);
+
+            // if ($usuario && password_verify($password, $usuario->password)) {
+            //     return $usuario;
+            // } else {
+            //     return null;
+            // }
+
+            if ($usuario && $password == $usuario->password) { // borrar esta comprobación y usar la de
+                return $usuario;                               // arriba cuando ya haya password_hash() en el registro
+            } else {
+                return null;
+            }
         }
     
 
@@ -36,13 +46,13 @@
         // Procesamiento del formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // Guardamos el usuario y contraseña en dos variables
-            $username = $_POST["username"];
+            $login_identifier  = $_POST["username"];
             $password = $_POST["password"];
 
             // Usar la función check_login
-            $usuario = $this->check_login($modelo, $username);
+            $usuario = $this->check_login($modelo, $login_identifier, $password);
 
-            if ($username == $usuario->username && $password == $usuario->password) {
+            if ($usuario) {
                 // Guardamos id de sesión en variable
                 $_SESSION["user_id"] = $usuario->id;
                 // Guardamos nuestro usuario en una variable de sesión

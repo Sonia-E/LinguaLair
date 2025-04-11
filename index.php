@@ -13,6 +13,7 @@
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
     // Importamos el LoginFormController
     require_once './controllers/LoginFormController.php';
+    require_once './controllers/SignupFormController.php';
 
     
 
@@ -48,9 +49,19 @@
                 $loginForm->open_page();
             }
         }
+
     } elseif ($uri == 'signup') {
-        
-        
+        $signupForm = new SignupFormController($modelo);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $signupForm->procesarFormulario($modelo);
+        } else {
+            $signupForm->open_page();
+        }
+
+    } elseif ($uri == 'set_profile') {
+        $profileForm = new ProfileController($modelo);
+        $profileForm->open_page();
+
     } elseif ($uri == 'controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA
         // **Enrutamos la petición al FormProcessingController**
         // $logController = new FormProcessingController($modelo); // Instanciamos el controlador

@@ -38,11 +38,10 @@
                 <button class="google-sign-in">
                     <i class="fab fa-google"></i> Sign in with Google
                 </button>
-                <p class="create-account">Are you new? <a href="#">Create an Account</a></p>
+                <p class="create-account">Are you new? <a href="signup">Create an Account</a></p>
             </div>
         </div>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-            <script type="text/javascript" src="./js/barra.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

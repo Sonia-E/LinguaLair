@@ -262,6 +262,23 @@
                 return null;
             }
         }
+
+        public function addNewUser($username, $nickname, $password, $email, $country, $roles = 'standard') {
+            if (!$this->conexion) return false;
+    
+            $consulta = "INSERT INTO user (username, nickname, password, email, country, roles) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("ssssss", $username, $nickname, $password, $email, $country, $roles);
+                $resultado = $stmt->execute();
+                $stmt->close();
+                return $resultado;
+            } else {
+                echo "Error al preparar la consulta para insertar nuevo usuario: " . $this->conexion->error;
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

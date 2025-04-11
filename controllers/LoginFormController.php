@@ -46,7 +46,7 @@
         // Procesamiento del formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // Guardamos el usuario y contraseña en dos variables
-            $login_identifier  = $_POST["username"];
+            $login_identifier = $_POST["username"];
             $password = $_POST["password"];
 
             // Usar la función check_login

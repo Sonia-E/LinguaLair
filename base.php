@@ -48,30 +48,31 @@
                         </a>
                     </li>
                     <li>
-                        <a href="./explore.html">
+                        <a href="explore">
                             <ion-icon name="people-outline"></ion-icon>
                             <span>Explore</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="profile">
                             <ion-icon name="documents-outline"></ion-icon>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="stats">
                             <ion-icon name="bar-chart-outline"></ion-icon>
                             <span>Stats</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="Notifications">
                             <ion-icon name="notifications-outline"></ion-icon>
                             <span>Notifications</span>
                         </a>
                     </li>
                     <li>
+                        <!-- Probablemente eliminar esto y poner por algún lado cerrar sesión -->
                         <a href="#">
                             <ion-icon name="settings-outline"></ion-icon>
                             <span>Settings</span>
@@ -169,26 +170,17 @@
                     </div>
                 </div>
             </header>
-        <?php
-        // URL base
-        // $url_base = "/LinguaLair/";
-        // ?>
-        <!-- <header>
-            <h1>DWES Tarea 5</h1>
-        </header>
-        <nav>
-            <a href="<?php echo $url_base; ?>">Inicio</a>
-			<a href="<?php echo $url_base . '/registro'; ?>">Registro</a>
-			<a href="<?php echo $url_base . '/sugerencias'; ?>">Sugerencias</a>
-        </nav> -->
+        
 
-        <section>
-            <!-- Aquí se cargará el contenido -->
-             <?php  startblock('contenido'); ?> <?php endblock()?>
-        </section>
+            <section>
+                <!-- Aquí se cargará el contenido -->
+                <?php  emptyblock('contenido'); ?>
+            </section>
+            
+        </main>
 
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-        <script type="text/javascript" src="./js/barra.js"></script>
+        <script type="text/javascript" src="./js/barra.js"></script> -->
     </body>
 </html>

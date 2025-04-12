@@ -13,17 +13,15 @@
         flushblocks();
         $s = ob_get_clean();
 
-    // Importamos los controladores
-    require_once './controladores.php';
-    // Importamos el modelo
+    // Model import
     require_once './modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-    // Importamos el LoginFormController
+
+    // Controllers imports
+    require_once './controladores.php';
     require_once './controllers/LoginFormController.php';
     require_once './controllers/SignupFormController.php';
     require_once './controllers/StatsController.php';
-
-    
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -71,7 +69,7 @@
         } elseif ($uri == 'stats') {
             $stats = new StatsController($modelo);
             get_profile_data($modelo, $_SESSION["user_id"]);
-            $stats->open_page();
+            $stats->open_page($modelo);
 
         } elseif ($uri == 'controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA
             // **Enrutamos la petición al FormProcessingController**

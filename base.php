@@ -42,7 +42,7 @@
                 <ul>
                     <li>
                         <!-- HACER EL AÑADIR ID CURRENT DINÁMICO SEGÚN EN QUÉ PÁGINA ESTEMOS (terminación url) -->
-                        <a id="current" href="./index.html">
+                        <a id="current" href="/LinguaLair/">
                             <ion-icon name="home-outline"></ion-icon>
                             <span>Home</span>
                         </a>

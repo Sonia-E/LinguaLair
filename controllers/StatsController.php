@@ -10,8 +10,15 @@
         }
 
     
-        public function open_page() {
+        public function open_page($modelo) {
+            $user_id = $_SESSION['user_id'];
+            $languagePercentages = $modelo->getLanguagePercentagesByDurationForUser($user_id);
+
+            $userLanguages = $modelo->getUserLanguages($user_id);
+            $dataParaVista['userLanguages'] = $userLanguages;
+            $dataParaVista['languagePercentages'] = $languagePercentages;
             require './views/stats.php';
+            // require './views/charts/pieChart.php';
         }
     
     }

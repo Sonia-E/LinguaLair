@@ -99,6 +99,30 @@
         public function getUser($id) {
             return $this->cargarDatosUsuario($id);
         }
+
+        public function getUserLanguages($user_id) {
+            if (!$this->conexion) return [];
+    
+            $consulta = "SELECT languages FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                if ($row = $resultado->fetch_assoc()) {
+                    $languagesString = $row['languages'];
+                    // Dividir la cadena de idiomas por la coma y eliminar espacios en blanco
+                    $languagesArray = array_map('trim', explode(',', $languagesString));
+                    // Filtrar para eliminar cadenas vacías que puedan resultar de comas múltiples
+                    return array_filter(array_unique($languagesArray));
+                }
+                $stmt->close();
+            } else {
+                echo "Error al preparar la consulta para obtener idiomas del perfil: " . $this->conexion->error;
+            }
+            return [];
+        }
     
         /**
          * Retrieves logs, optionally for a specific user, ordered by post_date descending.
@@ -141,6 +165,83 @@
                 return null;
             }
         }
+
+        public function getLogsByLanguage(array $logs, $language) {
+            return array_filter($logs, function ($log) use ($language) {
+                return $log->language === $language;
+            });
+        }
+
+        public function calculateLanguagePercentagesByDuration(array $logs) {
+            $languageDurations = [];
+            $totalDuration = 0;
+    
+            if (empty($logs)) {
+                return [];
+            }
+    
+            // Calcular la duración total y la duración por idioma
+            foreach ($logs as $log) {
+                $language = $log->language;
+                $duration = intval($log->duration); // Asegurarse de que la duración sea un entero
+                $totalDuration += $duration;
+    
+                if (isset($languageDurations[$language])) {
+                    $languageDurations[$language] += $duration;
+                } else {
+                    $languageDurations[$language] = $duration;
+                }
+            }
+    
+            $languagePercentages = [];
+            if ($totalDuration > 0) {
+                foreach ($languageDurations as $language => $duration) {
+                    $percentage = ($duration / $totalDuration) * 100;
+                    $languagePercentages[$language] = round($percentage, 2);
+                }
+            }
+    
+            return $languagePercentages;
+        }
+    
+        // Método combinado para obtener porcentajes de duración por idioma para un usuario
+        public function getLanguagePercentagesByDurationForUser($user_id) {
+            $userLogs = $this->getLogs($user_id);
+            return $this->calculateLanguagePercentagesByDuration($userLogs);
+        }
+
+        // Calculo de porcentajes por número de logs totates: borrar si al final no hago nada con esto:
+        // a lo mejor puedo reutilizarlo para sacar los logs totales de ese idioma para su pestaña específica
+        // public function calculateLanguagePercentages(array $logs) {
+        //     $languageCounts = [];
+        //     $totalLogs = count($logs);
+    
+        //     if ($totalLogs === 0) {
+        //         return $languageCounts; // Return empty array if no logs
+        //     }
+    
+        //     foreach ($logs as $log) {
+        //         $language = $log->language;
+        //         if (isset($languageCounts[$language])) {
+        //             $languageCounts[$language]++;
+        //         } else {
+        //             $languageCounts[$language] = 1;
+        //         }
+        //     }
+    
+        //     $languagePercentages = [];
+        //     foreach ($languageCounts as $language => $count) {
+        //         $percentage = ($count / $totalLogs) * 100;
+        //         $languagePercentages[$language] = round($percentage, 2); // Round to 2 decimal places
+        //     }
+    
+        //     return $languagePercentages;
+        // }
+    
+        // public function getLanguagePercentagesForUser($user_id) {
+        //     $userLogs = $this->getLogs($user_id);
+        //     return $this->calculateLanguagePercentages($userLogs);
+        // }
     
         public function addLog($user_id, $description, $language, $type, $duration, $log_date) {
             if (!$this->conexion) return false;

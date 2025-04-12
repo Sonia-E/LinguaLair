@@ -11,3 +11,64 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+/* Feed */
+.dashboard .stats .button-group {
+    margin: 5px;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+}
+.dashboard .stats button {
+    width: 100px;
+    height: 45px;
+    border: none;
+    background-color: var(--color-boton);
+    color: var(--color-boton-texto);
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: "Tektur", sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+}
+.dashboard .stats button:hover {
+    background-color: rgb(46, 46, 46);
+    cursor: pointer;
+}
+.dashboard .stats .divider {
+    border: 1px solid var(--color-linea);
+    height: 45px;
+}
+.dashboard .stats button.allStats {
+    border-radius: 10px 0 0 10px;
+}
+.dashboard .stats button.last {
+    border-radius: 0 10px 10px 0;
+}
+
+.all {
+    /* border: 2px solid blue; */
+    border-radius: 10px;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.general {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* width: 50%; */
+    padding: 50px;
+}
+
+.area {
+    /* border: 2px solid green; */
+    margin-left: 20px;
+}
+
+#all-pie-chart {
+    height: 800px;
+}

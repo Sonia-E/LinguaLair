@@ -1,23 +1,7 @@
-<head>
-    <style>
-        .chart {
-            max-width: 900px;
-            height: 450px;
-        }
-    </style>
-</head>
-
-<div class="chart">
-    <canvas  id="all-pie-chart"></canvas>
-</div>
+// All languages
+const ctx = document.getElementById('all-pie-chart');
   
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <script>
-    const ctx = document.getElementById('all-pie-chart');
-  
-    // Datos de PHP que pasaste a la vista
-    const languagePercentages = <?php echo json_encode($languagePercentages); ?>;
+    
 
     // Arrays para almacenar las etiquetas (idiomas) y los datos (porcentajes)
     const labels = [];
@@ -73,6 +57,3 @@
             }
         }
     });
-
-    
-  </script>

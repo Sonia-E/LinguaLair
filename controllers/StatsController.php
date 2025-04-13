@@ -18,7 +18,6 @@
             $dataParaVista['userLanguages'] = $userLanguages;
             $dataParaVista['languagePercentages'] = $languagePercentages;
             require './views/stats.php';
-            // require './views/charts/pieChart.php';
         }
     
     }

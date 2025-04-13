@@ -31,7 +31,9 @@
         </div>
     <div class="all">
         <div class="general">
-            <?php require 'views/charts/pieChart.php' ?>
+            <div class="chart">
+                <canvas id="all-pie-chart"></canvas>
+            </div>
             <div class="area">
                 <!-- Hacer que sean grid para que se vean bien sin importar cuántos idiomas -->
                 <div class="language-area"> 
@@ -86,6 +88,8 @@
 </div>
 
 <script>
+    // Datos de PHP que pasaste a la vista
+    const languagePercentages = <?php echo json_encode($languagePercentages); ?>;
     const tabButtons = document.querySelectorAll('.button-group button');
     const tabContents = document.querySelectorAll('.language-tabs .language-tab-content');
 
@@ -116,5 +120,7 @@
         document.querySelector('.all').style.display = 'block';
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="./js/stats.js"></script>
 <!-- Terminamos la estructura -->
 <?php endblock() ?>

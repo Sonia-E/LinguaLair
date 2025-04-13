@@ -3,7 +3,7 @@
     <ion-icon class="close-button" name="close-outline"></ion-icon>
         <h2>Create a new log</h2>
         <hr>
-        <form action="controllers/FormProcessingController.php" method="post" class="log-form">
+        <form id="addLogForm" action="log" method="post" class="log-form">
             <div class="form-group">
                 <label for="description">What did you do in your target language?</label>
                 <textarea name="description" id="description"></textarea>

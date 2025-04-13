@@ -148,6 +148,53 @@
 .log-form button[type="submit"]:hover {
   background-color: #5e5aa4;
 }
+
+.life-bar-container {
+  width: 120px; /* Ancho total de la barra */
+  height: 30px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+  /* border: 2px solid rgb(116, 88, 17); */
+}
+
+/* .life-bar {
+  background-color: green;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(241, 208, 255);
+  font-size: 0.8em;
+} */
+
+.life-bar {
+  background-color: rgb(71, 182, 71); /* Color de la barra de vida */
+  height: 100%;
+  display: flex; /* Habilita Flexbox */
+  /* justify-content: center; */
+  align-items: center; /* Centra el contenido verticalmente */
+  color: rgb(48, 34, 54);
+  font-size: 1em;
+  white-space: nowrap;
+}
+
+.level {
+  user-select: none;
+    -webkit-user-select: none; /* Para navegadores Safari y Chrome */
+    -moz-user-select: none;    /* Para navegadores Firefox */
+    -ms-user-select: none;     /* Para navegadores Internet Explorer y Edge */
+}
+
+#experience-text {
+  margin-left: 0px;
+  user-select: none;
+    -webkit-user-select: none; /* Para navegadores Safari y Chrome */
+    -moz-user-select: none;    /* Para navegadores Firefox */
+    -ms-user-select: none;     /* Para navegadores Internet Explorer y Edge */
+}
+
   
   /* Add animation (fade in the popup) */
   @-webkit-keyframes fadeIn {

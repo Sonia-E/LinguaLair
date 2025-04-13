@@ -267,6 +267,61 @@
             }
         }
 
+        public function addExperience($user_id, $experience_gain) {
+            if (!$this->conexion) return false;
+    
+            $consulta = "UPDATE profile SET experience = experience + ? WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("ii", $experience_gain, $user_id);
+                $stmt->execute();
+                $stmt->close();
+                return true;
+            } else {
+                echo "Error al preparar la consulta para añadir experiencia: " . $this->conexion->error;
+                return false;
+            }
+        }
+    
+        public function getProfileData($user_id) {
+            if (!$this->conexion) return null;
+    
+            $consulta = "SELECT level, experience FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                if ($perfil = $resultado->fetch_object()) {
+                    $stmt->close();
+                    return $perfil;
+                }
+                $stmt->close();
+            } else {
+                echo "Error al preparar la consulta para obtener datos del perfil: " . $this->conexion->error;
+            }
+            return null;
+        }
+    
+        public function levelUp($user_id) {
+            if (!$this->conexion) return false;
+    
+            $consulta = "UPDATE profile SET level = level + 1, experience = 0 WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $stmt->close();
+                return true;
+            } else {
+                echo "Error al preparar la consulta para subir de nivel: " . $this->conexion->error;
+                return false;
+            }
+        }
+
         /**
          * Counts the total number of logs for a specific user.
          *

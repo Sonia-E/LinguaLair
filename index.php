@@ -22,6 +22,7 @@
     require_once './controllers/LoginFormController.php';
     require_once './controllers/SignupFormController.php';
     require_once './controllers/StatsController.php';
+    require_once './controllers/FormProcessingController.php';
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -71,10 +72,10 @@
             get_profile_data($modelo, $_SESSION["user_id"]);
             $stats->open_page($modelo);
 
-        } elseif ($uri == 'controllers/FormProcessingController.php') { // ESTO NO FUNCIONAAAAAAAAAAAAAAAAA
+        } elseif ($uri == 'log') {
             // **Enrutamos la petición al FormProcessingController**
-            // $logController = new FormProcessingController($modelo); // Instanciamos el controlador
-            // $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
+            $logController = new FormProcessingController($modelo); // Instanciamos el controlador
+            $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
 
         } else {
             // Cargar una página de error

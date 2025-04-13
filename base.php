@@ -129,8 +129,13 @@
                         </div>
                         
                         <div class="progress">
-                            <span class="level"><?php echo $usuario->level ?></span>
-                            <div class="experience"><?php echo $usuario->experience ?></div>
+                            <span class="level"><span id="level-value"><?php echo $usuario->level ?></span></span>
+                            <div class="life-bar-container">
+                                <div class="life-bar" id="experience-bar" style="width: <?php echo $usuario->experience ?>%;">
+                                    <span id="experience-value"><span id="experience-text"><?php echo $usuario->experience ?>%</span></span>
+                                </div>
+                            </div>
+                            <!-- <div class="experience"><?php echo $usuario->experience ?></div> -->
                         </div>
                         
                     </div>
@@ -182,5 +187,6 @@
         <!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script type="text/javascript" src="./js/barra.js"></script> -->
+        <script type="text/javascript" src="js/game.js"></script>
     </body>
 </html>

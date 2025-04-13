@@ -14,19 +14,10 @@ body {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    display: flex;
+    /* display: flex; */
     width: 500px; /* Adjust as needed */
     height: 750px;
     overflow: hidden;
-}
-
-.left-side h1 {
-    margin-bottom: 10px;
-}
-
-.left-side p {
-    font-size: 0.9em;
-    color: #9c7891;
 }
 
 .right-side {
@@ -40,8 +31,8 @@ body {
 
 .logo {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 0;
     color: #a62666; /* Teal accent */
 }
 
@@ -49,12 +40,6 @@ body {
     font-size: 3em;
     font-family: "Tektur", sans-serif;
     font-weight: 700;
-    margin-bottom: 0;
-}
-
-.logo ion-icon {
-    font-size: 3.5em;
-    margin-right: 10px;
 }
 
 .login-form {
@@ -78,31 +63,29 @@ body {
 }
 
 .form-group input[type="text"],
-.form-group input[type="password"] {
-    width: calc(100% - 12px);
+.form-group select {
+    width: calc(100% - 19px);
     padding: 10px;
     border: 1px solid #cfd8dc;
     border-radius: 5px;
     font-size: 1em;
 }
 
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: none; /* Prevent resizing */
+    min-height: 100px; /* Set a reasonable minimum height */
+}
+
 .form-group input[type="text"]:focus,
 .form-group input[type="password"]:focus {
     border-color: #a626a6;
     outline: none;
-}
-
-.forgot-password {
-    display: block;
-    text-align: right;
-    margin-top: 5px;
-    font-size: 0.85em;
-    color: #a626a6;
-    text-decoration: none;
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
 }
 
 .sign-in-button {
@@ -119,64 +102,4 @@ body {
 
 .sign-in-button:hover {
     background-color: #263238;
-}
-
-.separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #78909c;
-    margin: 20px 0;
-    width: 100%;
-}
-
-.separator::before,
-.separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #cfd8dc;
-}
-
-.separator span {
-    padding: 0 10px;
-}
-
-.google-sign-in {
-    background-color: #fff;
-    color: #37474f;
-    padding: 10px 20px;
-    border: 1px solid #cfd8dc;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: border-color 0.3s ease;
-}
-
-.google-sign-in i {
-    color: #db4437; /* Google red */
-    margin-right: 10px;
-}
-
-.google-sign-in:hover {
-    border-color: #26a69a;
-}
-
-.create-account {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #78909c;
-    text-align: center;
-}
-
-.create-account a {
-    color: #a626a6;
-    text-decoration: none;
-}
-
-.create-account a:hover {
-    text-decoration: underline;
 }

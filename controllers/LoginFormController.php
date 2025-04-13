@@ -1,6 +1,6 @@
 <?php
-    // Iniciar una nueva sesión o reanudar la existente 
-    session_start();
+   // Iniciar una nueva sesión o reanudar la existente 
+   session_start();
 
     class LoginFormController {
         private $modelo;
@@ -14,9 +14,9 @@
             require './views/login.php';
         }
     
-        public function check_login($modelo, $login_identifier, $password) {
+        public function check_login($login_identifier, $password) {
             // Buscar al usuario por nombre de usuario O por correo electrónico
-            $usuario = $modelo->getUserByUsernameOrEmail($login_identifier);
+            $usuario = $this->modelo->getUserByUsernameOrEmail($login_identifier);
 
             // if ($usuario && password_verify($password, $usuario->password)) {
             //     return $usuario;
@@ -32,8 +32,7 @@
         }
     
 
-    public function procesarFormulario($modelo) {
-
+    public function procesarFormulario() {
         // Comprobar si ya existe una sesión
         if (isset($_SESSION["username"])) {
             // Si existe redireccionamos a la página sesion.php
@@ -50,7 +49,7 @@
             $password = $_POST["password"];
 
             // Usar la función check_login
-            $usuario = $this->check_login($modelo, $login_identifier, $password);
+            $usuario = $this->check_login($login_identifier, $password);
 
             if ($usuario) {
                 // Guardamos id de sesión en variable

@@ -3,9 +3,7 @@
 // Asegúrate de que CON_CONTROLADOR esté definido si lo usas en otros archivos
 // if (!defined('CON_CONTROLADOR')) die('Acceso no permitido.');
 
-////// COMO CLASE NO FUNCIONAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-class FormProcessingController {
+class LogFormController {
     private $modelo;
 
     public function __construct($modelo) { // Accept the $modelo instance
@@ -59,33 +57,5 @@ class FormProcessingController {
         }
     }
 }
-
-?>
-
-<?php
-// -----------LOG FORM----------
-
-// Importamos el modelo
-// require_once '../modelo.php';
-// $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // Recoger los datos del formulario
-//     $description = $_POST["description"];
-//     $language = $_POST["language"];
-//     $type = $_POST["type"];
-//     $duration = $_POST["duration"];
-//     $log_date = $_POST["date"];
-//     $user_id = 1;
-
-//     $modelo->addLog($user_id, $description, $language, $type, $duration, $log_date);
-
-//     // Después de procesar los datos, puedes redirigir al usuario a otra página:
-//     header("Location: /LinguaLair/");
-// } else {
-//     // Si se intenta acceder a este script por GET o cualquier otro método
-//     echo "No se recibieron datos del formulario.";
-// }
 
 ?>

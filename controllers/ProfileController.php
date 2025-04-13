@@ -1,8 +1,5 @@
 <?php
-    // // Iniciar una nueva sesión o reanudar la existente 
-    // session_start();
-
-    class SignupFormController {
+    class ProfileController {
         private $modelo;
 
         public function __construct($modelo) { // Accept the $modelo instance
@@ -11,14 +8,24 @@
 
     
         public function open_page() {
-            require './views/signup.php';
+            require './views/setProfile.php';
         }
     
-        public function check_data($login_identifier) {
+        public function check_data($login_identifier, $password) {
             // Buscar al usuario por nombre de usuario O por correo electrónico
             $usuario = $this->modelo->getUserByUsernameOrEmail($login_identifier);
 
-            
+            // if ($usuario && password_verify($password, $usuario->password)) {
+            //     return $usuario;
+            // } else {
+            //     return null;
+            // }
+
+            if ($usuario && $password == $usuario->password) { // borrar esta comprobación y usar la de
+                return $usuario;                               // arriba cuando ya haya password_hash() en el registro
+            } else {
+                return null;
+            }
         }
 
     public function procesarFormulario() {
@@ -39,13 +46,8 @@
             // Call function to validate data
             // $validData = $this->check_data();
 
-
-            $this->modelo->addNewUser($username, $nickname, $passwordHash, $email, $country); // borrar esta línea cuando ya haya creado el método pa validar los datos
-
-            session_start();
-            $_SESSION["username"] = $username;
-            header("Location: set_profile");
-            exit;
+            $this->modelo->addNewUser($username, $nickname, $passwordHash, $email, $country); // borrar esta línea cuando ya haya creado
+                                                                                        // el método pa validar los datos
 
             // if ($validData) {
             //     // Once validated, create new user

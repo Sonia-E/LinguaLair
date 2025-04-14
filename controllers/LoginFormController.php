@@ -4,6 +4,7 @@
 
     class LoginFormController {
         private $modelo;
+        private $errores = [];
 
         public function __construct($modelo) { // Accept the $modelo instance
             $this->modelo = $modelo; // Assign the passed $modelo to the class property
@@ -27,46 +28,55 @@
             if ($usuario && $password == $usuario->password) { // borrar esta comprobación y usar la de
                 return $usuario;                               // arriba cuando ya haya password_hash() en el registro
             } else {
+                if (!$usuario) {
+                    $this->errores['username'] = "Incorrect username or email";
+                }
+                if ($usuario && $password !== $usuario->password) {
+                    $this->errores['password'] = "Incorrect password";
+                }
                 return null;
             }
         }
     
 
-    public function procesarFormulario() {
-        // Comprobar si ya existe una sesión
-        if (isset($_SESSION["username"])) {
-            // Si existe redireccionamos a la página sesion.php
-            header("Location: /LinguaLair/");
-            // Evitamos que se siga ejecutando código de ésta página
-            exit;
-        }
-        // Creamos una variable vacía para nuestro mensaje
-        $mensaje = "";
-        // Procesamiento del formulario
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-            // Guardamos el usuario y contraseña en dos variables
-            $login_identifier = $_POST["username"];
-            $password = $_POST["password"];
-
-            // Usar la función check_login
-            $usuario = $this->check_login($login_identifier, $password);
-
-            if ($usuario) {
-                // Guardamos id de sesión en variable
-                $_SESSION["user_id"] = $usuario->id;
-                // Guardamos nuestro usuario en una variable de sesión
-
-                // Llamamos a la vista home.php
+        public function procesarFormulario() {
+            if (isset($_SESSION["username"])) {
                 header("Location: /LinguaLair/");
-                // Paramos la ejecución del código
                 exit;
-            } 
-            else {
-                // Si usuario y contraseña no son correctos mostrar mensaje
-                $mensaje = "Credenciales incorrectas";
             }
+    
+            $login_identifier = $_POST["username"] ?? '';
+            $password = $_POST["password"] ?? '';
+    
+            // Avoid empty data
+            if (empty(trim($login_identifier))) {
+                $this->errores['username'] = "Please enter your username or email";
+            }
+    
+            if (empty($password)) {
+                $this->errores['password'] = "Please enter your password";
+            }
+    
+            // Si no hay errores de validación, intentar el login
+            if (empty($this->errores)) {
+                $usuario = $this->check_login($login_identifier, $password);
+    
+                if ($usuario) {
+                    $_SESSION["user_id"] = $usuario->id;
+                    header("Location: /LinguaLair/");
+                    exit;
+                }
+            }
+    
+            // Si hay errores, la vista 'login.php' será cargada nuevamente
+            // y los errores estarán disponibles en el array $errores
+            $errores = $this->errores;
+            require './views/login.php';
         }
-    }
+    
+        public function getErrores() {
+            return $this->errores;
+        }
 
     
 }

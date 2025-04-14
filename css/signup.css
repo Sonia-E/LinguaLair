@@ -16,17 +16,8 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
     width: 500px; /* Adjust as needed */
-    height: 750px;
+    min-height: 750px;
     overflow: hidden;
-}
-
-.left-side h1 {
-    margin-bottom: 10px;
-}
-
-.left-side p {
-    font-size: 0.9em;
-    color: #9c7891;
 }
 
 .right-side {
@@ -41,7 +32,8 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    margin-bottom: 0;
+    margin-top: -20px;
+    margin-bottom: -5px;
     color: #a62666; /* Teal accent */
 }
 
@@ -49,7 +41,6 @@ body {
     font-size: 3em;
     font-family: "Tektur", sans-serif;
     font-weight: 700;
-    margin-bottom: 0;
 }
 
 .logo ion-icon {
@@ -179,4 +170,10 @@ body {
 
 .create-account a:hover {
     text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
 }

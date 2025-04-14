@@ -19,11 +19,17 @@
                 <form action="signup" method="post" class="login-form">
                     <div class="form-group">
                         <label for="username">Pick a username!</label>
-                        <input type="text" id="username" name="username" required autofocus>
+                        <input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>" autofocus>
+                        <?php if (isset($errores['username'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errores['username']); ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" id="email" name="email" required autofocus>
+                        <input type="text" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" autofocus>
+                        <?php if (isset($errores['username'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errores['email']); ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="country">Country</label>
@@ -37,7 +43,10 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password">
+                        <?php if (isset($errores['password'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errores['password']); ?></div>
+                        <?php endif; ?>
                     </div>
                     <button type="submit" class="sign-in-button">Sign up</button>
                 </form>

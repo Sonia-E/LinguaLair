@@ -26,10 +26,17 @@ include './base.php';
                 <div class="log"></div>
                 <div class="log"></div>
                 <div class="log"></div>
-            </div>
-            
+            </div> 
         </div>
-        <div class="feed-data"></div>
+
+        <div class="right-feed">
+            <div class="feed-data top">
+                <div class="notifications"></div>
+            </div>
+            <div class="feed-data">
+                <div class="notifications"></div>
+            </div>
+        </div>
     </div>
 <!-- Terminamos la estructura -->
 <?php endblock(); 

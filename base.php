@@ -124,7 +124,7 @@
                     <div class="info-usuario">
                         <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
                         <div class="nick-user">
-                            <span class="nickname"><?php echo $usuario->nickname ?><span class="role">Principiante</span></span>
+                            <span class="nickname"><?php echo $usuario->nickname ?><span class="role"><?php echo $usuario->game_roles ?></span></span>
                             <span class="username">@<?php echo $usuario->username ?></span>
                         </div>
                         
@@ -135,7 +135,6 @@
                                     <span id="experience-value"><span id="experience-text"><?php echo $usuario->experience ?>%</span></span>
                                 </div>
                             </div>
-                            <!-- <div class="experience"><?php echo $usuario->experience ?></div> -->
                         </div>
                         
                     </div>

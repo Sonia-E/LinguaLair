@@ -14,14 +14,24 @@ body {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    /* display: flex; */
-    width: 500px; /* Adjust as needed */
-    height: 750px;
+    display: flex;
+    width: 1000px; /* Adjust as needed */
+    height: 700px;
     overflow: hidden;
 }
 
+.left-side {
+    padding: 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .right-side {
-    padding: 40px;
+    background-color: #f7e0ee;
+    padding: 50px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -40,10 +50,16 @@ body {
     font-size: 3em;
     font-family: "Tektur", sans-serif;
     font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.logo h3 {
+    margin-top: -10px;
+    margin-bottom: 30px;
 }
 
 .login-form {
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
 }
 
@@ -52,27 +68,38 @@ body {
 }
 
 .form-group .form-item {
-    width: 85%;
+    width: calc(100% + 20px);
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
     color: #4a374f;
     font-size: 0.95em;
 }
 
+.languages {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: -5px;
+}
+
 .form-group input[type="text"],
 .form-group select {
-    width: calc(100% - 19px);
+    width: calc(100% - 15px);
     padding: 10px;
     border: 1px solid #cfd8dc;
     border-radius: 5px;
     font-size: 1em;
 }
+.form-group .languages {
+    margin-bottom: 10px;
+}
+.form-group select {
+    margin-bottom: 10px;
+    margin-top: 3px;
+}
 
 .form-group textarea {
-    width: 100%;
+    width: calc(100% + 5px);
     padding: 10px;
     border: 1px solid #cfd8dc;
     border-radius: 5px;
@@ -102,4 +129,28 @@ body {
 
 .sign-in-button:hover {
     background-color: #263238;
+}
+
+.radio-group {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center; /* Alinea los pares de radio buttons horizontalmente */
+    gap: 50px; /* Espacio entre los pares */
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+}
+
+.radio-item input[type="radio"] {
+    margin-right: 5px; /* Espacio entre el radio button y el texto */
+}
+
+select {
+    color: #6e6e6e;
+}
+
+option {
+    color: #292929; 
 }

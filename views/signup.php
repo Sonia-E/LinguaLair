@@ -48,6 +48,18 @@
                             <div class="error-message"><?php echo htmlspecialchars($errores['password']); ?></div>
                         <?php endif; ?>
                     </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                        <?php if (isset($errores['confirm_password'])): ?>
+                            <div class="error-message"><?php echo htmlspecialchars($errores['confirm_password']); ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if (isset($errores['registration'])): ?>
+                        <div class="error-message general-error"><?php echo htmlspecialchars($errores['registration']); ?></div>
+                    <?php endif; ?>
+
                     <button type="submit" class="sign-in-button">Sign up</button>
                 </form>
                 <div class="separator">

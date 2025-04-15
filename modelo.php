@@ -435,6 +435,48 @@
                 return false;
             }
         }
+
+        // ------------Profile
+
+        public function addNewProfile($user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $game_roles = 'Novice') {
+            if (!$this->conexion) return false;
+    
+            $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_active, profile_pic, game_roles) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)"; //cambiar active a public
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("isssiss", $user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $game_roles);
+                $resultado = $stmt->execute();
+                $stmt->close();
+                return $resultado;
+            } else {
+                echo "Error al preparar la consulta para insertar nuevo perfil: " . $this->conexion->error;
+                return false;
+            }
+        }
+
+        public function updateProfile($user_id, $bio = null, $native_lang = null, $languages = null, $fluent = null, $learning = null, $on_hold = null, $dabbling = null, 
+        $dark_mode = null, $is_public = null, $profile_pic = null, $bg_pic = null) {
+            //
+        }
+
+        public function updateNickname($user_id, $nickname) {
+            if (!$this->conexion) return false;
+    
+            $consulta = "UPDATE user SET nickname = ? WHERE id = ?";
+            $stmt = $this->conexion->prepare($consulta);
+    
+            if ($stmt) {
+                $stmt->bind_param("si", $nickname, $user_id);
+                $stmt->execute();
+                $stmt->close();
+                return true;
+            } else {
+                echo "Error al preparar la consulta para cambiar el nickname: " . $this->conexion->error;
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

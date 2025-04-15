@@ -98,7 +98,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             dark_mode BOOLEAN DEFAULT FALSE,
             num_followers INT DEFAULT 0,
             num_following INT DEFAULT 0,
-            is_active BOOLEAN DEFAULT TRUE,
+            is_public BOOLEAN DEFAULT TRUE,
             profile_pic TEXT,
             bg_pic TEXT,
             game_roles TEXT,

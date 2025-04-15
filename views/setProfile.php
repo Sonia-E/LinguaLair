@@ -16,30 +16,30 @@
             <form action="set_profile" method="post">
                 <div class="login-form">
                     <div class="form-group">
-                        <label for="nickname">Pick a nickname (you can change this later)</label>
+                        <label for="nickname">Pick a nickname (you can change it later)</label>
                         <input type="text" id="nickname" name="nickname" autofocus>
                     </div>
                     <div class="form-group">
-                        <label class="languages" for="languages">Select your native language/s</label>
+                        <label class="languages" for="native_languages">Select your native language/s</label>
                         <div class="form-item">
                             <small class="label">Language 1</small>
-                            <select id="language1" name="languages[]"></select>
+                            <select id="language1" name="native_languages[]"></select>
                             <small class="label">Language 2</small>
-                            <select id="language2" name="languages[]"></select> 
+                            <select id="language2" name="native_languages[]"></select> 
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="languages" for="languages">What languages are you currently learning?</label>
+                        <label class="languages" for="learning_languages">What languages are you currently learning?</label>
                         <div class="form-item">
                             <small class="label">Language 1</small>
-                            <select id="language3" name="languages[]"></select>
+                            <select id="language3" name="learning_languages[]"></select>
                             <small class="label">Language 2</small>
-                            <select id="language4" name="languages[]"></select> 
+                            <select id="language4" name="learning_languages[]"></select> 
                             <small class="label">Language 3</small>
-                            <select id="language5" name="languages[]"></select>
+                            <select id="language5" name="learning_languages[]"></select>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
             <div class="right-side">
                 <div class="login-form">
@@ -61,23 +61,24 @@
                         </div>
                     </div>
                     
+                    <?php if (isset($errores['set_profile'])): ?>
+                        <div class="error-message general-error"><?php echo htmlspecialchars($errores['set_profile']); ?></div>
+                    <?php endif; ?>
+
                     <button type="submit" class="sign-in-button">Let's begin!</button>
                 </div>
                 </form>
             </div>
         </div>
-
-        <!-- PROFILE  (user_id,  bio,  native_lang,  languages,  fluent,  learning,  on_hold,  dabbling,  level,  
-         experience, dark_mode, num_followers, num_following, is_active, profile_pic, bg_pic, game_roles) -->
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <!-- Language JSON list -->
         <script>
-            const languageSelect1 = document.getElementById('language1');
-            const languageSelect2 = document.getElementById('language2');
-            const languageSelect3 = document.getElementById('language3');
-            const languageSelect4 = document.getElementById('language4');
-            const languageSelect5 = document.getElementById('language5');
+            const nativeLanguage1 = document.getElementById('language1');
+            const nativeLanguage2 = document.getElementById('language2');
+            const learningLanguage1 = document.getElementById('language3');
+            const learningLanguage2 = document.getElementById('language4');
+            const learningLanguage3 = document.getElementById('language5');
             const gistUrl = 'https://gist.githubusercontent.com/joshuabaker/d2775b5ada7d1601bcd7b31cb4081981/raw/languages.json'; // Reemplaza con la URL RAW de tu Gist
 
             fetch(gistUrl)
@@ -93,23 +94,28 @@
                     defaultOption.textContent = 'Select a language (optional)'; // Texto descriptivo
                     defaultOption.selected = true; // Hacer que esta opción esté seleccionada por defecto
 
-                    languageSelect1.appendChild(defaultOption.cloneNode(true));
-                    languageSelect2.appendChild(defaultOption.cloneNode(true));
-                    languageSelect3.appendChild(defaultOption.cloneNode(true));
-                    languageSelect4.appendChild(defaultOption.cloneNode(true));
-                    languageSelect5.appendChild(defaultOption.cloneNode(true));
+                    // Añadir la opción por defecto a los selects de idiomas nativos
+                    nativeLanguage1.appendChild(defaultOption.cloneNode(true));
+                    nativeLanguage2.appendChild(defaultOption.cloneNode(true));
+
+                    // Añadir la opción por defecto a los selects de idiomas aprendiendo
+                    learningLanguage1.appendChild(defaultOption.cloneNode(true));
+                    learningLanguage2.appendChild(defaultOption.cloneNode(true));
+                    learningLanguage3.appendChild(defaultOption.cloneNode(true));
 
                     languageData.forEach(language => {
                         const option = document.createElement('option');
-                        option.value = language.code;
+                        option.value = language.name;
                         option.textContent = `${language.name} (${language.native})`;
 
-                        // Append the same option to each select element
-                        languageSelect1.appendChild(option.cloneNode(true));
-                        languageSelect2.appendChild(option.cloneNode(true));
-                        languageSelect3.appendChild(option.cloneNode(true));
-                        languageSelect4.appendChild(option.cloneNode(true));
-                        languageSelect5.appendChild(option.cloneNode(true));
+                        // Añadir las opciones de idioma a los selects de idiomas nativos
+                        nativeLanguage1.appendChild(option.cloneNode(true));
+                        nativeLanguage2.appendChild(option.cloneNode(true));
+
+                        // Añadir las opciones de idioma a los selects de idiomas aprendiendo
+                        learningLanguage1.appendChild(option.cloneNode(true));
+                        learningLanguage2.appendChild(option.cloneNode(true));
+                        learningLanguage3.appendChild(option.cloneNode(true));
                     });
                 })
                 .catch(error => {

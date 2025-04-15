@@ -39,8 +39,8 @@
         } elseif ($uri == 'login') {
             // Comprobar si ya existe una sesión
             if (isset($_SESSION["user_id"])) {
-                // Si ya hay una sesión, redirigir al usuario a la página principal (o a donde corresponda)
-                header("Location: /LinguaLair/"); // Ajusta la ruta según tu aplicación
+                // Si ya hay una sesión, redirigir al usuario a la página principal
+                header("Location: /LinguaLair/");
                 exit();
             } else {
                 // Si no hay sesión, verificar si es un envío de formulario (POST)
@@ -62,8 +62,22 @@
             }
 
         } elseif ($uri == 'set_profile') {
-            $profileForm = new ProfileController($modelo);
-            $profileForm->open_page();
+            // si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario
+            // Comprobar si ya existe una sesión
+            if (isset($_SESSION["user_id"])) {
+                // Si ya hay una sesión, redirigir al usuario a la página principal
+                header("Location: /LinguaLair/");
+                exit();
+            } else {
+                // Si no hay sesión, verificar si es un envío de formulario (POST)
+                $profileForm = new ProfileController($modelo);
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $profileForm->procesarFormulario();
+                } else {
+                    // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                    $profileForm->open_page();
+                }
+            }
 
         } elseif ($uri == 'stats') {
             $stats = new StatsController($modelo);

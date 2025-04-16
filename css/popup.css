@@ -170,7 +170,7 @@
 } */
 
 .life-bar {
-  background-color: rgb(71, 182, 71); /* Color de la barra de vida */
+  background-color: rgba(71, 182, 71, 0.692); /* Color de la barra de vida */
   height: 100%;
   display: flex; /* Habilita Flexbox */
   /* justify-content: center; */

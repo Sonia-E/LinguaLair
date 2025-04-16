@@ -88,7 +88,6 @@
             // **Enrutamos la petición al FormProcessingController**
             $logController = new LogFormController($modelo); // Instanciamos el controlador
             $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
-
         } else {
             // Cargar una página de error
             header("HTTP/1.0 404 Not Found");

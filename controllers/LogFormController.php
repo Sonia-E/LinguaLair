@@ -20,8 +20,6 @@ class LogFormController {
             $log_date = $_POST["date"];
             $user_id = $_SESSION["user_id"];
 
-            // Validar los datos del formulario (¡importante!)
-
             // Guardar el nuevo log en la base de datos (asumiendo que tienes una función para esto en tu modelo)
             $log_guardado = $this->modelo->addLog($user_id, $description, $language, $type, $duration, $log_date);
 

@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" autofocus>
-                        <?php if (isset($errores['username'])): ?>
+                        <?php if (isset($errores['email'])): ?>
                             <div class="error-message"><?php echo htmlspecialchars($errores['email']); ?></div>
                         <?php endif; ?>
                     </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">Confirm Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required>
+                        <input type="password" id="confirm_password" name="confirm_password">
                         <?php if (isset($errores['confirm_password'])): ?>
                             <div class="error-message"><?php echo htmlspecialchars($errores['confirm_password']); ?></div>
                         <?php endif; ?>

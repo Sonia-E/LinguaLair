@@ -73,9 +73,13 @@
                     $profileForm->procesarFormulario();
                 } else {
                     // Si no hay sesión y no es un envío de formulario, mostrar la página de login
-                    $profileForm->open_page();
+                    $profileForm->open_form();
                 }
             }
+
+        } elseif ($uri == 'profile') {
+            $profile = new ProfileController($modelo, $BaseController);
+            $profile->open_page();
 
         } elseif ($uri == 'stats') {
             $stats = new StatsController($modelo, $BaseController);

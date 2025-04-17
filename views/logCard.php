@@ -38,11 +38,11 @@
             <div class="form-group row-inputs">
                 <div class="input-group">
                     <label for="duration">Duration (min)</label>
-                    <input type="number" name="duration" id="duration" min="1">
+                    <input type="number" name="duration" id="duration" min="1" required>
                 </div>
                 <div class="input-group">
                     <label for="date">Date</label>
-                    <input type="date" name="date" id="date">
+                    <input type="date" name="date" id="date" required>
                 </div>
             </div>
 

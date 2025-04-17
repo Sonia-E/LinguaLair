@@ -477,20 +477,6 @@
                 return false;
             }
         }
-
-        public function getLogById($logId) {
-            if (!$this->conexion) return false;
-
-            try {
-                $stmt = $this->conexion->prepare("SELECT * FROM logs WHERE if = ?");
-                $stmt->bind_param("i");
-                $stmt->execute();
-                return $stmt->fetch(PDO::FETCH_OBJ);
-            } catch (PDOException $e) {
-                error_log("Error al obtener log por ID: " . $e->getMessage());
-                return false;
-            }
-        }
     
         public function __destruct() {
             if ($this->conexion) {

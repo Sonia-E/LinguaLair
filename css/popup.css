@@ -195,6 +195,12 @@
     -ms-user-select: none;     /* Para navegadores Internet Explorer y Edge */
 }
 
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
   
   /* Add animation (fade in the popup) */
   @-webkit-keyframes fadeIn {

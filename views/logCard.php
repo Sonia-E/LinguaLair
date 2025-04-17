@@ -6,7 +6,7 @@
         <form id="addLogForm" action="" method="post" class="log-form">
             <div class="form-group">
                 <label for="description">What did you do in your target language?</label>
-                <textarea name="description" id="description"></textarea>
+                <textarea name="description" id="description" required></textarea>
             </div>
 
             <div class="form-group">

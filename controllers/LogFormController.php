@@ -40,7 +40,6 @@ class LogFormController {
                     $nueva_experiencia = $profile_data_updated->experience;
                 }
 
-
                 // Responder con JSON
                 header('Content-Type: application/json');
                 echo json_encode(['success' => true, 'nuevaExperiencia' => $nueva_experiencia, 'nuevoNivel' => $nuevo_nivel]);

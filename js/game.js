@@ -106,6 +106,21 @@ window.addEventListener('resize', updateTextPosition);
             if (overlay) {
                 overlay.style.visibility = "hidden"; // Oculta la capa oscura si la tienes
             }
+
+            // --- Reload the feed content ---
+            fetch('get_feed') // Adjust the URL if your file is elsewhere
+            .then(feedResponse => feedResponse.text())
+            .then(feedHtml => {
+                const followingDiv = document.querySelector('.following.show');
+                if (followingDiv) {
+                    followingDiv.innerHTML = feedHtml; // Replace the content of the feed div
+                } else {
+                    console.error('No se encontró el elemento .following.show para recargar el feed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al recargar el feed:', error);
+            });
         } else {
             console.error('Error al guardar el log:', data.error);
             // Opcional: Mostrar un mensaje de error en el popup

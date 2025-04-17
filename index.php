@@ -87,6 +87,10 @@
                 $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
             }
             
+        } elseif ($uri == 'get_feed') {
+            $BaseController->get_profile_data($_SESSION["user_id"]);
+            include './views/feed.php';
+            
         } else {
             // Cargar una página de error
             header("HTTP/1.0 404 Not Found");

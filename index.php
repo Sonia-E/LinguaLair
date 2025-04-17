@@ -8,11 +8,6 @@
 
     require_once './libreria/ti.php';
 
-        ob_start();
-        include './base.php';
-        flushblocks();
-        $s = ob_get_clean();
-
     // Model import
     require_once './modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
@@ -24,6 +19,8 @@
     require_once './controllers/StatsController.php';
     require_once './controllers/LogFormController.php';
     require_once './controllers/ProfileController.php';
+    require_once './controllers/BaseController.php';
+    $BaseController = new BaseController($modelo);
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -35,7 +32,8 @@
         exit; 
     } else {
         if ($uri == '') {
-            get_profile_data($modelo, $_SESSION["user_id"]);
+            $BaseController->get_profile_data($_SESSION["user_id"]);
+            require './views/home.php';
         } elseif ($uri == 'login') {
             // Comprobar si ya existe una sesión
             if (isset($_SESSION["user_id"])) {
@@ -80,14 +78,15 @@
             }
 
         } elseif ($uri == 'stats') {
-            $stats = new StatsController($modelo);
-            get_profile_data($modelo, $_SESSION["user_id"]);
+            $stats = new StatsController($modelo, $BaseController);
             $stats->open_page($modelo);
 
         } elseif ($uri == 'log') {
-            // **Enrutamos la petición al FormProcessingController**
-            $logController = new LogFormController($modelo); // Instanciamos el controlador
-            $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $logController = new LogFormController($modelo); // Instanciamos el controlador
+                $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
+            }
+            
         } else {
             // Cargar una página de error
             header("HTTP/1.0 404 Not Found");

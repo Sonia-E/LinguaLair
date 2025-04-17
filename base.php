@@ -5,9 +5,15 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<!-- Importamos la librería PHP Template Inheritance -->
 <?php require_once './libreria/ti.php' ?>
+<?php blockbase(); ?>
 <?php include './views/logCard.php' ?>
+
+<?php
+    if (isset($_SESSION['user_id'])) {
+        global $usuario;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -178,7 +184,7 @@
 
             <section>
                 <!-- Aquí se cargará el contenido -->
-                <?php  emptyblock('contenido'); ?>
+                <?php emptyblock('contenido'); ?>
             </section>
             
         </main>

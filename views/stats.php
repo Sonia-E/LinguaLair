@@ -5,8 +5,9 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
+<?php include 'base.php' ?>
 <!-- Iniciamos la estructura -->
-<?php $s = ob_get_clean(); startblock('contenido') ?>
+<?php startblock('contenido') ?>
 <link rel="stylesheet" type="text/css" href="css/stats.css"/>
 <div class="dashboard">
     <div class="stats">

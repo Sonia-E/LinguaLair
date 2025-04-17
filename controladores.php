@@ -33,8 +33,11 @@
         // Obtener el total de minutos para the title control
         $totalMinutosRaw = $modelo->obtenerTotalMinutosUsuario($id);
 
-        // Cargar la vista para mostrar la lista de artículos
         require './views/home.php';
+    }
+
+    function open_homepage($modelo) {
+
     }
 
     

@@ -106,8 +106,6 @@ window.addEventListener('resize', updateTextPosition);
             if (overlay) {
                 overlay.style.visibility = "hidden"; // Oculta la capa oscura si la tienes
             }
-
-            // O cualquier otra lógica que uses para cerrar tu popup
         } else {
             console.error('Error al guardar el log:', data.error);
             // Opcional: Mostrar un mensaje de error en el popup

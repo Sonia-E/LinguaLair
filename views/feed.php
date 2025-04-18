@@ -24,7 +24,7 @@ $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs); // Functio
                     </div>
                 </div>
                 <div class="log-column">
-                    <div class="post-date"><span><?php echo $log['post_date'] ?></span></div>
+                    <div class="log-date"><span><?php echo $log['log_date'] ?></span></div>
                     <div class="duration">
                         <span><?php echo $log['duration'] ?></span>
                         <span>minutes</span>
@@ -44,6 +44,9 @@ $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs); // Functio
                             <span><?php echo $log['type'] ?></span>
                         </div>
                     </div>
+                </div>
+                <div class="post-date">
+                    <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
                 </div>
             </div>
         </div>

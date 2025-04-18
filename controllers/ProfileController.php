@@ -69,11 +69,12 @@
             $bio = $_POST['bio'];
             $is_public = $_POST['public'] ?? 1;
             $profile_pic = './img/pic_placeholder.png';
+            $bg_pic = './img/bg_pic_placeholder.png';
     
             if (empty($this->errores)) {
                 $usuario = $this->modelo->getUserByUsernameOrEmail($_SESSION["username"]);
                 $user_id = $usuario->id;
-                $registrationSuccess = $this->modelo->addNewProfile($user_id, $bio, $native_lang_string, $languages_string, $is_public, $profile_pic);
+                $registrationSuccess = $this->modelo->addNewProfile($user_id, $bio, $native_lang_string, $languages_string, $is_public, $profile_pic, $bg_pic);
                 if ($registrationSuccess) {
                     $_SESSION["user_id"] = $user_id;
                     $this->modelo->updateNickname($user_id, $nickname);
@@ -89,6 +90,10 @@
             $errores = $this->errores;
             require './views/login.php';
         }
+    }
+
+    public function editProfile() {
+
     }
 
     

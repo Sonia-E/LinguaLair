@@ -30,95 +30,91 @@
         switch ($_GET['action']) {
             case 'load_more_logs':
                 require_once 'views/load_more_logs.php';
-                exit(); // VERY IMPORTANT: Stop further execution
+                exit();
                 break;
-            // ... other actions ...
             default:
-                // Handle normal page requests
-                // ... (Your regular routing and controller logic to display the main page) ...
+                
                 break;
         }
     } else {
-
-    
-    // Avoid user accessing any other page but login or signup if there's no session yet
-    if (!isset($_SESSION["user_id"]) && $uri !== 'login' && $uri !== 'signup' && $uri !== 'set_profile') {
-        header("Location: login");
-        exit; 
-    } else {
-        if ($uri == '') {
-            $BaseController->get_profile_data($_SESSION["user_id"]);
-            require './views/home.php';
-        } elseif ($uri == 'login') {
-            // Comprobar si ya existe una sesión
-            if (isset($_SESSION["user_id"])) {
-                // Si ya hay una sesión, redirigir al usuario a la página principal
-                header("Location: /LinguaLair/");
-                exit();
-            } else {
-                // Si no hay sesión, verificar si es un envío de formulario (POST)
-                $loginForm = new LoginFormController($modelo);
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $loginForm->procesarFormulario();
-                } else {
-                    // Si no hay sesión y no es un envío de formulario, mostrar la página de login
-                    $loginForm->open_page();
-                }
-            }
-
-        } elseif ($uri == 'signup') {
-            $signupForm = new SignupFormController($modelo);
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $signupForm->procesarFormulario();
-            } else {
-                $signupForm->open_page();
-            }
-
-        } elseif ($uri == 'set_profile') {
-            // si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario
-            // Comprobar si ya existe una sesión
-            if (isset($_SESSION["user_id"])) {
-                // Si ya hay una sesión, redirigir al usuario a la página principal
-                header("Location: /LinguaLair/");
-                exit();
-            } else {
-                // Si no hay sesión, verificar si es un envío de formulario (POST)
-                $profileForm = new ProfileController($modelo);
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $profileForm->procesarFormulario();
-                } else {
-                    // Si no hay sesión y no es un envío de formulario, mostrar la página de login
-                    $profileForm->open_form();
-                }
-            }
-
-        } elseif ($uri == 'profile') {
-            $profile = new ProfileController($modelo, $BaseController);
-            $profile->open_page();
-
-        } elseif ($uri == 'stats') {
-            $stats = new StatsController($modelo, $BaseController);
-            $stats->open_page($modelo);
-
-        } elseif ($uri == 'log') {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $logController = new LogFormController($modelo); // Instanciamos el controlador
-                $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
-            }
-            
-        } elseif ($uri == 'get_feed') {
-            $BaseController->get_profile_data($_SESSION["user_id"]);
-            include './views/feed.php';
-            
-            
+        // Avoid user accessing any other page but login or signup if there's no session yet
+        if (!isset($_SESSION["user_id"]) && $uri !== 'login' && $uri !== 'signup' && $uri !== 'set_profile') {
+            header("Location: login");
+            exit; 
         } else {
-            // Cargar una página de error
-            header("HTTP/1.0 404 Not Found");
-            // Mostrar un mensaje de error
-            echo '<html><body><h1>Página no encontrada</h1></body></html>';
+            if ($uri == '') {
+                $BaseController->get_profile_data($_SESSION["user_id"]);
+                require './views/home.php';
+            } elseif ($uri == 'login') {
+                // Comprobar si ya existe una sesión
+                if (isset($_SESSION["user_id"])) {
+                    // Si ya hay una sesión, redirigir al usuario a la página principal
+                    header("Location: /LinguaLair/");
+                    exit();
+                } else {
+                    // Si no hay sesión, verificar si es un envío de formulario (POST)
+                    $loginForm = new LoginFormController($modelo);
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $loginForm->procesarFormulario();
+                    } else {
+                        // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                        $loginForm->open_page();
+                    }
+                }
+
+            } elseif ($uri == 'signup') {
+                $signupForm = new SignupFormController($modelo);
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $signupForm->procesarFormulario();
+                } else {
+                    $signupForm->open_page();
+                }
+
+            } elseif ($uri == 'set_profile') {
+                // si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario
+                // Comprobar si ya existe una sesión
+                if (isset($_SESSION["user_id"])) {
+                    // Si ya hay una sesión, redirigir al usuario a la página principal
+                    header("Location: /LinguaLair/");
+                    exit();
+                } else {
+                    // Si no hay sesión, verificar si es un envío de formulario (POST)
+                    $profileForm = new ProfileController($modelo);
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $profileForm->procesarFormulario();
+                    } else {
+                        // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                        $profileForm->open_form();
+                    }
+                }
+
+            } elseif ($uri == 'profile') {
+                $profile = new ProfileController($modelo, $BaseController);
+                $profile->open_page();
+
+            } elseif ($uri == 'stats') {
+                $stats = new StatsController($modelo, $BaseController);
+                $stats->open_page($modelo);
+
+            } elseif ($uri == 'log') {
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $logController = new LogFormController($modelo); // Instanciamos el controlador
+                    $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
+                }
+                
+            } elseif ($uri == 'get_feed') {
+                $BaseController->get_profile_data($_SESSION["user_id"]);
+                include './views/feed.php';
+                
+                
+            } else {
+                // Cargar una página de error
+                header("HTTP/1.0 404 Not Found");
+                // Mostrar un mensaje de error
+                echo '<html><body><h1>Página no encontrada</h1></body></html>';
+            }
         }
     }
-}
 ?>
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

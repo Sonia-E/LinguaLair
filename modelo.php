@@ -438,15 +438,15 @@
 
         // ------------Profile
 
-        public function addNewProfile($user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $game_roles = 'Novice') {
+        public function addNewProfile($user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $bg_pic, $game_roles = 'Novice') {
             if (!$this->conexion) return false;
     
-            $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_active, profile_pic, game_roles) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)"; //cambiar active a public
+            $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_active, profile_pic, bg_pic, game_roles) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //cambiar active a public
             $stmt = $this->conexion->prepare($consulta);
     
             if ($stmt) {
-                $stmt->bind_param("isssiss", $user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $game_roles);
+                $stmt->bind_param("isssisss", $user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $bg_pic, $game_roles);
                 $resultado = $stmt->execute();
                 $stmt->close();
                 return $resultado;
@@ -454,11 +454,6 @@
                 echo "Error al preparar la consulta para insertar nuevo perfil: " . $this->conexion->error;
                 return false;
             }
-        }
-
-        public function updateProfile($user_id, $bio = null, $native_lang = null, $languages = null, $fluent = null, $learning = null, $on_hold = null, $dabbling = null, 
-        $dark_mode = null, $is_public = null, $profile_pic = null, $bg_pic = null) {
-            //
         }
 
         public function updateNickname($user_id, $nickname) {
@@ -532,6 +527,125 @@
                 return $row[0];
             } else {
                 echo "Error al preparar la consulta para obtener el total de logs: " . $this->conexion->error;
+                return false;
+            }
+        }
+
+        public function updateProfileNO($user_id, $bio = null, $native_lang = null, $languages = null, $fluent = null, $learning = null, $on_hold = null, $dabbling = null, 
+        $dark_mode = null, $is_public = null, $profile_pic = null, $bg_pic = null) {
+            //
+        }
+
+        public function updateProfile($userId, $bio = null, $nativeLang = null, $languages = null, $fluent = null, $learning = null, $onHold = null, $dabbling = null, 
+        $level = null, $experience = null, $darkMode = null, $numFollowers = null, $numFollowing = null, $isPublic = null, $profilePic = null, 
+        $bg_pic = null, $gameRoles = null) {
+            if (!$this->conexion) return false;
+    
+            $sql = "UPDATE profile SET ";
+            $params = [];
+            $types = "";
+            $conditions = [];
+    
+            if ($bio !== null) {
+                $conditions[] = "bio = ?";
+                $params[] = $bio;
+                $types .= "s";
+            }
+            if ($nativeLang !== null) {
+                $conditions[] = "native_lang = ?";
+                $params[] = $nativeLang;
+                $types .= "s";
+            }
+            if ($languages !== null) {
+                $conditions[] = "languages = ?";
+                $params[] = $languages;
+                $types .= "s";
+            }
+            if ($fluent !== null) {
+                $conditions[] = "fluent = ?";
+                $params[] = $fluent;
+                $types .= "s";
+            }
+            if ($learning !== null) {
+                $conditions[] = "learning = ?";
+                $params[] = $learning;
+                $types .= "s";
+            }
+            if ($onHold !== null) {
+                $conditions[] = "on_hold = ?";
+                $params[] = $onHold;
+                $types .= "s";
+            }
+            if ($dabbling !== null) {
+                $conditions[] = "dabbling = ?";
+                $params[] = $dabbling;
+                $types .= "s";
+            }
+            if ($level !== null) {
+                $conditions[] = "level = ?";
+                $params[] = $level;
+                $types .= "i";
+            }
+            if ($experience !== null) {
+                $conditions[] = "experience = ?";
+                $params[] = $experience;
+                $types .= "i";
+            }
+            if ($darkMode !== null) {
+                $conditions[] = "dark_mode = ?";
+                $params[] = $darkMode;
+                $types .= "i";
+            }
+            if ($numFollowers !== null) {
+                $conditions[] = "num_followers = ?";
+                $params[] = $numFollowers;
+                $types .= "i";
+            }
+            if ($numFollowing !== null) {
+                $conditions[] = "num_following = ?";
+                $params[] = $numFollowing;
+                $types .= "i";
+            }
+            if ($isPublic !== null) {
+                $conditions[] = "is_public = ?";
+                $params[] = $isPublic;
+                $types .= "i";
+            }
+            if ($profilePic !== null) {
+                $conditions[] = "profile_pic = ?";
+                $params[] = $profilePic;
+                $types .= "s";
+            }
+            if ($bg_pic !== null) {
+                $conditions[] = "bg_pic = ?";
+                $params[] = $bg_pic;
+                $types .= "s";
+            }
+            if ($gameRoles !== null) {
+                $conditions[] = "game_roles = ?";
+                $params[] = $gameRoles;
+                $types .= "s";
+            }
+    
+            if (empty($conditions)) {
+                return true; // No data to update
+            }
+    
+            $sql .= implode(", ", $conditions);
+            $sql .= " WHERE user_id = ?";
+            $params[] = $userId;
+            $types .= "i";
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $affectedRows = $stmt->affected_rows;
+                $stmt->close();
+                return $affectedRows > 0;
+            } else {
+                echo "Error al preparar la consulta para actualizar el perfil: " . $this->conexion->error;
                 return false;
             }
         }

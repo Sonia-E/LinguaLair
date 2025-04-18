@@ -28,7 +28,7 @@
     padding: 40px;
     background-color: rgb(214, 214, 214);
     border-radius: 10px;
-    background-image: url("../img/WWX1.jpg");
+    /* background-image: url("../img/WWX1.jpg"); */
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -109,23 +109,35 @@
 .profile .header .avatar .role {
     border: 2px solid rgb(226, 154, 217);
     border-radius: 10px;
-    padding: 3px;
-    margin-left: 5px;
+    padding: 2px 4px;
+    margin-left: 10px;
     color: var(--color-texto-menu);
-    background-color: rgba(230, 230, 230, 0.671);
+    background-color: rgb(230, 230, 230);
     font-size: 15px;
+    display: flex;
+    align-items: center;
 }
 
 .profile .header .avatar .nickname {
     font-size: 25px;
     display: flex;
+    
+}
+
+.nick-text {
+    text-shadow: 2px 1px 6px rgb(0, 0, 0);
+    color: white;
+    -webkit-text-stroke: 0.5px black;
 }
 
 .profile .header .avatar .nick-user {
-    text-shadow: 2px 1px 6px rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.profile .header .avatar .username {
+    text-shadow: 2px 1px 6px rgb(0, 0, 0);
     color: white;
     -webkit-text-stroke: 0.5px black;
 }
@@ -147,8 +159,8 @@
     background-color: rgb(120, 219, 120); /* Color de la barra de vida */
     height: 100%;
     display: flex; /* Habilita Flexbox */
-    justify-content: center;
     align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center;
     color: rgb(48, 34, 54);
     font-size: 1em;
     white-space: nowrap;
@@ -177,6 +189,7 @@
     align-items: center;
     text-align: justify;
     text-justify: inter-word;
+    padding: 30px;
 }
 .user-details .languages {
     padding-top: 7%;

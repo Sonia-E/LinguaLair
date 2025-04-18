@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
                         </div>
                     </div>
                     <div class="log-column">
-                        <div class="post-date"><span><?php echo $log['post_date'] ?></span></div>
+                        <div class="log-date"><span><?php echo $log['log_date'] ?></span></div>
                         <div class="duration">
                             <span><?php echo $log['duration'] ?></span>
                             <span>minutes</span>
@@ -51,6 +51,9 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
                                 <span><?php echo $log['type'] ?></span>
                             </div>
                         </div>
+                    </div>
+                    <div class="post-date">
+                        <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
                     </div>
                 </div>
             </div>

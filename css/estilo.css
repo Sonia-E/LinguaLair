@@ -80,7 +80,7 @@ body {
     justify-content: space-between;
     padding: 10px;
 }
-.usuario .post-date, .usuario .duration {
+.usuario .log-date, .usuario .duration {
     text-align: center;
 }
 .log-row .description {
@@ -112,6 +112,11 @@ body {
 .log-row .type {
     background-color: cadetblue;
     margin-top: 5px;
+}
+.post-date {
+    text-align: center;
+    font-size: 15px;
+    padding: 5px;
 }
 
 

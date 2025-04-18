@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="css/countrySelect.css"/>
 <div class="dashboard">
     <div class="profile">
-        <div class="header">
+        <div class="header" style="background-image: url('<?php echo $usuario->bg_pic; ?>')">
             <button class="edit">Edit</button>
             <div class="avatar">
                 <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture" width="100%" height="100%">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="info-usuario">
                     <div class="nick-user">
-                        <span class="nickname"><?php echo $usuario->nickname ?><span class="role"><?php echo $usuario->game_roles ?></span></span>
+                        <div class="nickname"><span class="nick-text"><?php echo $usuario->nickname ?></span><span class="role"><?php echo $usuario->game_roles ?></span></div>
                         <span class="username">@<?php echo $usuario->username ?></span>
                     </div>
                     

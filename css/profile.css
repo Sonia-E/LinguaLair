@@ -17,6 +17,7 @@
     height: 90%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    overflow: hidden;
 }
 
 .profile .header {
@@ -27,6 +28,7 @@
     padding: 40px;
     background-color: rgb(214, 214, 214);
     border-radius: 10px;
+    
 }
 
 .profile .header .avatar {
@@ -36,12 +38,13 @@
     width: 150px;
     height: 150px;
     z-index: 20;
-    outline: 3px solid white;
-    border-radius: 50%;
+    display: flex;
+    gap: 20px;
 }
 
 .avatar img {
     border-radius: 50%;
+    outline: 3px solid white;
 }
 
 .feed .button-group h2 {
@@ -59,3 +62,58 @@
     font-size: 20px;
     border-radius: 10px;
 }
+
+.profile .header .avatar .info-usuario {
+    color: var(--color-texto);
+    margin-top: -20px;
+    display: flex;
+    gap: 20px;
+    font-family: "Tektur", sans-serif;
+    font-weight: 600;
+    align-items: center;
+}
+
+.profile .header .avatar .role {
+    border: 2px solid rgb(226, 154, 217);
+    border-radius: 10px;
+    padding: 3px;
+    margin-left: 5px;
+    color: var(--color-texto-menu);
+    background-color: rgb(230, 230, 230);
+}
+
+.profile .header .avatar .nickname {
+    font-size: 25px;
+}
+
+.profile .header .avatar .nick-user {
+    text-shadow: 2px 1px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header .level {
+    border: 2px solid green;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 900;
+    color: green;
+    background-color: rgb(230, 230, 230);
+}
+
+.header .life-bar {
+    background-color: rgb(120, 219, 120); /* Color de la barra de vida */
+    height: 100%;
+    display: flex; /* Habilita Flexbox */
+    justify-content: center;
+    align-items: center; /* Centra el contenido verticalmente */
+    color: rgb(48, 34, 54);
+    font-size: 1em;
+    white-space: nowrap;
+    
+  }

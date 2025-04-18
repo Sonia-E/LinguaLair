@@ -7,7 +7,7 @@
 ?>
 <?php require_once './libreria/ti.php' ?>
 <?php blockbase(); ?>
-<?php include './views/logCard.php' ?>
+<?php include './views/logForm.php' ?>
 
 <?php
     if (isset($_SESSION['user_id'])) {
@@ -142,7 +142,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     <button class="boton">
                         <ion-icon name="add-outline"></ion-icon>

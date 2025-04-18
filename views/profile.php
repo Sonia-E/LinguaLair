@@ -13,8 +13,24 @@
     <div class="profile">
         <div class="header">
             <div class="avatar">
-            <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture" width="100%" height="100%">
+                <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture" width="100%" height="100%">
+                <div class="info-usuario">
+                    <div class="nick-user">
+                        <span class="nickname"><?php echo $usuario->nickname ?><span class="role"><?php echo $usuario->game_roles ?></span></span>
+                        <span class="username">@<?php echo $usuario->username ?></span>
+                    </div>
+                    
+                    <div class="progress">
+                        <span class="level"><span id="level-value"><?php echo $usuario->level ?></span></span>
+                        <div class="life-bar-container">
+                            <div class="life-bar" id="experience-bar" style="width: <?php echo $usuario->experience ?>%;">
+                                <span id="experience-value"><span id="experience-text"><?php echo $usuario->experience ?>%</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
         </div>
     </div>
     <div class="feed">

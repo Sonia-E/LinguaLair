@@ -9,7 +9,7 @@
 }
 .dashboard .profile {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     margin: 10px;
     border-radius: 10px;
     min-height: 96%;
@@ -28,13 +28,32 @@
     padding: 40px;
     background-color: rgb(214, 214, 214);
     border-radius: 10px;
-    
+    background-image: url("../img/WWX1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.profile .header .edit {
+    position: relative;
+    height: 20px;
+    width: 60px;
+    left: 95%;
+    top: -20%;
+    border-radius: 5px;
+    border: 0;
+    background-color: rgb(206, 125, 163);
+    color: white;
+}
+
+.profile .header .edit:hover {
+    background-color: rgb(185, 48, 112);
+    cursor: pointer;
 }
 
 .profile .header .avatar {
     position: relative;
-    top: 60%;
-    left: 0;
+    top: 50%;
+    left: -8%;
     width: 150px;
     height: 150px;
     z-index: 20;
@@ -45,6 +64,20 @@
 .avatar img {
     border-radius: 50%;
     outline: 3px solid white;
+}
+
+.avatar .country-select {
+    position: absolute;
+    top: 80%;
+    left: 5%;
+    z-index: 30;
+    outline: 2px solid white;
+    transform: scale(1.2);
+    border-radius: 2px;
+}
+
+.avatar .country-select .flag {
+    border-radius: 2px;
 }
 
 .feed .button-group h2 {
@@ -79,18 +112,22 @@
     padding: 3px;
     margin-left: 5px;
     color: var(--color-texto-menu);
-    background-color: rgb(230, 230, 230);
+    background-color: rgba(230, 230, 230, 0.671);
+    font-size: 15px;
 }
 
 .profile .header .avatar .nickname {
     font-size: 25px;
+    display: flex;
 }
 
 .profile .header .avatar .nick-user {
-    text-shadow: 2px 1px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 1px 6px rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     gap: 10px;
+    color: white;
+    -webkit-text-stroke: 0.5px black;
 }
 
 .header .level {
@@ -102,8 +139,8 @@
     justify-content: center;
     font-size: 30px;
     font-weight: 900;
-    color: green;
-    background-color: rgb(230, 230, 230);
+    color: rgb(154, 230, 154);
+    background-color: rgba(230, 230, 230, 0.486);
 }
 
 .header .life-bar {
@@ -115,5 +152,85 @@
     color: rgb(48, 34, 54);
     font-size: 1em;
     white-space: nowrap;
-    
-  }
+}
+
+.user-details {
+    height: 100%;
+    font-family: "Tektur", sans-serif;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.user-details .bio {
+    min-height: 40%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+.user-details .bio .text {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.user-details .languages {
+    padding-top: 7%;
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    padding-left: 3%;
+    text-align: justify;
+}
+
+.user-details .stats {
+    height: 50%;
+    display: flex;
+    gap: 50px;
+    width: 100%;
+    justify-content: center;
+}
+
+.user-details .stats .languages {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+
+}
+.user-details .stats .logs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    text-align: center;
+}
+
+.user-details .follow {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.user-details .divider {
+    color: var(--color-linea);
+}
+
+.user-details .v {
+    border: 0; /* Remove the default border */
+    border-left: 1px solid var(--color-linea); /* Add a custom top border for the line */
+}
+
+.user-details .separator {
+    width: 100%; /* Adjust the width as needed */
+    border: 0; /* Remove the default border */
+    border-top: 1px solid var(--color-linea); /* Add a custom top border for the line */
+}

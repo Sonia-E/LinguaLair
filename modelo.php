@@ -477,6 +477,64 @@
                 return false;
             }
         }
+
+        public function getLogsForUsers($userIds, $limit = null, $offset = 0) {
+            if (!$this->conexion) return false;
+    
+            if (empty($userIds)) {
+                return [];
+            }
+            $placeholders = implode(',', array_fill(0, count($userIds), '?'));
+            $sql = "SELECT * FROM logs WHERE user_id IN ($placeholders) ORDER BY post_date DESC";
+            if ($limit !== null) {
+                $sql .= " LIMIT ? OFFSET ?";
+            }
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $types = str_repeat('i', count($userIds));
+                $params = $userIds;
+                if ($limit !== null) {
+                    $types .= 'ii';
+                    $params = array_merge($params, [$limit, $offset]);
+                }
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $logs = $result->fetch_all(MYSQLI_ASSOC);
+                $stmt->close();
+                return $logs;
+            } else {
+                echo "Error al preparar la consulta para obtener logs: " . $this->conexion->error;
+                return false;
+            }
+        }
+    
+        public function getTotalLogCountForUsers($userIds) {
+            if (!$this->conexion) return false;
+    
+            if (empty($userIds)) {
+                return 0;
+            }
+            $placeholders = implode(',', array_fill(0, count($userIds), '?'));
+            $sql = "SELECT COUNT(*) FROM logs WHERE user_id IN ($placeholders)";
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $types = str_repeat('i', count($userIds));
+                $stmt->bind_param($types, ...$userIds);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_row();
+                $stmt->close();
+                return $row[0];
+            } else {
+                echo "Error al preparar la consulta para obtener el total de logs: " . $this->conexion->error;
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

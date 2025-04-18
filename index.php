@@ -26,6 +26,21 @@
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     $uri = str_replace('/LinguaLair/', '', $uri);
 
+    if (isset($_GET['action'])) {
+        switch ($_GET['action']) {
+            case 'load_more_logs':
+                require_once 'views/load_more_logs.php';
+                exit(); // VERY IMPORTANT: Stop further execution
+                break;
+            // ... other actions ...
+            default:
+                // Handle normal page requests
+                // ... (Your regular routing and controller logic to display the main page) ...
+                break;
+        }
+    } else {
+
+    
     // Avoid user accessing any other page but login or signup if there's no session yet
     if (!isset($_SESSION["user_id"]) && $uri !== 'login' && $uri !== 'signup' && $uri !== 'set_profile') {
         header("Location: login");
@@ -95,6 +110,7 @@
             $BaseController->get_profile_data($_SESSION["user_id"]);
             include './views/feed.php';
             
+            
         } else {
             // Cargar una página de error
             header("HTTP/1.0 404 Not Found");
@@ -102,6 +118,7 @@
             echo '<html><body><h1>Página no encontrada</h1></body></html>';
         }
     }
+}
 ?>
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

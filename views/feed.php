@@ -4,25 +4,38 @@ require_once './modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
     $loggedInUserId = $_SESSION['user_id'];
 
-// Array containing only the ID of the logged-in user
-$usersToShowLogs = [$loggedInUserId];
-$logs = $modelo->getLogsForUsers($usersToShowLogs, $initialLogLimit);
-$totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs); // Function to get the total number of logs
+    // Encaminamos la petición internamente
+    $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+    $uri = str_replace('/LinguaLair/', '', $uri);
+    
+    if ($uri == 'profile' && isset($_GET['id'])) {
+        $usersToShowLogs = [$_GET['id']];
+        $logs = $modelo->getLogsForUsers($usersToShowLogs, $initialLogLimit);
+        $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs);
+    } else {
+        // Array containing only the ID of the logged-in user
+        $usersToShowLogs = [$loggedInUserId];
+        $logs = $modelo->getLogsForUsers($usersToShowLogs, $initialLogLimit);
+        $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs); // Function to get the total number of logs
+    }
 ?>
 
 <div class="log-container">
     <?php foreach ($logs as $log) { ?>
         <div class="log">
             <div class="usuario">
-                <div class="log-user">
-                    <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
-                    <div class="info-usuario">
-                        <div class="nick-user">
-                            <span class="nickname"><?php echo $usuario->nickname ?></span>
-                            <span class="username">@<?php echo $usuario->username ?></span>
+                <!-- <a href="profile?id=<?php // echo $usuario->id ?>"> -->
+                <a href="profile?id=31">
+                    <div class="log-user">
+                        <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
+                        <div class="info-usuario">
+                            <div class="nick-user">
+                                <span class="nickname"><?php echo $usuario->nickname ?></span>
+                                <span class="username">@<?php echo $usuario->username ?></span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 <div class="log-column">
                     <div class="log-date"><span><?php echo $log['log_date'] ?></span></div>
                     <div class="duration">

@@ -21,15 +21,17 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
             ?>
             <div class="log">
                 <div class="usuario">
-                    <div class="log-user">
-                        <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
-                        <div class="info-usuario">
-                            <div class="nick-user">
-                                <span class="nickname"><?php echo $usuario->nickname ?></span>
-                                <span class="username">@<?php echo $usuario->username ?></span>
+                    <a href="profile?id=<?php echo $usuario->id?>">
+                        <div class="log-user">
+                            <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
+                            <div class="info-usuario">
+                                <div class="nick-user">
+                                    <span class="nickname"><?php echo $usuario->nickname ?></span>
+                                    <span class="username">@<?php echo $usuario->username ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="log-column">
                         <div class="log-date"><span><?php echo $log['log_date'] ?></span></div>
                         <div class="duration">

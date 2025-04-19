@@ -11,6 +11,8 @@
     // Model import
     require_once './modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    require_once './models/SocialModel.php';
+    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
 
     // Controllers imports
     require_once './controladores.php';
@@ -88,10 +90,17 @@
                     }
                 }
 
-            } elseif ($uri == 'profile') {
+            } elseif ($uri == 'my_profile') {
                 $profile = new ProfileController($modelo, $BaseController);
                 $profile->open_page();
 
+            } elseif ($uri == 'profile' && isset($_GET['id'])) {
+                $profile = new ProfileController($modelo, $BaseController);
+                if ($_GET['id'] == $_SESSION["user_id"]) {
+                    header("Location: my_profile");
+                } else {
+                    $profile->openUserProfile($_GET['id']);
+                }
             } elseif ($uri == 'stats') {
                 $stats = new StatsController($modelo, $BaseController);
                 $stats->open_page($modelo);

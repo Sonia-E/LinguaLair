@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="profile">
+                        <a href="my_profile">
                             <ion-icon name="documents-outline"></ion-icon>
                             <span>Profile</span>
                         </a>

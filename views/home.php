@@ -10,14 +10,14 @@
     <div class="dashboard">
         <div class="feed">
             <div class="button-group">
-                <button class="following">Following</button>
+                <button class="following">All logs</button>
                 <div class="divider"></div>
                 <button class="logs">My logs</button>
             </div>
             <div class="following show">
                 <?php include './views/feed.php' ?>
             </div>
-            <div class="my-logs hidden">
+            <div class="my-logs hidden" data-user-id=<?php echo $_SESSION['user_id']; ?>>
                 <div class="log"></div>
                 <div class="log"></div>
                 <div class="log"></div>

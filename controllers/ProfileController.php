@@ -3,10 +3,12 @@
         private $modelo;
         private $errores = [];
         private $BaseController;
+        private $SocialModel;
 
-        public function __construct($modelo, $BaseController = null) { // Accept the $modelo instance
-            $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        public function __construct($modelo, $BaseController = null, $SocialModel = null) {
+            $this->modelo = $modelo;
             $this->BaseController = $BaseController;
+            $this->SocialModel = $SocialModel;
         }
 
     
@@ -125,6 +127,10 @@
 
         // Obtener el total de minutos para the title control
         $other_totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
+
+        $isFollowing = false;
+        
+        $isFollowing = $this->SocialModel->isFollowing($_SESSION['user_id'], $other_user->id);
         require './views/othersProfile.php';
     }
 

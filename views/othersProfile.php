@@ -13,7 +13,13 @@
 <div class="dashboard">
     <div class="profile">
         <div class="header" style="background-image: url('<?php echo $other_user->bg_pic; ?>')">
-            <button class="followButton" data-user-id="<?php echo $other_user->id; ?>">Follow</button>
+            
+            <button
+                class="<?php echo $isFollowing ? 'unfollowButton' : 'followButton'; ?>"
+                data-user-id="<?php echo $other_user->id; ?>"
+            >
+                <span><?php echo $isFollowing ? 'Following' : 'Follow'; ?></span>
+            </button>
             <div class="avatar">
                 <img src="<?php echo $other_user->profile_pic ?>" alt="profile picture" width="100%" height="100%">
                 <div class="country-select">
@@ -74,9 +80,9 @@
             <hr class="separator">
 
             <div class="follow">
-                <span class="following"><?php echo $other_user->num_following ?> following</span>
+                <span class="following-count"><?php echo $other_user->num_following; ?> following</span>
                 <span class="divider">|</span>
-                <span class="followers"><?php echo $other_user->num_followers ?> followers</span>
+                <span class="followers-count"><?php echo $other_user->num_followers; ?> followers</span>
             </div>
         </div>
     </div>
@@ -123,45 +129,128 @@
     document.querySelector(".flag").classList.add(isoCode);
 
     document.addEventListener('DOMContentLoaded', function() {
-        const followButton = document.querySelector('.followButton');
+    document.addEventListener('click', function(event) {
+        const followButton = event.target.closest('.followButton');
+        const unfollowButton = event.target.closest('.unfollowButton');
+        const buttonSpan = event.target.querySelector('span') || (event.target.tagName === 'SPAN' ? event.target : null);
 
         if (followButton) {
-            followButton.addEventListener('click', function() {
-                console.log('El script de follow se está ejecutando.');
-                const followedId = this.dataset.userId;
-                const followerId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+            // Lógica para seguir (ya existente)
+            const followedId = followButton.dataset.userId;
+            const followerId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
 
-                if (followerId === 'null') {
-                    alert('You must be logged in to follow users.');
-                    return;
-                }
+            if (followerId === 'null') {
+                alert('You must be logged in to follow users.');
+                return;
+            }
 
-                if (followedId) {
-                    fetch('controllers/follow_user.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `follower_id=${followerId}&followed_id=${followedId}`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            followButton.textContent = 'Following'; // Update button text
-                            // Optionally disable the button or provide other feedback
-                        } else {
-                            alert(data.message || 'Error following user.');
+            if (followedId) {
+                fetch('controllers/follow_user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `follower_id=${followerId}&followed_id=${followedId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (buttonSpan) {
+                            buttonSpan.textContent = 'Following';
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Network error occurred.');
-                    });
-                } else {
-                    console.error('User ID to follow not found.');
-                    alert('Could not follow user.');
-                }
-            });
+                        followButton.classList.remove('followButton');
+                        followButton.classList.add('unfollowButton');
+                        
+                        // Actualizar los contadores usuario del perfil
+                        const followersCountElement = document.querySelector('.followers-count');
+
+                        if (followersCountElement) {
+                            let currentFollowers = parseInt(followersCountElement.textContent);
+                            followersCountElement.textContent = (currentFollowers + 1) + ' followers';
+                        }
+
+                        // Actualizar contadores usuario loggeado
+                        const loggedFollowingCountElement = document.getElementById('logged-following-count');
+                        const loggedFollowersCountElement = document.getElementById('logged-followers-count');
+
+                        if (loggedFollowingCountElement) {
+                            let currentFollowing = parseInt(loggedFollowingCountElement.textContent);
+                            loggedFollowingCountElement.textContent = (currentFollowing + 1) + ' following';
+                        }
+
+                        // if (loggedFollowersCountElement) {
+                        //     let currentFollowers = parseInt(loggedFollowersCountElement.textContent);
+                        //     loggedFollowersCountElement.textContent = (currentFollowers - 1) + ' followers';
+                        // }
+
+                    } else {
+                        alert(data.message || 'Error following user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error occurred.');
+                });
+            } else {
+                console.error('User ID to follow not found.');
+                alert('Could not follow user.');
+            }
+        } else if (unfollowButton) {
+            // Lógica para dejar de seguir
+            const followedId = unfollowButton.dataset.userId;
+            const followerId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
+
+            if (followerId === 'null') {
+                alert('You must be logged in to unfollow users.');
+                return;
+            }
+
+            if (followedId) {
+                fetch('controllers/unfollow_user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `follower_id=${followerId}&followed_id=${followedId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (buttonSpan) {
+                            buttonSpan.textContent = 'Follow';
+                        }
+                        unfollowButton.classList.remove('unfollowButton');
+                        unfollowButton.classList.add('followButton');
+
+                        // Actualizar los contadores
+                        const followersCountElement = document.querySelector('.followers-count');
+
+                        if (followersCountElement) {
+                            let currentFollowers = parseInt(followersCountElement.textContent);
+                            followersCountElement.textContent = (currentFollowers - 1) + ' followers';
+                        }
+
+                        // Actualizar contadores usuario loggeado
+                        const loggedFollowingCountElement = document.getElementById('logged-following-count');
+
+                        if (loggedFollowingCountElement) {
+                            let currentFollowing = parseInt(loggedFollowingCountElement.textContent);
+                            loggedFollowingCountElement.textContent = (currentFollowing - 1) + ' following';
+                        }
+
+                    } else {
+                        alert(data.message || 'Error unfollowing user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error occurred.');
+                });
+            } else {
+                console.error('User ID to unfollow not found.');
+                alert('Could not unfollow user.');
+            }
         }
     });
+});
 </script>

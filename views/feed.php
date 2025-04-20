@@ -1,7 +1,10 @@
 <?php
-$initialLogLimit = 10; // Number of logs to load initially
-require_once 'models/modelo.php';
-    $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    $initialLogLimit = 10; // Number of logs to load initially
+    // require_once 'models/modelo.php';
+    // $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    require_once 'models/SocialModel.php';
+    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
+
     $loggedInUserId = $_SESSION['user_id'];
 
     // Encaminamos la petición internamente
@@ -10,13 +13,23 @@ require_once 'models/modelo.php';
     
     if ($uri == 'profile' && isset($_GET['id'])) {
         $usersToShowLogs = [$_GET['id']];
-        $logs = $modelo->getLogsForUsers($usersToShowLogs, $initialLogLimit);
-        $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs);
+        $logs = $SocialModel->getLogsForUsers($usersToShowLogs, $initialLogLimit);
+        $totalLogCount = $SocialModel->getTotalLogCountForUsers($usersToShowLogs);
     } else {
-        // Array containing only the ID of the logged-in user
+        // Obtener la lista de IDs de los usuarios que el usuario logueado sigue
+        $followingIds = $SocialModel->getFollowingUsers($loggedInUserId);
+
+        // Inicializar el array de usuarios a mostrar con el ID del usuario logueado
         $usersToShowLogs = [$loggedInUserId];
-        $logs = $modelo->getLogsForUsers($usersToShowLogs, $initialLogLimit);
-        $totalLogCount = $modelo->getTotalLogCountForUsers($usersToShowLogs); // Function to get the total number of logs
+
+        // Agregar los IDs de los usuarios seguidos al array, si existen y es un array
+        if ($followingIds && is_array($followingIds)) {
+            $usersToShowLogs = array_merge($usersToShowLogs, $followingIds);
+        }
+
+        $logs = $SocialModel->getLogsForUsers($usersToShowLogs, $initialLogLimit);
+        
+        $totalLogCount = $SocialModel->getTotalLogCountForUsers($usersToShowLogs);
     }
 ?>
 
@@ -24,14 +37,14 @@ require_once 'models/modelo.php';
     <?php foreach ($logs as $log) { ?>
         <div class="log">
             <div class="usuario">
-                <!-- <a href="profile?id=<?php // echo $usuario->id ?>"> -->
-                <a href="profile?id=31">
+                <a href="profile?id=<?php echo $log['user_id'] ?>">
+                <!-- <a href="profile?id=31"> -->
                     <div class="log-user">
-                        <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
+                        <img src="<?php echo $log['profile_pic'] ?>" alt="profile picture">
                         <div class="info-usuario">
                             <div class="nick-user">
-                                <span class="nickname"><?php echo $usuario->nickname ?></span>
-                                <span class="username">@<?php echo $usuario->username ?></span>
+                                <span class="nickname"><?php echo $log['nickname'] ?></span>
+                                <span class="username">@<?php echo $log['username'] ?></span>
                             </div>
                         </div>
                     </div>
@@ -87,7 +100,7 @@ if (logContainer) {
             isLoading = true;
             loadMoreButton.textContent = 'Loading...';
 
-            fetch(`/LinguaLair/index.php?action=load_more_logs&offset=${currentLogCount}&limit=${logsToLoad}&user_id=<?php echo $loggedInUserId; ?>`)
+            fetch(`/LinguaLair/index.php?action=load_more_logs&offset=${currentLogCount}&limit=${logsToLoad}&user_id=<?php echo $loggedInUserId; ?>&followed_users=<?php echo json_encode($usersToShowLogs); ?>`)
                 .then(response => response.text())
                 .then(data => {
                     if (data) {

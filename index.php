@@ -22,7 +22,7 @@
     require_once './controllers/LogFormController.php';
     require_once './controllers/ProfileController.php';
     require_once './controllers/BaseController.php';
-    $BaseController = new BaseController($modelo);
+    $BaseController = new BaseController($modelo, $SocialModel);
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -95,7 +95,7 @@
                 $profile->open_page();
 
             } elseif ($uri == 'profile' && isset($_GET['id'])) {
-                $profile = new ProfileController($modelo, $BaseController);
+                $profile = new ProfileController($modelo, $BaseController, $SocialModel);
                 if ($_GET['id'] == $_SESSION["user_id"]) {
                     header("Location: my_profile");
                 } else {

@@ -116,7 +116,7 @@ window.addEventListener('resize', updateTextPosition);
                     followingDiv.innerHTML = feedHtml; // Replace the content of the feed div
                     setTimeout(() => {
                         location.reload();
-                      }, "1000");
+                    }, "1000");
                 } else {
                     console.error('No se encontró el elemento .following.show para recargar el feed.');
                 }

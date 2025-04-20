@@ -1,33 +1,36 @@
 <?php
 
-if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['user_id'])) {
+if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['user_id']) && isset($_GET['followed_users'])) {
     $userId = intval($_GET['user_id']);
     $offset = intval($_GET['offset']);
     $limit = intval($_GET['limit']);
+    $followedUsersJson = isset($_GET['followed_users']) ? $_GET['followed_users'] : '[]';
+    $followedUsers = json_decode($followedUsersJson, true);
 
-    $array_usuario = $modelo->getUser($userId);
-    $usuario = $array_usuario[0][0];
-
-    $usersToShowLogs = [$userId];
-
-    // Get the users the current user is following (adapt as needed)
-    // $following = $modelo->getFollowingUsers($userId);
-    // $usersToShowLogs = array_merge([$userId], $following);
-
-    $moreLogs = $modelo->getLogsForUsers($usersToShowLogs, $limit, $offset);
+    $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+    $uri = str_replace('/LinguaLair/', '', $uri);
+    
+    if ($uri == 'profile' && isset($userId)) {
+        $usersToShowLogs = [$userId];
+        $moreLogs = $SocialModel->getLogsForUsers($usersToShowLogs, $limit, $offset);
+        $totalLogCount = $SocialModel->getTotalLogCountForUsers($usersToShowLogs);
+    } else {
+        $moreLogs = $SocialModel->getLogsForUsers($followedUsers, $limit, $offset);
+        $totalLogCount = $SocialModel->getTotalLogCountForUsers($followedUsers);
+    }
 
     if ($moreLogs) {
         foreach ($moreLogs as $log) {
             ?>
             <div class="log">
                 <div class="usuario">
-                    <a href="profile?id=<?php echo $usuario->id?>">
+                    <a href="profile?id=<?php echo $log['user_id']?>">
                         <div class="log-user">
-                            <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">
+                            <img src="<?php echo $log['profile_pic'] ?>" alt="profile picture">
                             <div class="info-usuario">
                                 <div class="nick-user">
-                                    <span class="nickname"><?php echo $usuario->nickname ?></span>
-                                    <span class="username">@<?php echo $usuario->username ?></span>
+                                    <span class="nickname"><?php echo $log['nickname'] ?></span>
+                                    <span class="username">@<?php echo $log['username'] ?></span>
                                 </div>
                             </div>
                         </div>

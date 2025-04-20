@@ -147,9 +147,9 @@
                         <ion-icon name="add-outline"></ion-icon>
                     </button>
                     <div class="follow">
-                        <span class="following"><?php echo $usuario->num_following ?> following</span>
+                        <span id="logged-following-count" class="following"><?php echo $usuario->num_following ?> following</span>
                         <span class="divider">|</span>
-                        <span class="followers"><?php echo $usuario->num_followers ?> followers</span>
+                        <span id="logged-followers-count" class="followers"><?php echo $usuario->num_followers ?> followers</span>
                     </div>
                 </div>
                 <div class="linea"></div>

@@ -45,7 +45,7 @@
     color: white;
 }
 
-.profile .header .followButton {
+.profile .header .followButton, .unfollowButton {
     position:sticky;
     height: 30px;
     padding-left: 5px;
@@ -60,9 +60,41 @@
     font-size: larger;
 }
 
-.profile .header .edit:hover, .profile .header .followButton:hover {
+.unfollowButton {
+    transition: background-color 0.3s ease; /* Solo transición de color */
+    overflow: hidden; /* Oculta el contenido que se desplaza fuera */
+}
+
+.profile .header .edit:hover, .profile .header .followButton:hover, .unfollowButton:hover {
     background-color: rgb(185, 48, 112);
     cursor: pointer;
+}
+
+.unfollowButton:hover {
+    background-color: #d9534f; /* Color rojo al hacer hover */
+}
+
+.unfollowButton span {
+    display: inline-block; /* Permite la transición del texto */
+    transition: transform 0.3s ease;
+}
+
+.unfollowButton:hover span {
+    transform: translateX(-112%); /* Desplaza el texto "Following" fuera de la vista */
+}
+
+.unfollowButton::before {
+    content: "Unfollow"; /* Texto al hacer hover */
+    color: white;
+    position: absolute;
+    left: 100%; /* Inicialmente fuera de la vista a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+.unfollowButton:hover::before {
+    transform: translate(-112%, -50%); /* Desplaza "Unfollow" a la vista */
 }
 
 .profile .header .avatar {

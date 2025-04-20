@@ -6,7 +6,7 @@
 	// }
 	
     // Importamos el modelo
-    require_once './modelo.php';
+    require_once 'models/modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
 
     //#######################################

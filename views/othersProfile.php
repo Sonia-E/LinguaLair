@@ -5,15 +5,15 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<?php include 'base.php' ?>
+<?php include 'views/base.php' ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
 <link rel="stylesheet" type="text/css" href="css/profile.css"/>
-<link rel="stylesheet" type="text/css" href="css/countrySelect.css"/>
+<link rel="stylesheet" type="text/css" href="libreria/countrySelect/countrySelect.css"/>
 <div class="dashboard">
     <div class="profile">
         <div class="header" style="background-image: url('<?php echo $other_user->bg_pic; ?>')">
-            <button class="follow" data-user-id="<?php echo $other_user->id; ?>">Follow</button>
+            <button class="followButton" data-user-id="<?php echo $other_user->id; ?>">Follow</button>
             <div class="avatar">
                 <img src="<?php echo $other_user->profile_pic ?>" alt="profile picture" width="100%" height="100%">
                 <div class="country-select">
@@ -100,7 +100,7 @@
 
 <?php $nombrePaisPHP = $other_user->country ?>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="./js/countrySelect.js"></script>
+<script type="text/javascript" src="libreria/countrySelect/countrySelect.js"></script>
 <script>
     
     function buscarIsoPorNombre(nombrePais) {
@@ -123,10 +123,11 @@
     document.querySelector(".flag").classList.add(isoCode);
 
     document.addEventListener('DOMContentLoaded', function() {
-        const followButton = document.querySelector('.follow');
+        const followButton = document.querySelector('.followButton');
 
         if (followButton) {
             followButton.addEventListener('click', function() {
+                console.log('El script de follow se está ejecutando.');
                 const followedId = this.dataset.userId;
                 const followerId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
 
@@ -136,7 +137,7 @@
                 }
 
                 if (followedId) {
-                    fetch('follow_user.php', { // Create this PHP file
+                    fetch('controllers/follow_user.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,6 +1,6 @@
 <?php
 $initialLogLimit = 10; // Number of logs to load initially
-require_once './modelo.php';
+require_once 'models/modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
     $loggedInUserId = $_SESSION['user_id'];
 

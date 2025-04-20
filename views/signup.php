@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/lingualair/css/signup.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <!-- Country select -->
-        <link rel="stylesheet" href="/lingualair/css/countrySelect.css">
+        <link rel="stylesheet" href="libreria/countrySelect/countrySelect.css">
     </head>
     <body>
         <div class="container">
@@ -73,7 +73,7 @@
         </div>
         <!-- Load jQuery from CDN so can run demo immediately -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="/lingualair/js/countrySelect.js"></script>
+		<script src="libreria/countrySelect/countrySelect.js"></script>
 		<script>
 			$("#country_selector").countrySelect({
 				// defaultCountry: "jp",
@@ -81,8 +81,6 @@
 				// responsiveDropdown: true,
 				preferredCountries: ['es', 'gb', 'us']
 			});
-
-            var country = $.fn.countrySelect._selectListItem();
 		</script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

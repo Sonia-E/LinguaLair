@@ -5,7 +5,7 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<?php include 'base.php' ?>
+<?php include 'views/base.php' ?>
 <?php startblock('contenido') ?>
     <div class="dashboard">
         <div class="feed">

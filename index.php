@@ -9,13 +9,13 @@
     require_once './libreria/ti.php';
 
     // Model import
-    require_once './modelo.php';
+    require_once 'models/modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
     require_once './models/SocialModel.php';
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
 
     // Controllers imports
-    require_once './controladores.php';
+    require_once './controllers/controladores.php';
     require_once './controllers/LoginFormController.php';
     require_once './controllers/SignupFormController.php';
     require_once './controllers/StatsController.php';

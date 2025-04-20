@@ -21,10 +21,8 @@
 }
 
 .profile .header {
-    display: flex;
     top: 0;
     height: 40%;
-
     padding: 40px;
     background-color: rgb(214, 214, 214);
     border-radius: 10px;
@@ -34,23 +32,27 @@
 }
 
 .profile .header .edit {
-    position: relative;
+    position:sticky;
     height: 20px;
-    width: 60px;
-    left: 95%;
-    top: -20%;
+    padding-left: 10px;
+    padding-right: 10px;
+    left: 100%;
+    margin-top: -20px;
+    margin-right: -20px;
     border-radius: 5px;
     border: 0;
     background-color: rgb(206, 125, 163);
     color: white;
 }
 
-.profile .header .follow {
-    position: relative;
+.profile .header .followButton {
+    position:sticky;
     height: 30px;
-    width: 70px;
-    left: 94%;
-    top: -20%;
+    padding-left: 5px;
+    padding-right: 5px;
+    left: 100%;
+    margin-top: -20px;
+    margin-right: -20px;
     border-radius: 5px;
     border: 0;
     background-color: rgb(206, 125, 163);
@@ -58,15 +60,14 @@
     font-size: larger;
 }
 
-.profile .header .edit:hover, .profile .header .follow:hover {
+.profile .header .edit:hover, .profile .header .followButton:hover {
     background-color: rgb(185, 48, 112);
     cursor: pointer;
 }
 
 .profile .header .avatar {
     position: relative;
-    top: 50%;
-    left: -8%;
+    top: 45%;
     width: 150px;
     height: 150px;
     z-index: 20;

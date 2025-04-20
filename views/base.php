@@ -102,13 +102,13 @@
                     </div>
                 </div>
 
-                <div class="modo-oscuro">
+                <!-- <div class="modo-oscuro">
                     <button onclick="changeLanguage('eng')">
                         Change to English</button>
                     <button onclick="changeLanguage('es')">
                         Change to Spanish
                     </button>
-                </div>
+                </div> -->
 
                 <div class="usuario">
                     <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture">

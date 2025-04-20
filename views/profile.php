@@ -5,11 +5,11 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<?php include 'base.php' ?>
+<?php include 'views/base.php' ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
 <link rel="stylesheet" type="text/css" href="css/profile.css"/>
-<link rel="stylesheet" type="text/css" href="css/countrySelect.css"/>
+<link rel="stylesheet" type="text/css" href="libreria/countrySelect/countrySelect.css"/>
 <div class="dashboard">
     <div class="profile">
         <div class="header" style="background-image: url('<?php echo $usuario->bg_pic; ?>')">
@@ -99,7 +99,7 @@
 
 <?php $nombrePaisPHP = $usuario->country ?>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="./js/countrySelect.js"></script>
+<script type="text/javascript" src="libreria/countrySelect/countrySelect.js"></script>
 <script>
     
     function buscarIsoPorNombre(nombrePais) {

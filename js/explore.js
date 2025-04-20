@@ -27,7 +27,7 @@ function explore(texto) {
         request.onreadystatechange = estadoCambiado;
         
         // Abrimos la comunicación asíncrona y hacemos una petición GET
-        request.open("GET", "busquedaLibros.php?texto="+texto, true);
+        request.open("GET", "controllers/busquedaLibros.php?texto="+texto, true);
         // Enviamos la petición
         request.send(null);
 

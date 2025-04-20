@@ -270,6 +270,33 @@
             }
             return 0;
         }
+
+        public function buscarLogsPorDescripcion($texto) {
+            if (!$this->conexion) return false;
+    
+            $texto = "%" . $this->conexion->real_escape_string($texto) . "%";
+            $sql = "SELECT l.*, u.nickname, u.username, p.profile_pic
+                    FROM logs l
+                    JOIN user u ON l.user_id = u.id
+                    JOIN profile p ON l.user_id = p.user_id
+                    WHERE LOWER(l.description) LIKE ?";
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $texto);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $logsEncontrados = [];
+                while ($row = $result->fetch_assoc()) {
+                    $logsEncontrados[] = $row;
+                }
+                $stmt->close();
+                return $logsEncontrados;
+            } else {
+                error_log("Error al preparar la consulta para buscar logs: " . $this->conexion->error);
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

@@ -22,6 +22,7 @@
     require_once './controllers/LogFormController.php';
     require_once './controllers/ProfileController.php';
     require_once './controllers/BaseController.php';
+    require_once './controllers/ExploreController.php';
     $BaseController = new BaseController($modelo, $SocialModel);
 
     // Encaminamos la petición internamente
@@ -114,8 +115,15 @@
             } elseif ($uri == 'get_feed') {
                 $BaseController->get_profile_data($_SESSION["user_id"]);
                 include './views/feed.php';
-                
-                
+
+            } elseif ($uri == 'explore') {
+                $explore = new ExploreController($modelo, $BaseController, $SocialModel);
+                if ($_SERVER["REQUEST_METHOD"] == "GET" & isset($_GET["texto"])) {
+                    $explore->procesarFormulario();
+                } else {
+                    $explore->open_page();
+                }
+
             } else {
                 // Cargar una página de error
                 header("HTTP/1.0 404 Not Found");

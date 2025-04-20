@@ -30,61 +30,62 @@
             }
             ?>
         </div>
-    <div class="all">
-        <div class="general">
-            <div class="chart">
-                <canvas id="all-pie-chart"></canvas>
-            </div>
-            <div class="area">
-                <!-- Hacer que sean grid para que se vean bien sin importar cuántos idiomas -->
-                <div class="language-area"> 
-                    <h3>LANGUAGE</h3><br>
-                    <h3>Study hours: <span></span></h3>
-                    <h3>Logs: <span></span></h3>
-                    <h3>Day Streak: <span></span></h3>
-                    <h3>Hours per day: <span></span></h3><br><br>
+        <div class="all">
+            <div class="general">
+                <div class="chart">
+                    <canvas id="all-pie-chart"></canvas>
                 </div>
-                <div class="language-area">
-                    <h3>LANGUAGE</h3><br>
-                    <h3>Study hours: <span></span></h3>
-                    <h3>Logs: <span></span></h3>
-                    <h3>Day Streak: <span></span></h3>
-                    <h3>Hours per day: <span></span></h3><br><br>
-                </div>
-                <div class="language-area">
-                    <h3>LANGUAGE</h3><br>
-                    <h3>Study hours: <span></span></h3>
-                    <h3>Logs: <span></span></h3>
-                    <h3>Day Streak: <span></span></h3>
-                    <h3>Hours per day: <span></span></h3><br><br>
-                </div>
-                <div class="language-area">
-                    <h3>LANGUAGE</h3><br>
-                    <h3>Study hours: <span></span></h3>
-                    <h3>Logs: <span></span></h3>
-                    <h3>Day Streak: <span></span></h3>
-                    <h3>Hours per day: <span></span></h3><br><br>
-                </div>
-                <div class="language-area">
-                    <h3>LANGUAGE</h3><br>
-                    <h3>Study hours: <span></span></h3>
-                    <h3>Logs: <span></span></h3>
-                    <h3>Day Streak: <span></span></h3>
-                    <h3>Hours per day: <span></span></h3><br><br>
+                <div class="area">
+                    <!-- Hacer que sean grid para que se vean bien sin importar cuántos idiomas -->
+                    <div class="language-area"> 
+                        <h3>LANGUAGE</h3><br>
+                        <h3>Study hours: <span></span></h3>
+                        <h3>Logs: <span></span></h3>
+                        <h3>Day Streak: <span></span></h3>
+                        <h3>Hours per day: <span></span></h3><br><br>
+                    </div>
+                    <div class="language-area">
+                        <h3>LANGUAGE</h3><br>
+                        <h3>Study hours: <span></span></h3>
+                        <h3>Logs: <span></span></h3>
+                        <h3>Day Streak: <span></span></h3>
+                        <h3>Hours per day: <span></span></h3><br><br>
+                    </div>
+                    <div class="language-area">
+                        <h3>LANGUAGE</h3><br>
+                        <h3>Study hours: <span></span></h3>
+                        <h3>Logs: <span></span></h3>
+                        <h3>Day Streak: <span></span></h3>
+                        <h3>Hours per day: <span></span></h3><br><br>
+                    </div>
+                    <div class="language-area">
+                        <h3>LANGUAGE</h3><br>
+                        <h3>Study hours: <span></span></h3>
+                        <h3>Logs: <span></span></h3>
+                        <h3>Day Streak: <span></span></h3>
+                        <h3>Hours per day: <span></span></h3><br><br>
+                    </div>
+                    <div class="language-area">
+                        <h3>LANGUAGE</h3><br>
+                        <h3>Study hours: <span></span></h3>
+                        <h3>Logs: <span></span></h3>
+                        <h3>Day Streak: <span></span></h3>
+                        <h3>Hours per day: <span></span></h3><br><br>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="language-tabs">
-        <?php
-        if (!empty($userLanguages)) {
-            foreach ($userLanguages as $language) {
-                echo '<div class="language-tab-content" id="' . htmlspecialchars($language) . '-tab">';
-                echo '';
-                echo '</div>';
+        <div class="language-tabs">
+            <?php
+            if (!empty($userLanguages)) {
+                foreach ($userLanguages as $language) {
+                    echo '<div class="language-tab-content" id="' . htmlspecialchars($language) . '-tab">';
+                    echo '';
+                    echo '</div>';
+                }
             }
-        }
-        ?>
+            ?>
+        </div>
     </div>
 </div>
 

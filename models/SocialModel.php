@@ -297,6 +297,62 @@
                 return false;
             }
         }
+
+        // Para usar este método tendría que añadir algún filtro en la búsqueda de explore, 
+        // porque este método busca los logs del usuario que escribas en @
+
+        // public function exploreUsersLogs($texto) {
+        //     if (!$this->conexion) return false;
+    
+        //     $texto = "%" . $this->conexion->real_escape_string($texto) . "%";
+        //     $sql = "SELECT l.*, u.nickname, u.username, p.profile_pic
+        //             FROM logs l
+        //             JOIN user u ON l.user_id = u.id
+        //             JOIN profile p ON l.user_id = p.user_id
+        //             WHERE LOWER(u.username) LIKE ?";
+        //     $stmt = $this->conexion->prepare($sql);
+    
+        //     if ($stmt) {
+        //         $stmt->bind_param("s", $texto);
+        //         $stmt->execute();
+        //         $result = $stmt->get_result();
+        //         $foundUsers = [];
+        //         while ($row = $result->fetch_object()) {
+        //             $foundUsers[] = $row;
+        //         }
+        //         $stmt->close();
+        //         return $foundUsers;
+        //     } else {
+        //         error_log("Error al preparar la consulta para buscar logs: " . $this->conexion->error);
+        //         return false;
+        //     }
+        // }
+
+        public function exploreUsers($texto) {
+            if (!$this->conexion) return false;
+    
+            $texto = "%" . $this->conexion->real_escape_string($texto) . "%";
+            $sql = "SELECT u.*, p.profile_pic, p.bio
+                    FROM user u
+                    JOIN profile p ON u.id = p.user_id
+                    WHERE LOWER(u.username) LIKE ?";
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("s", $texto);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $foundUsers = [];
+                while ($row = $result->fetch_object()) {
+                    $foundUsers[] = $row;
+                }
+                $stmt->close();
+                return $foundUsers;
+            } else {
+                error_log("Error al preparar la consulta para buscar logs: " . $this->conexion->error);
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

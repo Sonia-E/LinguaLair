@@ -1,8 +1,6 @@
 <?php
     // Controlador frontal
 
-	// session_start(); // Iniciar la sesión
-
     // Creamos la constante CON_CONTROLADOR porque este es el controlador frontal
 	define('CON_CONTROLADOR', true);
 
@@ -25,7 +23,6 @@
     require_once './controllers/ExploreController.php';
     $BaseController = new BaseController($modelo, $SocialModel);
 
-    // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     $uri = str_replace('/LinguaLair/', '', $uri);
 
@@ -81,7 +78,7 @@
                     header("Location: /LinguaLair/");
                     exit();
                 } else {
-                    // Si no hay sesión, verificar si es un envío de formulario (POST)
+                    // Si no hay sesión, verificar si es un envío de formulario
                     $profileForm = new ProfileController($modelo);
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $profileForm->procesarFormulario();
@@ -108,8 +105,8 @@
 
             } elseif ($uri == 'log') {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $logController = new LogFormController($modelo); // Instanciamos el controlador
-                    $logController->procesarFormulario(); // Llamamos al método para procesar el formulario
+                    $logController = new LogFormController($modelo);
+                    $logController->procesarFormulario();
                 }
                 
             } elseif ($uri == 'get_feed') {

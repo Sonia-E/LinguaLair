@@ -537,45 +537,6 @@ header .stats .logs {
 }
 
 
-/* Explore */
-#explore-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 100%;
-}
-#explore-form input {
-    width: 60%;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('./img/search-outline.svg');
-    background-repeat: no-repeat;
-    background-position: 2px 2px;
-    background-size: 36px;
-    padding: 12px 20px 12px 40px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    outline: none;
-    text-indent: 10px;
-    transition: border 0.5s ease;
-}
-#explore-form input:focus {
-    border: 2px solid rgb(68, 68, 68);
-}
-.efecto {
-    opacity: 0; /* Inicialmente ocultos */
-    transition: opacity 0.5s ease-in-out; /* Transición suave de opacidad */
-  }
-  
-.efecto.aparecer {
-opacity: 1; /* Mostrar elemento con opacidad completa */
-}
-
-
 /* Responsive */
 @media (max-height: 660px) {
     .barra-lateral .nombre-pagina {

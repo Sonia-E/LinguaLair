@@ -202,13 +202,59 @@ header .life-bar {
 }
 
   
-  /* Add animation (fade in the popup) */
-  @-webkit-keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
-  }
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+/* deleteUser */
+#DeletePopup {
+  display: flex;
+  flex-direction: column;
+}
+
+#DeletePopup .delete-btn-group {
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+#DeletePopup button {
+  height: 30px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 5px;
+  color: white;
+  border: 0;
+}
+#DeletePopup .delete-yes {
+  background-color: #408a65;
+}
+#DeletePopup .delete-yes:hover {
+  background-color: rgb(79, 217, 148);
+  cursor: pointer;
+}
+#DeletePopup .delete-no {
+  background-color: #8a4340;
+}
+#DeletePopup .delete-no:hover {
+  background-color: #d9534f;
+  cursor: pointer;
+}

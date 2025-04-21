@@ -419,14 +419,14 @@
             }
         }
 
-        public function addNewUser($username, $nickname, $password, $email, $country, $roles = 'standard') {
+        public function addNewUser($username, $nickname, $password, $email, $country) {
             if (!$this->conexion) return false;
     
-            $consulta = "INSERT INTO user (username, nickname, password, email, country, roles) VALUES (?, ?, ?, ?, ?, ?)";
+            $consulta = "INSERT INTO user (username, nickname, password, email, country) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->conexion->prepare($consulta);
     
             if ($stmt) {
-                $stmt->bind_param("ssssss", $username, $nickname, $password, $email, $country, $roles);
+                $stmt->bind_param("ssssss", $username, $nickname, $password, $email, $country);
                 $resultado = $stmt->execute();
                 $stmt->close();
                 return $resultado;
@@ -441,7 +441,7 @@
         public function addNewProfile($user_id, $bio, $native_lang, $languages, $is_public, $profile_pic, $bg_pic, $game_roles = 'Novice') {
             if (!$this->conexion) return false;
     
-            $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_active, profile_pic, bg_pic, game_roles) 
+            $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_public, profile_pic, bg_pic, game_roles) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //cambiar active a public
             $stmt = $this->conexion->prepare($consulta);
     

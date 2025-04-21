@@ -79,6 +79,18 @@
                 $registrationSuccess = $this->modelo->addNewProfile($user_id, $bio, $native_lang_string, $languages_string, $is_public, $profile_pic, $bg_pic);
                 if ($registrationSuccess) {
                     $_SESSION["user_id"] = $user_id;
+
+                    // Get user role
+                    $user_role = $usuario->role_id;
+                    if ($user_role == 1) {
+                        $user_role = 'standard';
+                    } elseif ($user_role == 2) {
+                        $user_role = 'admin';
+                    } elseif ($user_role == 3) {
+                        $user_role = 'premium';
+                    }
+                    $_SESSION['user_role'] = $user_role;
+
                     $this->modelo->updateNickname($user_id, $nickname);
                     header("Location: /LinguaLair/");
                     exit;

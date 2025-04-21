@@ -5,9 +5,11 @@
 
 class LogFormController {
     private $modelo;
+    private $PermissionsModel;
 
-    public function __construct($modelo) { // Accept the $modelo instance
+    public function __construct($modelo = null, $PermissionsModel = null) { // Accept the $modelo instance
         $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        $this->PermissionsModel = $PermissionsModel;
     }
 
     public function procesarFormulario() {
@@ -53,6 +55,65 @@ class LogFormController {
             echo json_encode(['success' => false, 'error' => 'Acceso no permitido.']);
             exit();
         }
+    }
+
+    // Verificar permisos para eliminar logs
+    public function eliminarLog($logId) {
+        $userId = $_SESSION['user_id'];
+        $log = $this->modelo->getLogById($logId); // Necesitas esta función en tu modelo
+    
+        if ($log) {
+            if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'delete_own_log')) {
+                // El usuario es el creador del log y tiene permiso para eliminar sus propios logs
+                if ($this->modelo->deleteLog($logId)) {
+                    // Éxito al eliminar
+                } else {
+                    // Error al eliminar
+                }
+            } elseif ($this->PermissionsModel->hasPermission($userId, 'delete_any_log')) {
+                // El usuario tiene permiso para eliminar cualquier log (admin)
+                if ($this->modelo->deleteLog($logId)) {
+                    // Éxito al eliminar
+                } else {
+                    // Error al eliminar
+                }
+            } else {
+                // El usuario no tiene permiso
+                // Mostrar mensaje de error
+            }
+        } else {
+            // Log no encontrado
+        }
+        // ... redireccionar o mostrar mensaje ...
+    }
+
+    // Verificar permisos para editar logs
+    public function editarLog($logId, $newData) {
+        $userId = $_SESSION['user_id'];
+        $log = $this->modelo->getLogById($logId);
+    
+        if ($log) {
+            if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'edit_own_log')) {
+                // El usuario es el creador y tiene permiso para editar sus logs
+                if ($this->modelo->updateLog($logId, $newData)) {
+                    // Éxito al editar
+                } else {
+                    // Error al editar
+                }
+            } elseif ($this->PermissionsModel->hasPermission($userId, 'edit_any_log')) {
+                // El usuario tiene permiso para editar cualquier log (admin/premium)
+                if ($this->modelo->updateLog($logId, $newData)) {
+                    // Éxito al editar
+                } else {
+                    // Error al editar
+                }
+            } else {
+                // No tiene permiso
+            }
+        } else {
+            // Log no encontrado
+        }
+        // ...
     }
 }
 

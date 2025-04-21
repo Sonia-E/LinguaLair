@@ -45,19 +45,45 @@
     color: white;
 }
 
+.profile .btn-group {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: -20px;
+    margin-right: -20px;
+}
+
 .profile .header .followButton, .unfollowButton {
-    position:sticky;
+    position: relative;
     height: 30px;
     padding-left: 5px;
     padding-right: 5px;
-    left: 100%;
-    margin-top: -20px;
-    margin-right: -20px;
+    /* left: 100%; */
+    /* margin-top: -20px;
+    margin-right: -20px; */
     border-radius: 5px;
     border: 0;
     background-color: rgb(206, 125, 163);
     color: white;
     font-size: larger;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.delete-user-btn {
+    height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #8a4340;
+    color: white;
+    font-size: larger;
+}
+.delete-user-btn:hover {
+    background-color: #d9534f;
+    cursor: pointer;
 }
 
 .unfollowButton {
@@ -71,30 +97,30 @@
 }
 
 .unfollowButton:hover {
-    background-color: #d9534f; /* Color rojo al hacer hover */
+    background-color: #d9534f;
 }
 
 .unfollowButton span {
-    display: inline-block; /* Permite la transición del texto */
+    display: inline-block;
     transition: transform 0.3s ease;
 }
 
 .unfollowButton:hover span {
-    transform: translateX(-112%); /* Desplaza el texto "Following" fuera de la vista */
+    transform: translateX(-140%);
 }
 
 .unfollowButton::before {
-    content: "Unfollow"; /* Texto al hacer hover */
+    content: "Unfollow";
     color: white;
     position: absolute;
-    left: 100%; /* Inicialmente fuera de la vista a la derecha */
+    left: 100%;
     top: 50%;
     transform: translateY(-50%);
     transition: transform 0.3s ease;
 }
 
 .unfollowButton:hover::before {
-    transform: translate(-112%, -50%); /* Desplaza "Unfollow" a la vista */
+    transform: translate(-125%, -50%);
 }
 
 .profile .header .avatar {

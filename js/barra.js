@@ -13,7 +13,6 @@ const popup = document.getElementById("myPopup");
 const overlay = document.getElementById("overlay");
 const closeButton = popup.querySelector(".close-button");
 
-
 botonesLog.forEach(boton => {
     boton.addEventListener("click", () => {
         popup.classList.add("show");

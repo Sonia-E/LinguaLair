@@ -84,7 +84,7 @@ window.addEventListener('resize', updateTextPosition);
 
     const formData = new FormData(this);
 
-    fetch('log', { // Reemplaza con la URL correcta de tu controlador
+    fetch('log', {
         method: 'POST',
         body: formData
     })
@@ -96,7 +96,7 @@ window.addEventListener('resize', updateTextPosition);
             console.log('Log guardado y experiencia actualizada:', data);
             document.getElementById('addLogForm').reset();
 
-            // --- Aquí agrega la lógica para cerrar el popup ---
+            // --- Lógica para cerrar el popup ---
             const popup = document.getElementById('myPopup'); // Reemplaza 'myPopup' con el ID real de tu popup
             const overlay = document.getElementById('overlay'); // Reemplaza 'overlay' si lo usas
 
@@ -108,7 +108,7 @@ window.addEventListener('resize', updateTextPosition);
             }
 
             // --- Reload the feed content ---
-            fetch('get_feed') // Adjust the URL if your file is elsewhere
+            fetch('get_feed')
             .then(feedResponse => feedResponse.text())
             .then(feedHtml => {
                 const followingDiv = document.querySelector('.following.show');

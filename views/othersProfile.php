@@ -14,12 +14,21 @@
     <div class="profile">
         <div class="header" style="background-image: url('<?php echo $other_user->bg_pic; ?>')">
             
-            <button
-                class="<?php echo $isFollowing ? 'unfollowButton' : 'followButton'; ?>"
-                data-user-id="<?php echo $other_user->id; ?>"
-            >
-                <span><?php echo $isFollowing ? 'Following' : 'Follow'; ?></span>
-            </button>
+            <div class="btn-group">
+                <button
+                    class="<?php echo $isFollowing ? 'unfollowButton' : 'followButton'; ?>"
+                    data-user-id="<?php echo $other_user->id; ?>"
+                >
+                    <span><?php echo $isFollowing ? 'Following' : 'Follow'; ?></span>
+                </button>
+                <?php
+                if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                    // Si el rol del usuario en la sesión es 'admin', muestra el botón Delete User
+                    echo '<button class="delete-user-btn">Delete User</button>';
+                    include './views/deleteUser.php';
+                }
+            ?>
+            </div>
             <div class="avatar">
                 <img src="<?php echo $other_user->profile_pic ?>" alt="profile picture" width="100%" height="100%">
                 <div class="country-select">
@@ -254,3 +263,4 @@
     });
 });
 </script>
+<script type="text/javascript" src="js/profile.js"></script>

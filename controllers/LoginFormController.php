@@ -63,6 +63,18 @@
     
                 if ($usuario) {
                     $_SESSION["user_id"] = $usuario->id;
+
+                    // Get user role
+                    $user_role = $usuario->role_id;
+                    if ($user_role == 1) {
+                        $user_role = 'standard';
+                    } elseif ($user_role == 2) {
+                        $user_role = 'admin';
+                    } elseif ($user_role == 3) {
+                        $user_role = 'premium';
+                    }
+                    $_SESSION['user_role'] = $user_role;
+                    
                     header("Location: /LinguaLair/");
                     exit;
                 }

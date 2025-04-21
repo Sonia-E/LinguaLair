@@ -11,6 +11,8 @@
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
     require_once './models/SocialModel.php';
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
+    require_once './models/PermissionsModel.php';
+    $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
 
     // Controllers imports
     require_once './controllers/controladores.php';
@@ -21,6 +23,7 @@
     require_once './controllers/ProfileController.php';
     require_once './controllers/BaseController.php';
     require_once './controllers/ExploreController.php';
+    require_once './controllers/AdminController.php';
     $BaseController = new BaseController($modelo, $SocialModel);
 
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -121,6 +124,37 @@
                     $explore->open_page();
                 }
 
+            } elseif ($uri == 'delete_user') {
+                if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                    $userIdToDelete = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : null;
+            
+                    if ($userIdToDelete !== null && $userIdToDelete !== $_SESSION['user_id']) { // No permitir auto-eliminación (opcional)
+            
+                        $AdminController = new AdminController($PermissionsModel);
+                        $AdminController->eliminarUsuario($userIdToDelete);
+
+                        
+                        header('Location: /LinguaLair/');
+                        // Mostrar algún popup con mensaje de "User deleted successfully"
+                        exit();
+
+                    } else {
+                        // Manejar el caso en que no se proporcionó ID válido o se intenta auto-eliminar
+                        $_SESSION['mensaje'] = "ID de usuario no válido para eliminar.";
+                        $_SESSION['tipo_mensaje'] = 'warning';
+                        header('Location: /LinguaLair/'); // Redireccionar a la lista de usuarios
+                        exit();
+                    }
+                } else {
+                    // Si no es administrador o no está logueado, denegar el acceso
+                    $_SESSION['mensaje'] = "Acceso denegado.";
+                    $_SESSION['tipo_mensaje'] = 'danger';
+                    header('Location: profile');
+                    exit();
+                }
+
+                echo htmlspecialchars($_SESSION['mensaje']);
+                print_r($_SESSION['tipo_mensaje']);
             } else {
                 // Cargar una página de error
                 header("HTTP/1.0 404 Not Found");

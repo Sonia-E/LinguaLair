@@ -18,11 +18,115 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //-------------ENTIDADES----------------
 
         //#######################################
+        //########## ROLES Y PERMISOS ###########
+        //#######################################
+
+        $createTable9 = "CREATE TABLE IF NOT EXISTS roles (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(50) UNIQUE NOT NULL, 
+            description VARCHAR(255))";
+
+            // name -- 'standard', 'admin', 'premium'
+
+        // Creamos la tabla roles
+        if ($mysqli->query($createTable9) === TRUE) {
+            echo "<br>";
+            echo "Tabla roles creada con éxito";
+
+            $sql14 = "INSERT INTO roles (name, description) VALUES
+                ('standard', 'Usuario base con permisos limitados.'),
+                ('admin', 'Usuario con permisos administrativos completos.'),
+                ('premium', 'Usuario con características y permisos extendidos.')";
+
+            if ($mysqli->query($sql14) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla roles realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla roles: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla roles: " . $mysqli->error; // Importante mostrar el error
+        }
+
+        $createTable10 = "CREATE TABLE IF NOT EXISTS permissions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(50) UNIQUE NOT NULL, 
+            description VARCHAR(255)
+            )";
+
+            // name -- 'delete_own_log', 'edit_own_log', 'delete_any_log', 'edit_any_log', 'delete_user', 'ban_user'
+
+        // Creamos la tabla permissions
+        if ($mysqli->query($createTable10) === TRUE) {
+            echo "<br>";
+            echo "Tabla permissions creada con éxito";
+
+            $sql15 = "INSERT INTO permissions (name, description) VALUES
+                ('delete_own_log', 'Permite eliminar logs creados por el propio usuario.'),
+                ('edit_own_log', 'Permite editar logs creados por el propio usuario.'),
+                ('delete_any_log', 'Permite eliminar cualquier log.'),
+                ('edit_any_log', 'Permite editar cualquier log.'),
+                ('delete_user', 'Permite eliminar usuarios.'),
+                ('ban_user', 'Permite banear usuarios.')";
+
+            if ($mysqli->query($sql15) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla permissions realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla permissions: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla permissions: " . $mysqli->error; // Importante mostrar el error
+        }
+
+        $createTable11 = "CREATE TABLE IF NOT EXISTS role_permissions (
+            role_id INT NOT NULL,
+            permission_id INT NOT NULL,
+            PRIMARY KEY (role_id, permission_id),
+            FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+            FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
+            )";
+
+            // name -- 'delete_own_log', 'edit_own_log', 'delete_any_log', 'edit_any_log', 'delete_user', 'ban_user'
+
+        // Creamos la tabla role_permissions
+        if ($mysqli->query($createTable11) === TRUE) {
+            echo "<br>";
+            echo "Tabla role_permissions creada con éxito";
+
+            $sql16 = "INSERT INTO role_permissions (role_id, permission_id) VALUES
+                ((SELECT id FROM roles WHERE name = 'standard'), (SELECT id FROM permissions WHERE name = 'delete_own_log')),
+                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'delete_own_log')),
+                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'edit_own_log')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'delete_own_log')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'edit_own_log')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'delete_any_log')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'edit_any_log')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'delete_user')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'ban_user'))";
+
+            if ($mysqli->query($sql16) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla role_permissions realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla role_permissions: " . $mysqli->error; // Importante mostrar el error
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla role_permissions: " . $mysqli->error; // Importante mostrar el error
+        }
+
+        //#######################################
         //########## 1. TABLA USER ##############
         //#######################################
 
         // Definimos la tabla User
-        $createTable1= "CREATE TABLE IF NOT EXISTS user (
+        $createTable1 = "CREATE TABLE IF NOT EXISTS user (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(50) UNIQUE NOT NULL,
             nickname VARCHAR(50), -- Se puede dejar vacío, porque al crear el usuario si no añades nickname, 
@@ -30,7 +134,9 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             password VARCHAR(255) NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL,
             country VARCHAR(50) NOT NULL,
-            roles ENUM('standard', 'admin', 'premium'))";
+            role_id INT DEFAULT 1,
+            banned BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (role_id) REFERENCES roles(id))";
             
         // Creamos la tabla user
         if ($mysqli->query($createTable1) === TRUE) {
@@ -38,9 +144,9 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla user creada con éxito";
 
             //Insertamos datos
-            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, roles) VALUES ('1','chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', 'standard')";
-            $sql2 = "INSERT INTO user (id, username, password,  email, country, roles) VALUES ('2','Sauron','bu','hola1@gmail', 'Mordor', 'standard')";
-            $sql3 = "INSERT INTO user (id, username, password,  email, country, roles) VALUES ('3','Kakashi','bu','hola2@gmail', 'Konoha', 'standard')";
+            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, role_id) VALUES ('1','chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', '2')";
+            $sql2 = "INSERT INTO user (id, username, password,  email, country) VALUES ('2','Sauron','bu','hola1@gmail', 'Mordor')";
+            $sql3 = "INSERT INTO user (id, username, password,  email, country) VALUES ('3','Kakashi','bu','hola2@gmail', 'Konoha')";
             
             if ($mysqli->query($sql1) && $mysqli->query($sql2) && $mysqli->query($sql3)) {
                 echo "<br>";
@@ -55,7 +161,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //#######################################
 
         // Definimos la tabla achievements
-        $createTable2= "CREATE TABLE IF NOT EXISTS achievements (
+        $createTable2 = "CREATE TABLE IF NOT EXISTS achievements (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(100) UNIQUE NOT NULL,
             description TEXT NOT NULL)";
@@ -84,7 +190,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //#######################################
 
         // Definimos la tabla Profile
-        $createTable3= "CREATE TABLE IF NOT EXISTS profile (
+        $createTable3 = "CREATE TABLE IF NOT EXISTS profile (
             user_id INT PRIMARY KEY,
             bio TEXT,
             native_lang VARCHAR(100) NOT NULL,
@@ -102,7 +208,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             profile_pic TEXT,
             bg_pic TEXT,
             game_roles TEXT,
-            FOREIGN KEY (user_id) REFERENCES user(id))";
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)";
 
             // Primary key is also foreign key because profile is a weak entity of user
             // languages TEXT NOT NULL, --At least one language
@@ -115,11 +221,11 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla profile creada con éxito";
 
             //Insertamos datos
-            $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_active, profile_pic) 
+            $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public, profile_pic) 
             VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE, './img/Qi\'ra avatar.jpg')";
-            $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_active) 
+            $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
             VALUES ('2', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
-            $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_active) 
+            $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
             VALUES ('3', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
             
             if ($mysqli->query($sql1) === TRUE && $mysqli->query($sql2) === TRUE && $mysqli->query($sql3) === TRUE) {
@@ -135,7 +241,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //#######################################
 
         // Definimos la tabla Logs
-        $createTable4= "CREATE TABLE IF NOT EXISTS logs (
+        $createTable4 = "CREATE TABLE IF NOT EXISTS logs (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT,
             description TEXT NOT NULL,
@@ -144,7 +250,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             duration INT NOT NULL,
             log_date DATE NOT NULL,
             post_date TIMESTAMP NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES user(id))";
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)";
         
         // Creamos la tabla logs
         if ($mysqli->query($createTable4) === TRUE) {
@@ -178,29 +284,27 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //#######################################
 
         // Definimos la tabla events
-        $createTable6= "CREATE TABLE IF NOT EXISTS events (
+        $createTable5 = "CREATE TABLE IF NOT EXISTS events (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(300) NOT NULL,
             description TEXT,
-            user_id INT,
             creation_date DATE,
-            event_date DATE,
-            FOREIGN KEY (user_id) REFERENCES user(id))";
+            event_date DATE)";
         
         // Creamos la tabla events
-        if ($mysqli->query($createTable6) === TRUE) {
+        if ($mysqli->query($createTable5) === TRUE) {
             echo "<br>";
             echo "Tabla events creada con éxito";
 
             // Insertamos el primer registro de evento
-            $sql3 = "INSERT INTO events (name, description, user_id, creation_date, event_date)
+            $sql3 = "INSERT INTO events (name, description, creation_date, event_date)
                     VALUES ('Language Exchange Meetup', 'Join us for a casual language exchange session. Practice speaking and meet new people!',
-                    '1', '2025-04-05', '2025-04-15')";
+                    '2025-04-05', '2025-04-15')";
 
             // Insertamos el segundo registro de evento
-            $sql4 = "INSERT INTO events (name, description, user_id, creation_date, event_date)
+            $sql4 = "INSERT INTO events (name, description, creation_date, event_date)
                     VALUES ('Online Japanese Conversation Club', 'Practice your Japanese speaking skills in a relaxed online environment.',
-                    '2', '2025-04-07', '2025-04-20')";
+                    '2025-04-07', '2025-04-20')";
 
             if ($mysqli->query($sql3) === TRUE && $mysqli->query($sql4) === TRUE) {
                 echo "<br>";
@@ -221,18 +325,18 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //#######################################
 
         // Definimos la tabla followers
-        $createTable5= "CREATE TABLE IF NOT EXISTS followers (
+        $createTable6 = "CREATE TABLE IF NOT EXISTS followers (
             follower_id INT NOT NULL,
             followed_id INT NOT NULL,
             PRIMARY KEY (follower_id, followed_id),
-            FOREIGN KEY (follower_id) REFERENCES user(id),
-            FOREIGN KEY (followed_id) REFERENCES user(id))";
+            FOREIGN KEY (follower_id) REFERENCES user(id) ON DELETE CASCADE,
+            FOREIGN KEY (followed_id) REFERENCES user(id) ON DELETE CASCADE)";
 
             // follower_id INT NOT NULL, -- id of user following another user
             // followed_id INT NOT NULL, -- id of the followed user
 
         // Creamos la tabla followers
-        if ($mysqli->query($createTable5) === TRUE) {
+        if ($mysqli->query($createTable6) === TRUE) {
             echo "<br>";
             echo "Tabla followers creada con éxito";
 
@@ -264,15 +368,15 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //######## 7. USER_ACHIEVEMENTS #########
         //#######################################
 
-        $createTable2= "CREATE TABLE IF NOT EXISTS user_achievements  (
+        $createTable7 = "CREATE TABLE IF NOT EXISTS user_achievements  (
             user_id INT,
             achievement_id INT,
             PRIMARY KEY (user_id, achievement_id),
-            FOREIGN KEY (user_id) REFERENCES user(id),
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
             FOREIGN KEY (achievement_id) REFERENCES achievements(id))";
         
         // Creamos la tabla user_achievements
-        if ($mysqli->query($createTable2) === TRUE) {
+        if ($mysqli->query($createTable7) === TRUE) {
             echo "<br>";
             echo "Tabla user_achievements creada con éxito";
 
@@ -304,15 +408,15 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         //############ 8. BOOKING ###############
         //#######################################
 
-        $createTable2= "CREATE TABLE IF NOT EXISTS booking  (
+        $createTable8 = "CREATE TABLE IF NOT EXISTS booking  (
             user_id INT,
             event_id INT,
             PRIMARY KEY (user_id, event_id),
-            FOREIGN KEY (user_id) REFERENCES user(id),
-            FOREIGN KEY (event_id) REFERENCES events(id))";
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+            FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE)";
 
         // Creamos la tabla booking
-        if ($mysqli->query($createTable2) === TRUE) {
+        if ($mysqli->query($createTable8) === TRUE) {
             echo "<br>";
             echo "Tabla booking creada con éxito";
 
@@ -339,6 +443,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "<br>";
             echo "Error creando la tabla booking: " . $mysqli->error; // Importante mostrar el error
         }
+
 
     } 
     else echo "Error creando la BD";

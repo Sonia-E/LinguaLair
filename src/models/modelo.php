@@ -426,7 +426,7 @@
             $stmt = $this->conexion->prepare($consulta);
     
             if ($stmt) {
-                $stmt->bind_param("ssssss", $username, $nickname, $password, $email, $country);
+                $stmt->bind_param("sssss", $username, $nickname, $password, $email, $country);
                 $resultado = $stmt->execute();
                 $stmt->close();
                 return $resultado;

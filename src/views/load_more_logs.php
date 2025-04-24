@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['user_id']) && isset($_GET['followed_users'])) {
     $userId = intval($_GET['user_id']);
     $offset = intval($_GET['offset']);
@@ -73,6 +72,4 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
     header('HTTP/1.1 400 Bad Request');
     echo 'Invalid request.';
 }
-
-// Crucially, ensure nothing else is echoed here that would form a full HTML page.
 ?>

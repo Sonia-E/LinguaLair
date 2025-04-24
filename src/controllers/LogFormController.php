@@ -7,14 +7,14 @@ class LogFormController {
     private $modelo;
     private $PermissionsModel;
 
-    public function __construct($modelo = null, $PermissionsModel = null) { // Accept the $modelo instance
-        $this->modelo = $modelo; // Assign the passed $modelo to the class property
+    public function __construct($modelo = null, $PermissionsModel = null) {
+        $this->modelo = $modelo;
         $this->PermissionsModel = $PermissionsModel;
     }
 
     public function procesarFormulario() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Recoger los datos del formulario
+            // Gather data from log form
             $description = $_POST["description"];
             $language = $_POST["language"];
             $type = $_POST["type"];
@@ -22,9 +22,10 @@ class LogFormController {
             $log_date = $_POST["date"];
             $user_id = $_SESSION["user_id"];
 
-            // Guardar el nuevo log en la base de datos (asumiendo que tienes una función para esto en tu modelo)
+            // Save new log in database
             $log_guardado = $this->modelo->addLog($user_id, $description, $language, $type, $duration, $log_date);
 
+            // Update experience and level
             if ($log_guardado) {
                 $experience_gain = $duration;
                 $this->modelo->addExperience($user_id, $experience_gain);
@@ -40,12 +41,10 @@ class LogFormController {
                     $nueva_experiencia = $profile_data_updated->experience;
                 }
 
-                // Responder con JSON
                 header('Content-Type: application/json');
                 echo json_encode(['success' => true, 'nuevaExperiencia' => $nueva_experiencia, 'nuevoNivel' => $nuevo_nivel]);
                 exit();
             } else {
-                // Responder con error en JSON
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Error al guardar el log.']);
                 exit();

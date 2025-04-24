@@ -1,8 +1,7 @@
 <?php
     $initialLogLimit = 10; // Number of logs to load initially
-    // require_once 'models/modelo.php';
-    // $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-    require_once 'models/SocialModel.php';
+    // require_once 'models/SocialModel.php';
+    require_once 'src/models/SocialModel.php';
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
 
     $loggedInUserId = $_SESSION['user_id'];
@@ -87,56 +86,57 @@
 
 <script>
     const logContainer = document.querySelector('.show');
-let currentLogCount = <?php echo count($logs); ?>;
-const logsToLoad = 5;
-let isLoading = false;
-const totalLogCount = <?php echo $totalLogCount; ?>; // Make sure this is available in your JS
+    let currentLogCount = <?php echo count($logs); ?>;
+    const logsToLoad = 5;
+    let isLoading = false;
+    const totalLogCount = <?php echo $totalLogCount; ?>; // Make sure this is available in your JS
 
-if (logContainer) {
-    logContainer.addEventListener('click', function(event) {
-        const loadMoreButton = event.target.closest('#load-more-logs'); // Use closest for robustness
+    if (logContainer) {
+        logContainer.addEventListener('click', function(event) {
+            const loadMoreButton = event.target.closest('#load-more-logs'); // Use closest for robustness
 
-        if (loadMoreButton && !isLoading && currentLogCount < totalLogCount) {
-            isLoading = true;
-            loadMoreButton.textContent = 'Loading...';
+            if (loadMoreButton && !isLoading && currentLogCount < totalLogCount) {
+                isLoading = true;
+                loadMoreButton.textContent = 'Loading...';
 
-            fetch(`/LinguaLair/index.php?action=load_more_logs&offset=${currentLogCount}&limit=${logsToLoad}&user_id=<?php echo $loggedInUserId; ?>&followed_users=<?php echo json_encode($usersToShowLogs); ?>`)
-                .then(response => response.text())
-                .then(data => {
-                    if (data) {
-                        logContainer.insertAdjacentHTML('beforeend', data);
-                        currentLogCount += logsToLoad;
+                fetch(`/LinguaLair/index.php?action=load_more_logs&offset=${currentLogCount}&limit=${logsToLoad}&user_id=<?php echo $loggedInUserId; ?>
+                &followed_users=<?php echo json_encode($usersToShowLogs); ?>`)
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data) {
+                            logContainer.insertAdjacentHTML('beforeend', data);
+                            currentLogCount += logsToLoad;
 
-                        // Move the button container to the end (if you still want this)
-                        const loadMoreContainer = document.querySelector('.load-more-container');
-                        if (loadMoreContainer) {
-                            logContainer.appendChild(loadMoreContainer);
-                        }
-
-                        if (currentLogCount >= totalLogCount) {
+                            // Move the button container to the end (if you still want this)
+                            const loadMoreContainer = document.querySelector('.load-more-container');
                             if (loadMoreContainer) {
-                                loadMoreContainer.style.display = 'none';
+                                logContainer.appendChild(loadMoreContainer);
+                            }
+
+                            if (currentLogCount >= totalLogCount) {
+                                if (loadMoreContainer) {
+                                    loadMoreContainer.style.display = 'none';
+                                }
+                            } else {
+                                loadMoreButton.textContent = 'Load More';
                             }
                         } else {
-                            loadMoreButton.textContent = 'Load More';
+                            const loadMoreContainer = document.querySelector('.load-more-container');
+                            if (loadMoreContainer) {
+                                loadMoreButton.textContent = 'No More Logs';
+                            }
                         }
-                    } else {
+                        isLoading = false;
+                    })
+                    .catch(error => {
+                        console.error('Error loading more logs:', error);
                         const loadMoreContainer = document.querySelector('.load-more-container');
                         if (loadMoreContainer) {
-                            loadMoreButton.textContent = 'No More Logs';
+                            loadMoreButton.textContent = 'Error Loading';
                         }
-                    }
-                    isLoading = false;
-                })
-                .catch(error => {
-                    console.error('Error loading more logs:', error);
-                    const loadMoreContainer = document.querySelector('.load-more-container');
-                    if (loadMoreContainer) {
-                        loadMoreButton.textContent = 'Error Loading';
-                    }
-                    isLoading = false;
-                });
-        }
-    });
-}
+                        isLoading = false;
+                    });
+            }
+        });
+    }
 </script>

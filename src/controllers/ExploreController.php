@@ -27,7 +27,8 @@
             // Obtener el total de minutos para the title control
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
             
-            require './views/explore.php';
+            // require './views/explore.php';
+            require 'src/views/explore.php';
         }
 
 

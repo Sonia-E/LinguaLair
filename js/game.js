@@ -76,7 +76,7 @@ function updateLevel(newLevel) {
 // Llama a updateTextPosition al cargar la página para posicionar el texto inicial
 document.addEventListener('DOMContentLoaded', updateTextPosition);
 
-// Llama a updateTextPosition si la ventana cambia de tamaño (opcional)
+// Llama a updateTextPosition si la ventana cambia de tamaño
 window.addEventListener('resize', updateTextPosition);
 
   document.getElementById('addLogForm').addEventListener('submit', function(event) {
@@ -97,14 +97,14 @@ window.addEventListener('resize', updateTextPosition);
             document.getElementById('addLogForm').reset();
 
             // --- Lógica para cerrar el popup ---
-            const popup = document.getElementById('myPopup'); // Reemplaza 'myPopup' con el ID real de tu popup
-            const overlay = document.getElementById('overlay'); // Reemplaza 'overlay' si lo usas
+            const popup = document.getElementById('myPopup');
+            const overlay = document.getElementById('overlay');
 
             if (popup) {
-                popup.classList.remove("show"); // Si usas una clase para controlar la visibilidad
+                popup.classList.remove("show");
             }
             if (overlay) {
-                overlay.style.visibility = "hidden"; // Oculta la capa oscura si la tienes
+                overlay.style.visibility = "hidden";
             }
 
             // --- Reload the feed content ---
@@ -113,7 +113,7 @@ window.addEventListener('resize', updateTextPosition);
             .then(feedHtml => {
                 const followingDiv = document.querySelector('.following.show');
                 if (followingDiv) {
-                    followingDiv.innerHTML = feedHtml; // Replace the content of the feed div
+                    followingDiv.innerHTML = feedHtml;
                     setTimeout(() => {
                         location.reload();
                     }, "1000");

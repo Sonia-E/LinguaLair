@@ -31,7 +31,8 @@
             $userLanguages = $modelo->getUserLanguages($user_id);
             $dataParaVista['userLanguages'] = $userLanguages;
             $dataParaVista['languagePercentages'] = $languagePercentages;
-            require './views/stats.php';
+            // require './views/stats.php';
+            require 'src/views/stats.php';
         }
     }
 ?>

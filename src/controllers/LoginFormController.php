@@ -6,13 +6,13 @@
         private $modelo;
         private $errores = [];
 
-        public function __construct($modelo) { // Accept the $modelo instance
-            $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        public function __construct($modelo) {
+            $this->modelo = $modelo;
         }
 
-    
         public function open_page() {
-            require './views/login.php';
+            // require './views/login.php';
+            require 'src/views/login.php';
         }
     
         public function check_login($login_identifier, $password) {
@@ -22,6 +22,12 @@
             // if ($usuario && password_verify($password, $usuario->password)) {
             //     return $usuario;
             // } else {
+            //     if (!$usuario) {
+            //         $this->errores['username'] = "Incorrect username or email";
+            //     }
+            //     if ($usuario && $password !== $usuario->password) {
+            //         $this->errores['password'] = "Incorrect password";
+            //     }
             //     return null;
             // }
 
@@ -37,7 +43,6 @@
                 return null;
             }
         }
-    
 
         public function procesarFormulario() {
             if (isset($_SESSION["username"])) {
@@ -83,7 +88,8 @@
             // Si hay errores, la vista 'login.php' será cargada nuevamente
             // y los errores estarán disponibles en el array $errores
             $errores = $this->errores;
-            require './views/login.php';
+            // require './views/login.php';
+            require 'src/views/login.php';
         }
     
         public function getErrores() {

@@ -5,7 +5,8 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<?php include 'views/base.php' ?>
+<?php // include 'views/base.php' ?>
+<?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
 <link rel="stylesheet" type="text/css" href="css/profile.css"/>
@@ -25,7 +26,8 @@
                 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
                     // Si el rol del usuario en la sesión es 'admin', muestra el botón Delete User
                     echo '<button class="delete-user-btn">Delete User</button>';
-                    include './views/deleteUser.php';
+                    // include './views/deleteUser.php';
+                    include 'src/views/deleteUser.php';
                 }
             ?>
             </div>
@@ -101,7 +103,8 @@
             </div>
             <div class="following show">
                 <?php $usuario = $other_user ?>
-                <?php include './views/feed.php' ?>
+                <?php // include './views/feed.php' ?>
+                <?php include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden">
                 <div class="log"></div>
@@ -154,7 +157,7 @@
             }
 
             if (followedId) {
-                fetch('controllers/follow_user.php', {
+                fetch('follow_user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -215,7 +218,7 @@
             }
 
             if (followedId) {
-                fetch('controllers/unfollow_user.php', {
+                fetch('unfollow_user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',

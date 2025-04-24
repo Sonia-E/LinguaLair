@@ -5,6 +5,14 @@
     # Establecer la base para las reescrituras
     RewriteBase /LinguaLair/
 
+    # Permitir acceso POST a follow_user.php y unfollow_user.php en src/controllers
+    RewriteCond %{REQUEST_METHOD} POST
+    RewriteCond %{REQUEST_URI} ^src/controllers/(follow_user\.php|unfollow_user\.php)$ [NC]
+    RewriteRule . - [L]
+
+    # Denegar acceso directo a la carpeta src (excepto los archivos permitidos)
+    RewriteRule ^src/ - [F,L]
+
     # Regla para eliminar index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

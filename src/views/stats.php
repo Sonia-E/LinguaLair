@@ -5,7 +5,8 @@
         die('Error: No se permite el acceso directo a esta ruta');
     }
 ?>
-<?php include 'views/base.php' ?>
+<?php // include 'views/base.php' ?>
+<?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
 <link rel="stylesheet" type="text/css" href="css/stats.css"/>

@@ -1,4 +1,6 @@
 <?php
+    namespace Sonia\LinguaLair\Controllers;
+    
     // Evitamos que se llame al fichero sin pasar por el controlador
     if (!defined('CON_CONTROLADOR')) {
         // Matamos el proceso php
@@ -7,7 +9,8 @@
 ?>
 <?php require_once './libreria/ti.php' ?>
 <?php blockbase(); ?>
-<?php include './views/logForm.php' ?>
+<?php // include './views/logForm.php' ?>
+<?php include 'src/views/logForm.php' ?>
 
 <?php
     if (isset($_SESSION['user_id'])) {

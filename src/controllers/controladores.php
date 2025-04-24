@@ -6,7 +6,8 @@
 	// }
 	
     // Importamos el modelo
-    require_once 'models/modelo.php';
+    // require_once 'models/modelo.php';
+    require_once 'src/models/modelo.php';
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
 
     //#######################################
@@ -33,12 +34,7 @@
         // Obtener el total de minutos para the title control
         $totalMinutosRaw = $modelo->obtenerTotalMinutosUsuario($id);
 
-        require './views/home.php';
+        // require './views/home.php';
+        require 'src/views/home.php';
     }
-
-    function open_homepage($modelo) {
-
-    }
-
-    
 ?>

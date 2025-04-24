@@ -58,6 +58,7 @@ body {
 .log {
     font-family: "Tektur", sans-serif;
     font-weight: 600;
+    overflow: hidden;
 }
 .log .usuario {
     padding: 10px;
@@ -138,7 +139,7 @@ body {
 
 .log-container {
     position: relative; /* Establecer el contexto de posicionamiento para el popup */
-    margin-bottom: 10px; /* O el espaciado que desees entre los logs */
+    margin-bottom: 20px; /* O el espaciado que desees entre los logs */
 }
 
 .log-options-popup {

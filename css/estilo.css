@@ -162,9 +162,6 @@ body {
     color: rgb(255, 66, 66);
     padding: 8px;
 }
-.log-options-popup:hover {
-    
-}
 .delete_log:hover {
     cursor: pointer;
     background-color: #643f3f;

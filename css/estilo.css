@@ -58,7 +58,6 @@ body {
 .log {
     font-family: "Tektur", sans-serif;
     font-weight: 600;
-    overflow: hidden;
 }
 .log .usuario {
     padding: 10px;
@@ -105,6 +104,9 @@ body {
     align-items: center;
     justify-content: center;
 }
+.log-data .type span::first-letter {
+    text-transform: uppercase;
+}
 .log-data .log-column {
     flex-direction: column;
 
@@ -116,9 +118,58 @@ body {
 .post-date {
     text-align: center;
     font-size: 15px;
-    padding: 5px;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.post-date ion-icon {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1px;
+    padding: 1px;
+}
+.post-date .log_options_btn:hover {
+    background-color: #555;
+    color: white;
+    border-radius: 2px;
+    cursor: pointer;
 }
 
+.log-container {
+    position: relative; /* Establecer el contexto de posicionamiento para el popup */
+    margin-bottom: 10px; /* O el espaciado que desees entre los logs */
+}
+
+.log-options-popup {
+    position: absolute; /* Posicionar el popup absolutamente dentro de .log-container */
+    top: 95%; /* Mostrar el popup justo debajo del .log */
+    right: 0; /* Alinear el popup con el borde izquierdo del .log */
+    background-color: #555;
+    color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1001; /* Asegurar que el popup esté por encima de otros elementos */
+    display: none; /* Ocultar el popup inicialmente */
+    border-radius: 6px;
+    border: 0;
+    overflow: hidden;
+}
+.delete_log {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: rgb(255, 66, 66);
+    padding: 8px;
+}
+.log-options-popup:hover {
+    
+}
+.delete_log:hover {
+    cursor: pointer;
+    background-color: #643f3f;
+    border-radius: 6px;
+}
 
 /* Menú */
 .menu {

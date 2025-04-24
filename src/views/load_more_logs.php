@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
     if ($moreLogs) {
         foreach ($moreLogs as $log) {
             ?>
-            <div class="log">
+            <div class="log" id="<?php echo $log['username'] ?>_<?php echo $log['id'] ?>">
                 <div class="usuario">
                     <a href="profile?id=<?php echo $log['user_id']?>">
                         <div class="log-user">
@@ -58,6 +58,7 @@ if (isset($_SESSION['user_id']) && isset($_GET['offset']) && isset($_GET['limit'
                     </div>
                     <div class="post-date">
                         <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
+                        <button class="log_options_btn"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></button>
                     </div>
                 </div>
             </div>

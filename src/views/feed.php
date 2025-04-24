@@ -34,10 +34,10 @@
 
 <div class="log-container">
     <?php foreach ($logs as $log) { ?>
-        <div class="log">
+        <div class="log-container"> <div class="dropdown">
+        <div class="log" id="<?php echo $log['username'] ?>_<?php echo $log['id'] ?>">
             <div class="usuario">
                 <a href="profile?id=<?php echo $log['user_id'] ?>">
-                <!-- <a href="profile?id=31"> -->
                     <div class="log-user">
                         <img src="<?php echo $log['profile_pic'] ?>" alt="profile picture">
                         <div class="info-usuario">
@@ -72,7 +72,13 @@
                 </div>
                 <div class="post-date">
                     <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
+                    <div class="log_options_btn"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></div>
                 </div>
+            </div>
+        </div>
+            </div>
+            <div class="log-options-popup"> 
+                <div class="delete_log"><ion-icon name="trash-outline"></ion-icon><span>Delete Log</span></div>
             </div>
         </div>
     <?php } ?>
@@ -139,4 +145,37 @@
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const logOptionButtons = document.querySelectorAll('.log_options_btn');
+    console.log("saludos desde botón options");
+
+    logOptionButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Evitar que el clic se propague a otros elementos
+
+            const logContainer = this.closest('.log-container');
+            const optionsPopup = logContainer.querySelector('.log-options-popup');
+
+            // Ocultar cualquier otro popup abierto
+            document.querySelectorAll('.log-options-popup.show').forEach(otherPopup => {
+                if (otherPopup !== optionsPopup) {
+                    otherPopup.classList.remove('show');
+                }
+            });
+
+            // Mostrar u ocultar el popup actual
+            optionsPopup.classList.toggle('show');
+        });
+    });
+
+    // Ocultar el popup cuando se hace clic fuera de él
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.log-options-popup.show').forEach(optionsPopup => {
+            if (!event.target.closest('.log-container') || !event.target.closest('.log_options_btn')) {
+                optionsPopup.classList.remove('show');
+            }
+        });
+    });
+});
 </script>

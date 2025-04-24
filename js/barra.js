@@ -20,6 +20,8 @@ botonesLog.forEach(boton => {
     });
 });
 
+
+
 // Cerrar el popup al hacer clic en el overlay
     overlay.addEventListener("click", () => {
     popup.classList.remove("show");

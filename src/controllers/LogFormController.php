@@ -114,6 +114,49 @@ class LogFormController {
         }
         // ...
     }
+    
+    public function deleteUserLog($userId) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log_identifier'])) {
+            $logIdentifier = $_POST['log_identifier'];
+            $parts = explode('_', $logIdentifier);
+
+            if (count($parts) === 2) {
+                $username = $parts[0];
+                $logIdToDelete = intval($parts[1]);
+
+                // Verificar si el log existe y pertenece al usuario logueado (opcional pero recomendado)
+                $loggedInUsername = $_SESSION['username'] ?? null; // Asumiendo que tienes el username en la sesión
+                $logToDelete = $this->modelo->findLogByUsernameAndId($username, $logIdToDelete);
+
+                if ($logToDelete && $loggedInUsername === $username) {
+                    if ($this->modelo->deleteLogById($logIdToDelete)) {
+                        $response = ['success' => true, 'message' => 'Log deleted successfully.'];
+                    } else {
+                        $response = ['success' => false, 'message' => 'Error deleting log.'];
+                    }
+                } elseif ($this->PermissionsModel->hasPermission($userId, 'edit_any_log')) {
+                    // El usuario tiene permiso para eliminar cualquier log (admin)
+                    if ($this->modelo->deleteLogById($logIdToDelete)) {
+                        $response = ['success' => true, 'message' => 'Log deleted successfully.'];
+                    } else {
+                        $response = ['success' => false, 'message' => 'Error deleting log.'];
+                    }
+                } else {
+                    $response = ['success' => false, 'message' => 'Log not found or does not belong to the current user or 
+                    user does not have permission to delete other user\'s logs'];
+                }
+            } else {
+                $response = ['success' => false, 'message' => 'Invalid log identifier.'];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        } else {
+            // Manejar peticiones incorrectas
+            header('HTTP/1.1 400 Bad Request');
+            echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+        }
+    }
 }
 
 ?>

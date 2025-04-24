@@ -418,6 +418,54 @@
             }
         }
 
+        public function getUserAchievements($userId) {
+            if (!$this->conexion) return false;
+    
+            $sql = "SELECT a.*
+                    FROM user_achievements ua
+                    JOIN achievements a ON ua.achievement_id = a.id
+                    WHERE ua.user_id = ?";
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $userId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $achievements = $result->fetch_all(MYSQLI_ASSOC);
+                $stmt->close();
+                return $achievements;
+            } else {
+                echo "Error al preparar la consulta: " . $this->conexion->error;
+                return false;
+            }
+        }
+
+        public function getUserLogPostDates($userId) {
+            if (!$this->conexion) return false;
+    
+            $sql = "SELECT DISTINCT DATE(post_date) AS post_day
+                    FROM logs
+                    WHERE user_id = ?
+                    ORDER BY post_date ASC";
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $userId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $postDates = [];
+                while ($row = $result->fetch_assoc()) {
+                    $postDates[] = $row['post_day'];
+                }
+                $stmt->close();
+                return $postDates;
+            } else {
+                return false;
+            }
+        }
+
         public function addNewUser($username, $nickname, $password, $email, $country) {
             if (!$this->conexion) return false;
     
@@ -588,6 +636,48 @@
             } else {
                 echo "Error al preparar la consulta para actualizar el perfil: " . $this->conexion->error;
                 return false;
+            }
+        }
+
+        public function findLogByUsernameAndId($username, $logId) {
+            if (!$this->conexion) {
+                return false;
+            }
+    
+            $sql = "SELECT *
+                    FROM logs l
+                    JOIN user u ON l.user_id = u.id
+                    WHERE u.username = ? AND l.id = ?";
+    
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("si", $username, $logId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $log = $result->fetch_assoc();
+                $stmt->close();
+                return $log;
+            } else {
+                return false; // Error al preparar la consulta
+            }
+        }
+
+        public function deleteLogById($logId) {
+            if (!$this->conexion) {
+                return false;
+            }
+    
+            $sql = "DELETE FROM logs WHERE id = ?";
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("i", $logId);
+                $result = $stmt->execute();
+                $stmt->close();
+                return $result; // Retorna true en caso de éxito, false en caso de error
+            } else {
+                return false; // Error al preparar la consulta
             }
         }
     

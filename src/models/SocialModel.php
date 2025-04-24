@@ -13,7 +13,6 @@
     
             if ($this->conexion->connect_error) {
                 die("Conexión fallida: " . $this->conexion->connect_error);
-                $this->conexion = null; // Importante para indicar que la conexión falló
             } else {
                 $this->conexion->set_charset("utf8");
             }

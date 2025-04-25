@@ -1,6 +1,5 @@
 <?php
-    // // Iniciar una nueva sesión o reanudar la existente 
-    // session_start();
+    namespace Sonia\LinguaLair\controllers;
 
     class StatsController {
         private $modelo;
@@ -33,7 +32,7 @@
             // $dataParaVista['languagePercentages'] = $languagePercentages;
             $totalAchievements = $this->getTotalUserAchievementsCount($user_id);
             $dayStreak = $this->calculatePostingStreak($user_id);
-            require 'src/views/stats.php';
+            require 'views/stats.php';
         }
 
         public function getTotalUserAchievementsCount($userId) {
@@ -56,11 +55,11 @@
             $streak = 0;
             $maxStreak = 0;
             $previousDate = null;
-            $today = new DateTime();
-            $yesterday = (new DateTime())->modify('-1 day')->format('Y-m-d');
+            $today = new \DateTime();
+            $yesterday = (new \DateTime())->modify('-1 day')->format('Y-m-d');
     
             foreach ($postDates as $date) {
-                $currentDate = new DateTime($date);
+                $currentDate = new \DateTime($date);
                 $currentDateFormatted = $currentDate->format('Y-m-d');
     
                 if ($previousDate === null) {

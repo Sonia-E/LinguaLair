@@ -47,7 +47,7 @@ function explore(texto) {
                                 <div class="user-result efecto">
                                     <a href="profile?id=${usuario.id}">
                                         <div class="user-info">
-                                        <img src="${usuario.profile_pic ? usuario.profile_pic : 'img/pic_placeholder.png'}" alt="profile picture">
+                                        <img src="${usuario.profile_pic ? usuario.profile_pic : './public/img/pic_placeholder.png'}" alt="profile picture">
                                             <div class="user-details">
                                                 <span class="nickname">${usuario.nickname}</span>
                                                 <span class="username">@${usuario.username}</span>

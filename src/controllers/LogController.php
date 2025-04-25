@@ -1,9 +1,8 @@
 <?php
 
-// Asegúrate de que CON_CONTROLADOR esté definido si lo usas en otros archivos
-// if (!defined('CON_CONTROLADOR')) die('Acceso no permitido.');
+namespace Sonia\LinguaLair\controllers;
 
-class LogFormController {
+class LogController {
     private $modelo;
     private $PermissionsModel;
 
@@ -56,35 +55,35 @@ class LogFormController {
         }
     }
 
-    // Verificar permisos para eliminar logs
-    public function eliminarLog($logId) {
-        $userId = $_SESSION['user_id'];
-        $log = $this->modelo->getLogById($logId); // Necesitas esta función en tu modelo
+    // // Verificar permisos para eliminar logs
+    // public function eliminarLog($logId) {
+    //     $userId = $_SESSION['user_id'];
+    //     $log = $this->modelo->getLogById($logId); // Necesitas esta función en tu modelo
     
-        if ($log) {
-            if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'delete_own_log')) {
-                // El usuario es el creador del log y tiene permiso para eliminar sus propios logs
-                if ($this->modelo->deleteLog($logId)) {
-                    // Éxito al eliminar
-                } else {
-                    // Error al eliminar
-                }
-            } elseif ($this->PermissionsModel->hasPermission($userId, 'delete_any_log')) {
-                // El usuario tiene permiso para eliminar cualquier log (admin)
-                if ($this->modelo->deleteLog($logId)) {
-                    // Éxito al eliminar
-                } else {
-                    // Error al eliminar
-                }
-            } else {
-                // El usuario no tiene permiso
-                // Mostrar mensaje de error
-            }
-        } else {
-            // Log no encontrado
-        }
-        // ... redireccionar o mostrar mensaje ...
-    }
+    //     if ($log) {
+    //         if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'delete_own_log')) {
+    //             // El usuario es el creador del log y tiene permiso para eliminar sus propios logs
+    //             if ($this->modelo->deleteLog($logId)) {
+    //                 // Éxito al eliminar
+    //             } else {
+    //                 // Error al eliminar
+    //             }
+    //         } elseif ($this->PermissionsModel->hasPermission($userId, 'delete_any_log')) {
+    //             // El usuario tiene permiso para eliminar cualquier log (admin)
+    //             if ($this->modelo->deleteLog($logId)) {
+    //                 // Éxito al eliminar
+    //             } else {
+    //                 // Error al eliminar
+    //             }
+    //         } else {
+    //             // El usuario no tiene permiso
+    //             // Mostrar mensaje de error
+    //         }
+    //     } else {
+    //         // Log no encontrado
+    //     }
+    //     // ... redireccionar o mostrar mensaje ...
+    // }
 
     // Verificar permisos para editar logs
     public function editarLog($logId, $newData) {
@@ -134,7 +133,7 @@ class LogFormController {
                     } else {
                         $response = ['success' => false, 'message' => 'Error deleting log.'];
                     }
-                } elseif ($this->PermissionsModel->hasPermission($userId, 'edit_any_log')) {
+                } elseif ($this->PermissionsModel->hasPermission($userId, 'delete_any_log')) {
                     // El usuario tiene permiso para eliminar cualquier log (admin)
                     if ($this->modelo->deleteLogById($logIdToDelete)) {
                         $response = ['success' => true, 'message' => 'Log deleted successfully.'];

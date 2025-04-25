@@ -1,62 +1,43 @@
 <?php
     // Controlador frontal
+    // namespace Sonia\LinguaLair;
     
     // Composer's autoloading
     require __DIR__ . '/vendor/autoload.php';
 
-    // Creamos la constante CON_CONTROLADOR porque este es el controlador frontal
-	define('CON_CONTROLADOR', true);
-
     require_once './libreria/ti.php';
 
-    // // Model import
-    // require_once 'models/modelo.php';
-    // $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-    // require_once './models/SocialModel.php';
-    // $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
-    // require_once './models/PermissionsModel.php';
-    // $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
-
     // Model import
-    require_once 'src/models/modelo.php';
+    use Sonia\LinguaLair\Models\modelo;
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-    require_once 'src/models/SocialModel.php';
+    use Sonia\LinguaLair\Models\SocialModel;
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
-    require_once 'src/models/PermissionsModel.php';
+    use Sonia\LinguaLair\Models\PermissionsModel;
     $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
-
-    // // Controllers imports
-    // require_once './controllers/controladores.php';
-    // require_once './controllers/LoginFormController.php';
-    // require_once './controllers/SignupFormController.php';
-    // require_once './controllers/StatsController.php';
-    // require_once './controllers/LogFormController.php';
-    // require_once './controllers/ProfileController.php';
-    // require_once './controllers/BaseController.php';
-    // require_once './controllers/ExploreController.php';
-    // require_once './controllers/AdminController.php';
-    // $BaseController = new BaseController($modelo, $SocialModel);
 
     // Controllers imports
     require_once 'src/controllers/controladores.php';
-    require_once 'src/controllers/LoginFormController.php';
-    require_once 'src/controllers/SignupFormController.php';
-    require_once 'src/controllers/StatsController.php';
-    require_once 'src/controllers/LogFormController.php';
-    require_once 'src/controllers/ProfileController.php';
-    require_once 'src/controllers/BaseController.php';
-    require_once 'src/controllers/ExploreController.php';
-    require_once 'src/controllers/AdminController.php';
-    require_once 'src/controllers/SocialController.php';
+    use Sonia\LinguaLair\Controllers\LoginFormController;
+    use Sonia\LinguaLair\Controllers\SignupFormController;
+    use Sonia\LinguaLair\Controllers\StatsController;
+    use Sonia\LinguaLair\Controllers\LogController;
+    use Sonia\LinguaLair\Controllers\ProfileController;
+    use Sonia\LinguaLair\Controllers\BaseController;
+    use Sonia\LinguaLair\Controllers\ExploreController;
+    use Sonia\LinguaLair\Controllers\AdminController;
+    use Sonia\LinguaLair\Controllers\SocialController;
+
     $BaseController = new BaseController($modelo, $SocialModel);
 
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     $uri = str_replace('/LinguaLair/', '', $uri);
 
+    session_start();
+
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'load_more_logs')
-            // require_once 'views/load_more_logs.php';
-            require_once 'src/views/load_more_logs.php';
+            require_once 'views/load_more_logs.php';
+            // require_once 'src/views/load_more_logs.php';
             exit();
     } else {
         // Avoid user accessing any other page but login or signup if there's no session yet
@@ -66,7 +47,6 @@
         } else {
             if ($uri == '') {
                 $BaseController->get_profile_data($_SESSION["user_id"]);
-                // require './views/home.php';
                 require 'src/views/home.php';
             } elseif ($uri == 'login') {
                 // Comprobar si ya existe una sesión
@@ -78,7 +58,14 @@
                     // Si no hay sesión, verificar si es un envío de formulario (POST)
                     $loginForm = new LoginFormController($modelo);
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $loginForm->procesarFormulario();
+                        $succes = $loginForm->procesarFormulario();
+                        if ($succes) {
+                            header("Location: /LinguaLair/");
+                            exit();
+                        } else {
+                            $errores = $loginForm->getErrores();
+                            require 'views/login.php';
+                        }
                     } else {
                         // Si no hay sesión y no es un envío de formulario, mostrar la página de login
                         $loginForm->open_page();
@@ -128,14 +115,14 @@
 
             } elseif ($uri == 'log') {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $logController = new LogFormController($modelo);
+                    $logController = new LogController($modelo);
                     $logController->procesarFormulario();
                 }
                 
             } elseif ($uri == 'get_feed') {
                 $BaseController->get_profile_data($_SESSION["user_id"]);
-                // include './views/feed.php';
-                include 'src/views/feed.php';
+                include 'views/feed.php';
+                // include 'src/views/feed.php';
 
             } elseif ($uri == 'explore') {
                 $explore = new ExploreController($modelo, $BaseController, $SocialModel);
@@ -144,6 +131,11 @@
                 } else {
                     $explore->open_page();
                 }
+
+            } elseif ($uri == 'delete_log') {
+                $logController = new LogController($SocialModel);
+                $logController->deleteUserLog($id);
+                exit();
 
             } elseif ($uri == 'follow_user') {
                 $SocialController = new SocialController($SocialModel);

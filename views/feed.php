@@ -1,7 +1,7 @@
 <?php
     $initialLogLimit = 10; // Number of logs to load initially
-    // require_once 'models/SocialModel.php';
-    require_once 'src/models/SocialModel.php';
+
+    use Sonia\LinguaLair\Models\SocialModel;
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
 
     $loggedInUserId = $_SESSION['user_id'];
@@ -82,6 +82,7 @@
                     <div class="delete_log"><ion-icon name="trash-outline"></ion-icon><span>Delete Log</span></div>
                 </div>
             </div>
+            <?php include 'src/views/deleteLog.php' ?>
         </div>
     <?php } ?>
 
@@ -181,3 +182,4 @@
     });
 });
 </script>
+<script type="text/javascript" src="js/logs.js"></script>

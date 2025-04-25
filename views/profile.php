@@ -1,11 +1,4 @@
-<?php
-    // Evitamos que se llame al fichero sin pasar por el controlador
-    if (!defined('CON_CONTROLADOR')) {
-        // Matamos el proceso php
-        die('Error: No se permite el acceso directo a esta ruta');
-    }
-?>
-<?php // include 'views/base.php' ?>
+<?php //include 'views/base.php' ?>
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
@@ -86,8 +79,8 @@
                 <h2>@<?php echo $usuario->username ?>'s Logs</h2>
             </div>
             <div class="following show">
-                <?php // include './views/feed.php' ?>
-                <?php include 'src/views/feed.php' ?>
+                <?php include 'views/feed.php' ?>
+                <?php // include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden">
                 <div class="log"></div>

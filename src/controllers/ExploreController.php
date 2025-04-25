@@ -1,4 +1,6 @@
 <?php
+    namespace Sonia\LinguaLair\controllers;
+    
     class ExploreController {
         private $modelo;
         private $BaseController;

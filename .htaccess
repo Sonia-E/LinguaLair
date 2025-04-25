@@ -10,8 +10,8 @@
     RewriteCond %{REQUEST_URI} ^src/controllers/(follow_user\.php|unfollow_user\.php)$ [NC]
     RewriteRule . - [L]
 
-    # Denegar acceso directo a la carpeta src (excepto los archivos permitidos)
-    RewriteRule ^src/ - [F,L]
+    # # Denegar acceso directo a la carpeta src (excepto los archivos permitidos)
+    # RewriteRule ^src/ - [F,L]
 
     # Regla para eliminar index.php
     RewriteCond %{REQUEST_FILENAME} !-f

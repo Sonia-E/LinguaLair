@@ -1,15 +1,8 @@
-<?php
-    // Evitamos que se llame al fichero sin pasar por el controlador
-    if (!defined('CON_CONTROLADOR')) {
-        // Matamos el proceso php
-        die('Error: No se permite el acceso directo a esta ruta');
-    }
-?>
 <?php 
 
 include 'src/views/base.php';
 // include 'views/base.php';
-// use Sonia\LinguaLair\Views\base;
+
 ?>
 <?php startblock('contenido') ?>
     <div class="dashboard">
@@ -20,8 +13,8 @@ include 'src/views/base.php';
                 <button class="logs">My logs</button>
             </div>
             <div class="following show">
-                <?php // include './views/feed.php' ?>
-                <?php include 'src/views/feed.php' ?>
+                <?php include 'views/feed.php' ?>
+                <?php // include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden" data-user-id=<?php echo $_SESSION['user_id']; ?>>
                 <div class="log"></div>

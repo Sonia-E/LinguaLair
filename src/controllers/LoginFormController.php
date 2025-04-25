@@ -1,18 +1,19 @@
 <?php
+    namespace Sonia\LinguaLair\controllers;
+
    // Iniciar una nueva sesión o reanudar la existente 
-   session_start();
+//    session_start();
 
     class LoginFormController {
         private $modelo;
-        private $errores = [];
+        public $errores = [];
 
         public function __construct($modelo) {
             $this->modelo = $modelo;
         }
 
         public function open_page() {
-            // require './views/login.php';
-            require 'src/views/login.php';
+            require 'views/login.php';
         }
     
         public function check_login($login_identifier, $password) {
@@ -80,16 +81,11 @@
                     }
                     $_SESSION['user_role'] = $user_role;
                     
-                    header("Location: /LinguaLair/");
-                    exit;
+                    return true;
                 }
             }
     
-            // Si hay errores, la vista 'login.php' será cargada nuevamente
-            // y los errores estarán disponibles en el array $errores
-            $errores = $this->errores;
-            // require './views/login.php';
-            require 'src/views/login.php';
+            return false;
         }
     
         public function getErrores() {

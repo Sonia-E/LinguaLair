@@ -1,15 +1,11 @@
 <?php
-    // Evitamos que se llame al fichero sin pasar por el controlador
-	// if (!defined('CON_CONTROLADOR')) {
-    //     // Matamos el proceso php
-	// 	die('Error: No se permite el acceso directo a esta ruta');
-	// }
+    namespace Sonia\LinguaLair\Models;
 
     class SocialModel {
         private $conexion;
     
         public function __construct($servidor, $usuario, $contrasenia, $base_datos) {
-            $this->conexion = new mysqli($servidor, $usuario, $contrasenia, $base_datos);
+            $this->conexion = new  \mysqli($servidor, $usuario, $contrasenia, $base_datos);
     
             if ($this->conexion->connect_error) {
                 die("Conexión fallida: " . $this->conexion->connect_error);

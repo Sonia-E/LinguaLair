@@ -1,7 +1,6 @@
 <?php
 
-// Asegúrate de que CON_CONTROLADOR esté definido si lo usas en otros archivos
-// if (!defined('CON_CONTROLADOR')) die('Acceso no permitido.');
+namespace Sonia\LinguaLair\controllers;
 
 class AdminController {
     private $modelo;

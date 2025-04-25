@@ -1,13 +1,6 @@
 <?php
-	// Evitamos que se llame al fichero sin pasar por el controlador
-	// if (!defined('CON_CONTROLADOR')) {
-    //     // Matamos el proceso php
-	// 	die('Error: No se permite el acceso directo a esta ruta');
-	// }
-	
     // Importamos el modelo
-    // require_once 'models/modelo.php';
-    require_once 'src/models/modelo.php';
+    use Sonia\LinguaLair\Models\modelo;
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
 
     //#######################################
@@ -34,7 +27,6 @@
         // Obtener el total de minutos para the title control
         $totalMinutosRaw = $modelo->obtenerTotalMinutosUsuario($id);
 
-        // require './views/home.php';
-        require 'src/views/home.php';
+        require 'views/home.php';
+        // require 'src/views/home.php';
     }
-?>

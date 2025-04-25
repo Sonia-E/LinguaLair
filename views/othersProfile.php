@@ -1,11 +1,4 @@
-<?php
-    // Evitamos que se llame al fichero sin pasar por el controlador
-    if (!defined('CON_CONTROLADOR')) {
-        // Matamos el proceso php
-        die('Error: No se permite el acceso directo a esta ruta');
-    }
-?>
-<?php // include 'views/base.php' ?>
+<?php //include 'views/base.php' ?>
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
@@ -26,13 +19,12 @@
                 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
                     // Si el rol del usuario en la sesión es 'admin', muestra el botón Delete User
                     echo '<button class="delete-user-btn">Delete User</button>';
-                    // include './views/deleteUser.php';
                     include 'src/views/deleteUser.php';
                 }
-            ?>
+                ?>
             </div>
             <div class="avatar">
-                <img src="<?php echo $other_user->profile_pic ?>" alt="profile picture" width="100%" height="100%">
+                <img src="<?php echo $other_user->profile_pic ? $other_user->profile_pic : './public/img/pic_placeholder.png' ?>" alt="profile picture" width="100%" height="100%">
                 <div class="country-select">
                     <div class="flag"></div>
                 </div>
@@ -103,8 +95,8 @@
             </div>
             <div class="following show">
                 <?php $usuario = $other_user ?>
-                <?php // include './views/feed.php' ?>
-                <?php include 'src/views/feed.php' ?>
+                <?php include 'views/feed.php' ?>
+                <?php // include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden">
                 <div class="log"></div>
@@ -190,11 +182,6 @@
                             loggedFollowingCountElement.textContent = (currentFollowing + 1) + ' following';
                         }
 
-                        // if (loggedFollowersCountElement) {
-                        //     let currentFollowers = parseInt(loggedFollowersCountElement.textContent);
-                        //     loggedFollowersCountElement.textContent = (currentFollowers - 1) + ' followers';
-                        // }
-
                     } else {
                         alert(data.message || 'Error following user.');
                     }
@@ -266,4 +253,3 @@
     });
 });
 </script>
-<script type="text/javascript" src="js/profile.js"></script>

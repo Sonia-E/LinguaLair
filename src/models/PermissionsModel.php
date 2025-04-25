@@ -1,15 +1,11 @@
 <?php
-    // Evitamos que se llame al fichero sin pasar por el controlador
-	// if (!defined('CON_CONTROLADOR')) {
-    //     // Matamos el proceso php
-	// 	die('Error: No se permite el acceso directo a esta ruta');
-	// }
+    namespace Sonia\LinguaLair\Models;
 
     class PermissionsModel {
         private $conexion;
     
         public function __construct($servidor, $usuario, $contrasenia, $base_datos) {
-            $this->conexion = new mysqli($servidor, $usuario, $contrasenia, $base_datos);
+            $this->conexion = new \mysqli($servidor, $usuario, $contrasenia, $base_datos);
     
             if ($this->conexion->connect_error) {
                 die("Conexión fallida: " . $this->conexion->connect_error);
@@ -101,7 +97,7 @@
             try {
                 $sqlDeleteUser = "DELETE FROM user WHERE id = ?";
                 $stmtDeleteUser = $this->conexion->prepare($sqlDeleteUser);
-                if (!$stmtDeleteUser) throw new Exception("Error al preparar la consulta para borrar usuario: " . $this->conexion->error);
+                if (!$stmtDeleteUser) throw new \Exception("Error al preparar la consulta para borrar usuario: " . $this->conexion->error);
                 $stmtDeleteUser->bind_param("i", $userId);
                 $stmtDeleteUser->execute();
                 $stmtDeleteUser->close();
@@ -110,7 +106,7 @@
                 $this->conexion->commit();
                 return true;
     
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Si ocurrió algún error, deshacer la transacción
                 $this->conexion->rollback();
                 error_log("Error al eliminar usuario y sus datos: " . $e->getMessage());

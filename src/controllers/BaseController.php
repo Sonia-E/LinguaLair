@@ -1,4 +1,6 @@
 <?php
+    namespace Sonia\LinguaLair\controllers;
+
     class BaseController {
         private $modelo;
         private $SocialModel;
@@ -10,8 +12,12 @@
 
     
         public function open_page() {
-            // require './views/setProfile.php';
-            require 'src/views/setProfile.php';
+            require 'views/setProfile.php';
+            // require 'src/views/setProfile.php';
+        }
+
+        public function open_homepage() {
+            require 'src/views/home.php';
         }
 
         public function get_profile_data($id) {

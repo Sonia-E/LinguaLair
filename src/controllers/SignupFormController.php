@@ -1,6 +1,5 @@
 <?php
-    // // Iniciar una nueva sesión o reanudar la existente 
-    // session_start();
+    namespace Sonia\LinguaLair\controllers;
 
     class SignupFormController {
         private $modelo;
@@ -12,8 +11,8 @@
 
     
         public function open_page() {
-            // require './views/signup.php';
-            require 'src/views/signup.php';
+            require 'views/signup.php';
+            // require 'src/views/signup.php';
         }
     
         public function check_data($username, $passwordNoHash, $email, $confirm_password) {
@@ -91,8 +90,8 @@
             // }
 
             $errores = $this->errores;
-            // require './views/signup.php';
-            require 'src/views/signup.php';
+            require 'views/signup.php';
+            // require 'src/views/signup.php';
         }
     }
 

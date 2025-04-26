@@ -246,7 +246,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             user_id INT,
             description TEXT NOT NULL,
             language VARCHAR(50),
-            type ENUM('gramática', 'listening', 'kanji', 'vocabulario', 'lectura', 'escritura', 'mixed') NOT NULL,
+            type ENUM('grammar', 'listening', 'vocabulary', 'reading', 'writing', 'speaking', 'mixed') NOT NULL,
             duration INT NOT NULL,
             log_date DATE NOT NULL,
             post_date TIMESTAMP NOT NULL,

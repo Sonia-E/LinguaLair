@@ -35,8 +35,8 @@
 <div class="log-container">
     <?php foreach ($logs as $log) { ?>
         <div class="log-container">
-            <div class="dropdown">
-                <div class="log" id="<?php echo $log['username'] ?>_<?php echo $log['id'] ?>">
+            <div class="dropdown" data-log-identifier="<?php echo $log['username'] ?>_<?php echo $log['id'] ?>">
+                <div class="log">
                     <div class="usuario">
                         <a href="profile?id=<?php echo $log['user_id'] ?>">
                             <div class="log-user">

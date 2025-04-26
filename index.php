@@ -14,6 +14,8 @@
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
     use Sonia\LinguaLair\Models\PermissionsModel;
     $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
+    use Sonia\LinguaLair\Models\StatsModel;
+    $StatsModel = new StatsModel("localhost", "foc", "foc", 'LinguaLair', $modelo);
 
     // Controllers imports
     require_once 'src/controllers/controladores.php';
@@ -110,7 +112,7 @@
                     $profile->openUserProfile($_GET['id']);
                 }
             } elseif ($uri == 'stats') {
-                $stats = new StatsController($modelo, $BaseController);
+                $stats = new StatsController($modelo, $BaseController, $StatsModel);
                 $stats->open_page($modelo);
 
             } elseif ($uri == 'log') {
@@ -133,8 +135,8 @@
                 }
 
             } elseif ($uri == 'delete_log') {
-                $logController = new LogController($SocialModel);
-                $logController->deleteUserLog($id);
+                $logController = new LogController($modelo, $PermissionsModel);
+                $logController->deleteUserLog($_SESSION["user_id"]);
                 exit();
 
             } elseif ($uri == 'follow_user') {

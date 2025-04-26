@@ -72,3 +72,72 @@
 #all-pie-chart {
     height: 450px;
 }
+
+.general {
+    display: flex;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    gap: 100px;
+    overflow: hidden;
+}
+
+.pie-area {
+    display: flex;
+    width: 50%;
+    position: fixed;
+    left: 16.5%;
+    max-width: 700px;
+}
+
+.hueco {
+    display: flex;
+    width: 50%;
+}
+
+.pie-area .chart {
+    width: 50%;
+    padding-right: 20px; /* Espacio entre el gráfico y la información */
+}
+
+.pie-area .area {
+    width: 50%;
+    padding-left: 20px; /* Espacio entre el gráfico y la información */
+}
+
+.charts {
+    display: flex;
+    flex-direction: column; /* Apilar los gráficos verticalmente */
+    width: 50%;
+}
+
+.charts .chart {
+    margin-bottom: 20px; /* Espacio entre los gráficos */
+    text-align: center;
+}
+
+.charts h2 {
+    flex: 1;
+    background-color: rgb(172, 172, 172);
+    color: white;
+    font-size: 30px;
+    margin-bottom: 3px;
+}
+
+.charts .chart:last-child {
+    margin-bottom: 0; /* Eliminar el margen inferior del último gráfico */
+}
+
+.languages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el ancho mínimo según necesites */
+    gap: 15px; /* Espacio entre los elementos del grid */
+}
+
+.language-area {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.language-area h2 {
+    margin-top: 0;
+}

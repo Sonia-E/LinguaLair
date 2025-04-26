@@ -26,60 +26,91 @@
         </div>
         <div class="all">
             <div class="general">
-                <div class="chart">
-                    <canvas id="all-pie-chart"></canvas>
-                </div>
-                <div class="area">
-                    <!-- Hacer que sean grid para que se vean bien sin importar cuántos idiomas -->
-                    <div class="language-area"> 
-                        <h3>LANGUAGE</h3><br>
-                        <h3>Study hours: <span></span></h3>
-                        <h3>Logs: <span></span></h3>
-                        <h3>Day Streak: <span></span></h3>
-                        <h3>Hours per day: <span></span></h3><br><br>
+                <div class="pie-area">
+                    <div class="chart">
+                        <canvas id="all-pie-chart"></canvas>
                     </div>
-                    <div class="language-area">
-                        <h3>LANGUAGE</h3><br>
-                        <h3>Study hours: <span></span></h3>
-                        <h3>Logs: <span></span></h3>
-                        <h3>Day Streak: <span></span></h3>
-                        <h3>Hours per day: <span></span></h3><br><br>
-                    </div>
-                    <div class="language-area">
-                        <h3>LANGUAGE</h3><br>
-                        <h3>Study hours: <span></span></h3>
-                        <h3>Logs: <span></span></h3>
-                        <h3>Day Streak: <span></span></h3>
-                        <h3>Hours per day: <span></span></h3><br><br>
-                    </div>
-                    <div class="language-area">
-                        <h3>LANGUAGE</h3><br>
-                        <h3>Study hours: <span></span></h3>
-                        <h3>Logs: <span></span></h3>
-                        <h3>Day Streak: <span></span></h3>
-                        <h3>Hours per day: <span></span></h3><br><br>
-                    </div>
-                    <div class="language-area">
-                        <h3>LANGUAGE</h3><br>
-                        <h3>Study hours: <span></span></h3>
-                        <h3>Logs: <span></span></h3>
-                        <h3>Day Streak: <span></span></h3>
-                        <h3>Hours per day: <span></span></h3><br><br>
+                    <div class="area">
+                        <?php if (!empty($userLanguages)): ?>
+                            <div class="languages-grid">
+                                <?php foreach ($userLanguages as $index => $language): ?>
+                                    <div class="language-area">
+                                        <h2><?php echo htmlspecialchars($language); ?></h2><br>
+                                        <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
+                                        <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
+                                        <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
+                                        <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
+                <div class="hueco"></div>
+                <div class="charts">
+                    <div class="chart">
+                        <h2>This week</h2>
+                        <canvas id="all-line-chart" width="100px"></canvas>
+                    </div>
+                    <div class="chart">
+                        <h2>This month</h2>
+                        <canvas id="monthly-line-chart"></canvas>
+                    </div>
+                    <div class="chart">
+                        <h2>This year</h2>
+                        <canvas id="monthly-total-line-chart"></canvas>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <div class="language-tabs">
-            <?php
-            if (!empty($userLanguages)) {
-                foreach ($userLanguages as $language) {
-                    echo '<div class="language-tab-content" id="' . htmlspecialchars($language) . '-tab">';
-                    echo '';
-                    echo '</div>';
-                }
-            }
-            ?>
-        </div>
+                    <?php
+                    if (!empty($userLanguages)) {
+                        foreach ($userLanguages as $language) {
+                            echo '<div class="language-tab-content" id="' . htmlspecialchars($language) . '-tab">';
+                            ?>
+                            <div class="general">
+                                <div class="pie-area">
+                                    <div class="area">
+                                        <?php if (!empty($userLanguages)): ?>
+                                            <div class="languages-grid">
+                                                <?php foreach ($userLanguages as $index => $language): ?>
+                                                    <div class="language-area">
+                                                        <h2><?php echo htmlspecialchars($language); ?></h2><br>
+                                                        <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
+                                                        <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
+                                                        <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
+                                                        <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="charts">
+                                    <div class="chart">
+                                        <h2>This week</h2>
+                                        <canvas id="all-line-chart" width="400" height="300"></canvas>
+                                    </div>
+                                    <div class="chart">
+                                        <h2>This month</h2>
+                                        <canvas id="monthly-line-chart"></canvas>
+                                    </div>
+                                    <div class="chart">
+                                        <h2>This year</h2>
+                                        <canvas id="monthly-total-line-chart"></canvas>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <?php
+                            echo '</div>';
+                        }
+                    }
+                    ?>
+                </div>
     </div>
 </div>
 
@@ -88,6 +119,7 @@
     const languagePercentages = <?php echo json_encode($languagePercentages); ?>;
     const tabButtons = document.querySelectorAll('.button-group button');
     const tabContents = document.querySelectorAll('.language-tabs .language-tab-content');
+    const estadisticasPorIdioma = <?php echo json_encode($datosIdioma['estadisticas_por_idioma']); ?>;
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -114,6 +146,7 @@
     // Mostrar el contenido "All" por defecto
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.all').style.display = 'block';
+        tabContents.forEach(content => content.style.display = 'none');
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

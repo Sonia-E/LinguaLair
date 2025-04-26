@@ -69,6 +69,7 @@
     
                 if ($usuario) {
                     $_SESSION["user_id"] = $usuario->id;
+                    $_SESSION['username'] = $usuario->username; 
 
                     // Get user role
                     $user_role = $usuario->role_id;

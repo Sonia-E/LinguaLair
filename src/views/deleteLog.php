@@ -8,7 +8,10 @@
             <hr>
         </div>
         <div class="delete-btn-group">
-            <a href="delete_user?id=<?php echo htmlspecialchars($logId) ?>" class="link-delete-yes"><button class="delete-log-yes">Yes</button></a>
+            <form id="deleLogForm" action="delete_log" method="post">
+                <input type="hidden" name="log_identifier" id="log_identifier">
+                <button type="submit" class="delete-log-yes">Yes</button>
+            </form>
             <button class="delete-log-no">No</button>
         </div>
     </div>

@@ -4,10 +4,12 @@
     class StatsController {
         private $modelo;
         private $BaseController;
+        private $StatsModel;
 
-        public function __construct($modelo, $BaseController) { // Accept the $modelo instance
-            $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        public function __construct($modelo, $BaseController, $StatsModel) {
+            $this->modelo = $modelo;
             $this->BaseController = $BaseController;
+            $this->StatsModel = $StatsModel;
         }
     
         public function open_page($modelo) {
@@ -32,6 +34,7 @@
             // $dataParaVista['languagePercentages'] = $languagePercentages;
             $totalAchievements = $this->getTotalUserAchievementsCount($user_id);
             $dayStreak = $this->calculatePostingStreak($user_id);
+            $datosIdioma = $this->mostrarEstadisticasUsuario($user_id);
             require 'views/stats.php';
         }
 
@@ -42,6 +45,30 @@
                 return count($userAchievements);
             } else {
                 return 0; // O algún otro valor que indique un error al obtener los logros
+            }
+        }
+
+        public function mostrarEstadisticasUsuario($userId) {
+            $userData = $this->modelo->getUser($userId);
+    
+            if ($userData) {
+                $userLanguages = $this->modelo->getUserLanguages($userId); // Obtener los idiomas del usuario
+    
+                $estadisticasPorIdioma = [];
+            if ($userLanguages) {
+                foreach ($userLanguages as $language) {
+                    $estadisticas = $this->StatsModel->obtenerEstadisticasPorIdioma($userId, $language);
+                    $estadisticas['idioma'] = $language; // Añadimos el idioma al subarray
+                    $estadisticasPorIdioma[] = $estadisticas; // Añadimos el subarray al array principal
+                }
+            }
+    
+                $datosParaLaVista = [
+                    'estadisticas_por_idioma' => $estadisticasPorIdioma,
+                ];
+                return $datosParaLaVista;
+            } else {
+                echo "No se pudo obtener la información del usuario.";
             }
         }
 

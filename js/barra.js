@@ -61,11 +61,17 @@ palanca.addEventListener("click",()=>{
 })
 
 cloud.addEventListener("click",()=>{
+    console.log("Pulsando");
     barraLateral.classList.toggle("mini-barra-lateral");
     main.classList.toggle("min-main");
     spans.forEach((span)=>{
         span.classList.toggle("oculto");
     })
+    const pieArea = document.querySelector('.pie-area');
+    const miniBarraLateral = document.querySelector(".mini-barra-lateral");
+    if (pieArea && miniBarraLateral) {
+        pieArea.style.left = "10%"; // ESTOY HACIENDO ESTOOOOOOOO
+    }
 })
 
 

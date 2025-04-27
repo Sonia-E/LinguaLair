@@ -1,3 +1,396 @@
+// ###########################################
+// ############### TYPE PIE CHART ##############
+// ###########################################
+
+// Iterar sobre el array de estadísticas por idioma
+estadisticasPorIdioma.forEach(idiomaStats => {
+    if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('type_percentages')) {
+        const language = idiomaStats.idioma;
+        const typePercentages = idiomaStats.type_percentages;
+        const typeColors = {};
+
+        // Seleccionar el contenedor de gráficos *dentro* de la pestaña del idioma actual
+        const tabId = `${language}-tab`; // ID de la pestaña (ej: japanese-tab)
+        const languageTab = document.getElementById(tabId); // Obtener el elemento de la pestaña
+        const typeChartsContainer = languageTab.querySelector('.pie-area'); // Seleccionar .chart dentro de la pestaña
+        const area = languageTab.querySelector(".area");
+
+        if (typeChartsContainer) { // Si se encuentra el contenedor de gráficos
+            // Crear un nuevo div para contener el gráfico de este idioma
+            const chartContainer = document.createElement('div');
+            chartContainer.classList.add('chart');
+
+            // Crear un nuevo canvas para el gráfico
+            const canvas = document.createElement('canvas');
+            canvas.id = `type-pie-chart-${language.replace(/\s+/g, '-').toLowerCase()}`; // ID único
+            chartContainer.appendChild(canvas);
+
+            // Añadir el contenedor del gráfico al contenedor de la pestaña
+            typeChartsContainer.insertBefore(chartContainer, area);
+
+            const ctxType = canvas.getContext('2d');
+
+            const typeLabels = Object.keys(typePercentages);
+            const typeDataValues = Object.values(typePercentages);
+            const typeBackgroundColors = []; // Array para almacenar los colores
+
+            // Generar colores y almacenarlos en el objeto typeColors
+            typeLabels.forEach(typeLabel => {
+                const color = randomRgb();
+                typeColors[typeLabel] = color; // Almacenar el color usando el type como clave
+                typeBackgroundColors.push(color);
+            });
+
+            const typeData = {
+                labels: typeLabels,
+                datasets: [{
+                    label: 'Percentage of Study by Type',
+                    data: typeDataValues,
+                    backgroundColor: typeBackgroundColors,
+                    hoverOffset: 4
+                }]
+            };
+
+            new Chart(ctxType, {
+                type: 'pie',
+                data: typeData,
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed.toFixed(2) + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Almacenar el objeto de colores específico del idioma en el elemento de la pestaña
+            languageTab.dataset.typeColors = JSON.stringify(typeColors);
+        } else {
+            console.error(`No se encontró el contenedor .chart dentro de la pestaña ${tabId}`);
+        }
+    }
+});
+
+// Tabs system
+
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const language = button.dataset.language;
+
+        // Desactivar todos los botones y ocultar todos los contenidos
+        tabButtons.forEach(btn => btn.classList.remove('active-tab'));
+        tabContents.forEach(content => content.style.display = 'none');
+
+        // Activar el botón clicado y mostrar el contenido correspondiente
+        button.classList.add('active-tab');
+        if (language === 'all') {
+            document.querySelector('.all').style.display = 'block';
+            // No necesitamos hacer nada específico con los gráficos aquí, asumimos que el de "All" está visible
+        } else {
+            const targetContent = document.getElementById(language + '-tab');
+            console.log("idiomaa actual: " + targetContent);
+            console.log("idioma supuesto: " + language);
+            if (targetContent) {
+                targetContent.style.display = 'block';
+
+                // Obtener el objeto de colores específico del idioma desde el dataset
+                const languageTypeColors = JSON.parse(targetContent.dataset.typeColors || '{}');
+
+                // --- Gráfico de barras de la semana actual ----
+                //------------------------------------------------
+                // Obtener el canvas del gráfico del idioma
+                const weekChartCanvas = targetContent.querySelector('canvas[id$="-week-chart"]');
+                if (weekChartCanvas) {
+                    const newId = `${language.toLowerCase().replace(' ', '-')}-week-chart`;
+                    weekChartCanvas.id = newId;
+                    console.log("Nuevo ID del canvas:", newId);
+
+                    const fetchedCanvas = document.getElementById(newId);
+                    console.log("Canvas recogido:", fetchedCanvas);
+
+                    // Destruir el gráfico existente si lo hay
+                    if (fetchedCanvas && fetchedCanvas.__chart) {
+                        fetchedCanvas.__chart.destroy();
+                        console.log("Gráfico anterior destruido en:", newId);
+                    }
+
+                    // Crear el gráfico de barras para el idioma activo
+                    const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
+                    const barDataLanguage = {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Etiquetas de los días de la semana
+                        datasets: [] // Array para almacenar los datasets de cada idioma
+                    };
+                    
+                    if (languageStats && languageStats.hasOwnProperty('types_hours')) {
+                        const typeStats = languageStats.types_hours;
+                        const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                        const barDataLanguage = {
+                            labels: daysOfWeek,
+                            datasets: []
+                        };
+                    
+                        const allTypesForLanguage = Object.keys(typeStats);
+                    
+                        allTypesForLanguage.forEach(type => {
+                            const typeDataForWeek = [0, 0, 0, 0, 0, 0, 0];
+                    
+                            for (const typeName in typeStats) { // Iteramos sobre los types en typeStats
+                                if (typeName === type) { // Si el type actual coincide con el del bucle exterior
+                                    for (const date in typeStats[typeName]) {
+                                        if (typeStats[typeName].hasOwnProperty(date) && isDateInCurrentWeek(date)) {
+                                            const dayOfWeek = new Date(date).toLocaleDateString('en-US', { weekday: 'short' });
+                                            const dayIndex = daysOfWeek.indexOf(dayOfWeek);
+                                            if (dayIndex !== -1) {
+                                                typeDataForWeek[dayIndex] += typeStats[typeName][date];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                    
+                            barDataLanguage.datasets.push({
+                                label: type,
+                                data: typeDataForWeek,
+                                backgroundColor: languageTypeColors [type] || randomRgb(),
+                                borderWidth: 1
+                            });
+                        });
+
+                        const chartAreaBorder = {
+                            id: 'chartAreaBorder',
+                            beforeDraw(chart, args, options) {
+                                const { ctx, chartArea: { left, top, width, height } } = chart;
+                                ctx.save();
+                                ctx.strokeStyle = options.borderColor;
+                                ctx.lineWidth = options.borderWidth;
+                                ctx.setLineDash(options.borderDash || []);
+                                ctx.lineDashOffset = options.borderDashOffset;
+                                ctx.strokeRect(left, top, width, height);
+                                ctx.restore();
+                            }
+                        };
+
+                        if (fetchedCanvas) {
+                            const ctxLanguageBar = fetchedCanvas.getContext('2d');
+                            const myBarChartLanguage = new Chart(ctxLanguageBar, {
+                                type: 'bar',
+                                data: barDataLanguage,
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Hours Studied'
+                                            },
+                                        }
+                                    },
+                                    plugins: {
+                                        chartAreaBorder: {
+                                            borderColor: 'gray',
+                                            borderWidth: 1,
+                                            borderDash: [5, 5],
+                                            borderDashOffset: 1,
+                                        }
+                                    }
+                                },
+                                plugins: [chartAreaBorder]
+                            });
+                            // Almacenar la instancia del gráfico en el canvas para futuras destrucciones
+                            fetchedCanvas.__chart = myBarChartLanguage;
+                            console.log("Gráfico de barras del idioma creado:", myBarChartLanguage);
+                        }
+                    }
+                }
+
+                // --- Gráfico de barras del mes actual ----
+                //------------------------------------------------
+                const monthChartCanvas = targetContent.querySelector('canvas[id$="-month-chart"]');
+                if (monthChartCanvas) {
+                    const newIdMonth = `${language.toLowerCase().replace(' ', '-')}-month-chart`;
+                    monthChartCanvas.id = newIdMonth;
+                    console.log("Nuevo ID del canvas (mes):", newIdMonth);
+
+                    const fetchedCanvasMonth = document.getElementById(newIdMonth);
+                    if (fetchedCanvasMonth && fetchedCanvasMonth.__chart) {
+                        fetchedCanvasMonth.__chart.destroy();
+                        console.log("Gráfico anterior destruido (mes) en:", newIdMonth);
+                    }
+
+                    const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
+                    if (languageStats && languageStats.hasOwnProperty('types_hours')) {
+                        const typeStats = languageStats.types_hours;
+                        const monthlyBarDataForLanguage = {
+                            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'], // Etiquetas de las semanas
+                            datasets: []
+                        };
+
+                        const allTypesInLanguage = Object.keys(typeStats);
+
+                        allTypesInLanguage.forEach(type => {
+                            const languageMonthlyTypeData = [0, 0, 0, 0, 0];
+                            const backgroundColor = languageTypeColors[type] || randomRgb();
+
+                            console.log(`\n--- Type: ${type} ---`);
+
+                            for (let i = 1; i <= 5; i++) {
+                                let weeklyHours = 0;
+                                console.log(`  Semana ${i}:`);
+
+                                for (const date in typeStats[type]) {
+                                    if (typeStats[type].hasOwnProperty(date) && isDateInCurrentMonthWeek(date, i)) {
+                                        const hours = typeStats[type][date];
+                                        weeklyHours += hours;
+                                        console.log(`    Fecha: ${date}, Horas: ${hours}`);
+                                    }
+                                }
+                                languageMonthlyTypeData[i - 1] = parseFloat(weeklyHours.toFixed(2));
+                                console.log(`  Total Semana ${i}: ${languageMonthlyTypeData[i - 1]} horas`);
+                            }
+
+                            monthlyBarDataForLanguage.datasets.push({
+                                label: type,
+                                data: languageMonthlyTypeData,
+                                backgroundColor: backgroundColor,
+                                borderWidth: 1
+                            });
+                        });
+
+                        if (fetchedCanvasMonth) {
+                            const ctxLanguageBarMonth = fetchedCanvasMonth.getContext('2d');
+                            const myBarChartLanguageMonth = new Chart(ctxLanguageBarMonth, {
+                                type: 'bar',
+                                data: monthlyBarDataForLanguage,
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Hours Studied'
+                                            },
+                                        },
+                                        x: {
+                                            title: {
+                                                display: true,
+                                                text: 'Week of Month'
+                                            }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            display: true,
+                                        },
+                                        chartAreaBorder: { borderColor: 'gray', borderWidth: 1, borderDash: [5, 5], borderDashOffset: 1 }
+                                    }
+                                },
+                                plugins: [{ id: 'chartAreaBorder', beforeDraw: (chart) => { const { ctx, chartArea: { left, top, width, height } } = chart; ctx.save(); ctx.strokeStyle = chart.options.plugins.chartAreaBorder.borderColor; ctx.lineWidth = chart.options.plugins.chartAreaBorder.borderWidth; ctx.setLineDash(chart.options.plugins.chartAreaBorder.borderDash); ctx.lineDashOffset = chart.options.plugins.chartAreaBorder.borderDashOffset; ctx.strokeRect(left, top, width, height); ctx.restore(); } }]
+                            });
+                            fetchedCanvasMonth.__chart = myBarChartLanguageMonth;
+                            console.log("Gráfico de barras del idioma (mes por semana) creado:", myBarChartLanguageMonth);
+                        }
+                    }
+                }
+                
+                // --- Gráfico de barras del año actual ----
+                //--------------------------------------------
+                const yearChartCanvas = targetContent.querySelector('canvas[id$="-year-chart"]');
+                if (yearChartCanvas) {
+                    const newIdYear = `${language.toLowerCase().replace(' ', '-')}-year-chart`;
+                    yearChartCanvas.id = newIdYear;
+                    console.log("Nuevo ID del canvas (año):", newIdYear);
+
+                    const fetchedCanvasYear = document.getElementById(newIdYear);
+                    if (fetchedCanvasYear && fetchedCanvasYear.__chart) {
+                        fetchedCanvasYear.__chart.destroy();
+                        console.log("Gráfico anterior destruido (año) en:", newIdYear);
+                    }
+
+                    const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
+                    if (languageStats && languageStats.hasOwnProperty('solo_horas')) {
+                        const yearlyBarDataForLanguage = {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                            datasets: []
+                        };
+
+                        const hoursByMonth = Array(12).fill(0); // Inicializar array para horas por mes
+
+                        for (const date in languageStats.solo_horas) {
+                            if (languageStats.solo_horas.hasOwnProperty(date)) {
+                                const logDate = new Date(date);
+                                const currentYear = new Date().getFullYear();
+                                if (logDate.getFullYear() === currentYear) {
+                                    const monthIndex = logDate.getMonth(); // 0 = Enero, 11 = Diciembre
+                                    hoursByMonth[monthIndex] += languageStats.solo_horas[date];
+                                }
+                            }
+                        }
+
+                        yearlyBarDataForLanguage.datasets.push({
+                            label: language,
+                            data: hoursByMonth,
+                            backgroundColor: languageColors[language] || randomRgb(),
+                            borderWidth: 1
+                        });
+
+                        if (fetchedCanvasYear) {
+                            const ctxLanguageBarYear = fetchedCanvasYear.getContext('2d');
+                            const myBarChartLanguageYear = new Chart(ctxLanguageBarYear, {
+                                type: 'bar',
+                                data: yearlyBarDataForLanguage,
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Hours Studied'
+                                            }
+                                        },
+                                        x: {
+                                            title: {
+                                                display: true,
+                                                text: 'Month'
+                                            }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {
+                                            display: false // Solo un dataset por idioma
+                                        },
+                                        chartAreaBorder: { borderColor: 'gray', borderWidth: 1, borderDash: [5, 5], borderDashOffset: 1 }
+                                    }
+                                },
+                                plugins: [{ id: 'chartAreaBorder', beforeDraw: (chart) => { const { ctx, chartArea: { left, top, width, height } } = chart; ctx.save(); ctx.strokeStyle = chart.options.plugins.chartAreaBorder.borderColor; ctx.lineWidth = chart.options.plugins.chartAreaBorder.borderWidth; ctx.setLineDash(chart.options.plugins.chartAreaBorder.borderDash); ctx.lineDashOffset = chart.options.plugins.chartAreaBorder.borderDashOffset; ctx.strokeRect(left, top, width, height); ctx.restore(); } }]
+                            });
+                            fetchedCanvasYear.__chart = myBarChartLanguageYear;
+                            console.log("Gráfico de barras del idioma (año) creado:", myBarChartLanguageYear);
+                        }
+                    }
+                }
+            }
+            document.querySelector('.all').style.display = 'none';
+        }
+    });
+});
+
+// Actualizar el gráfico inicialmente (si es necesario, por defecto "All" ya tiene datos)
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.all').style.display = 'block';
+    tabContents.forEach(content => content.style.display = 'none');
+});
+
 // ----------------- ALL LANGUAGES
 
 // ###########################################
@@ -67,7 +460,7 @@ new Chart(ctx, {
 });
 
 // ###########################################
-// ############### BAR CHART ################
+// ############# WEEK BAR CHART ##############
 // ###########################################
 
 const barData = {
@@ -191,7 +584,7 @@ function isDateInCurrentMonthWeek(dateString, weekNumber) {
     }
 
     const weekEndDate = new Date(weekStartDate);
-    weekEndDate.setDate(weekStartDate.getDate() + 6);
+    weekEndDate.setDate(weekStartDate.getDate() + 7);
 
     for (let i = 1; i < weekNumber; i++) {
         weekStartDate.setDate(weekStartDate.getDate() + 7);
@@ -320,110 +713,97 @@ const myMonthlyTotalBarChart = new Chart(ctxMonthlyTotalBar, {
 
 // ----------------- ONLY ONE LANGUAGE
 
-// ###########################################
-// ############### TYPE PIE CHART ##############
-// ###########################################
 
-// Iterar sobre el array de estadísticas por idioma
-estadisticasPorIdioma.forEach(idiomaStats => {
-    if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('type_percentages')) {
-        const language = idiomaStats.idioma;
-        const typePercentages = idiomaStats.type_percentages;
 
-        // Seleccionar el contenedor de gráficos *dentro* de la pestaña del idioma actual
-        const tabId = `${language}-tab`; // ID de la pestaña (ej: japanese-tab)
-        const languageTab = document.getElementById(tabId); // Obtener el elemento de la pestaña
-        const typeChartsContainer = languageTab.querySelector('.pie-area'); // Seleccionar .chart dentro de la pestaña
-        const area = languageTab.querySelector(".area");
 
-        if (typeChartsContainer) { // Si se encuentra el contenedor de gráficos
-            // Crear un nuevo div para contener el gráfico de este idioma
-            const chartContainer = document.createElement('div');
-            chartContainer.classList.add('chart');
+/////////////////////////////
 
-            // Crear un nuevo canvas para el gráfico
-            const canvas = document.createElement('canvas');
-            canvas.id = `type-pie-chart-${language.replace(/\s+/g, '-').toLowerCase()}`; // ID único
-            chartContainer.appendChild(canvas);
+// const languageBarCharts = {}; // Objeto para almacenar los gráficos de barras por idioma
 
-            // Añadir el contenedor del gráfico al contenedor de la pestaña
-            typeChartsContainer.insertBefore(chartContainer, area);
+// estadisticasPorIdioma.forEach(idiomaStats => {
+//     if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('solo_horas')) {
+//         const languageLabel = idiomaStats.idioma;
+//         const canvasId = `${languageLabel.replace(/\s+/g, '-').toLowerCase()}-week-bar-chart`;
+//         console.log("Language canvasId: " + canvasId);
+//         const ctxLanguageBar = document.getElementById(canvasId);
+//         console.log("ctxLanguageBar: " + ctxLanguageBar);
 
-            const ctxType = canvas.getContext('2d');
+//         if (ctxLanguageBar) {
+//             const languageData = {
+//                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+//                 datasets: [{
+//                     label: languageLabel,
+//                     data: [], // Los datos se llenarán en updateBarChart
+//                     backgroundColor: languageColors[languageLabel] || randomRgb(),
+//                     borderWidth: 1
+//                 }]
+//             };
+//             console.log("Idioma languageBarCharts[languageLabel]: " + languageBarCharts[languageLabel]);
 
-            const typeLabels = Object.keys(typePercentages);
-            const typeDataValues = Object.values(typePercentages);
-            const typeBackgroundColors = typeLabels.map(() => randomRgb());
-
-            const typeData = {
-                labels: typeLabels,
-                datasets: [{
-                    label: 'Percentage of Study by Type',
-                    data: typeDataValues,
-                    backgroundColor: typeBackgroundColors,
-                    hoverOffset: 4
-                }]
-            };
-
-            new Chart(ctxType, {
-                type: 'pie',
-                data: typeData,
-                options: {
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed.toFixed(2) + '%';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        } else {
-            console.error(`No se encontró el contenedor .chart dentro de la pestaña ${tabId}`);
-        }
-    }
-});
-
-// function adjustPieAreaPosition() {
-//     const sidebar = document.querySelector('.barra-lateral, .mini-barra-lateral'); // Selector para ambos estados
-//     const pieArea = document.querySelector('.pie-area');
-//     const mainContent = document.querySelector('.all'); // O el contenedor principal del contenido
-
-//     if (!sidebar || !pieArea || !mainContent) {
-//         console.log("Se salió");
-//         return; // Si no se encuentran los elementos, salir
+//             languageBarCharts[languageLabel] = new Chart(ctxLanguageBar, {
+//                 type: 'bar',
+//                 data: languageData,
+//                 options: {
+//                     scales: {
+//                         y: {
+//                             beginAtZero: true,
+//                             title: {
+//                                 display: true,
+//                                 text: 'Hours Studied'
+//                             },
+//                         }
+//                     },
+//                     plugins: {
+//                         chartAreaBorder: {
+//                             borderColor: 'gray',
+//                             borderWidth: 1,
+//                             borderDash: [5, 5],
+//                             borderDashOffset: 1,
+//                         }
+//                     }
+//                 },
+//                 plugins: [chartAreaBorder]
+//             });
+//         }
 //     }
+// });
 
-//     console.log("Aquí está");
-//     const isSidebarMini = sidebar.classList.contains('mini-barra-lateral');
-//     const sidebarWidth = isSidebarMini ? sidebar.offsetWidth : sidebar.offsetWidth; // El ancho será diferente
+// let activeLanguage = 'all'; // Variable para almacenar el idioma activo
 
-//     const mainContentWidth = window.innerWidth - sidebarWidth; // Ancho del área principal
+// function updateBarChart(language) {
+//     console.log("Idioma activeLanguage: " + activeLanguage);
+//     activeLanguage = language;
+//     console.log("Idioma activeLanguage: " + activeLanguage);
+//     // console.log("Idioma languageBarCharts[language]: " + languageBarCharts[language]);
+//     if (activeLanguage !== 'all' && languageBarCharts[language]) {
+//         console.log("Idioma en updateBar: " + languageBarCharts[language]);
+//         const selectedLanguageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
+//         console.log("Idioma seleccionado: " + selectedLanguageStats);
+//         if (selectedLanguageStats && selectedLanguageStats.hasOwnProperty('solo_horas')) {
+//             const languageData = [];
+//             const currentWeekStudyDays = {};
 
-//     // Calcular la posición 'left' para centrar el pie-area en la mitad izquierda del mainContent
-//     const desiredLeft = sidebarWidth + (mainContentWidth / 2) - (pieArea.offsetWidth / 2);
+//             for (const date in selectedLanguageStats.solo_horas) {
+//                 if (selectedLanguageStats.solo_horas.hasOwnProperty(date) && isDateInCurrentWeek(date)) {
+//                     currentWeekStudyDays[date] = selectedLanguageStats.solo_horas[date];
+//                 }
+//             }
 
-//     pieArea.style.left = `${desiredLeft}px`;
+//             const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+//             const studyDays = Object.keys(currentWeekStudyDays);
+
+//             daysOfWeek.forEach(day => {
+//                 let hoursForDay = 0;
+//                 studyDays.forEach(studyDay => {
+//                     const date = new Date(studyDay);
+//                     const dayOfWeek = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(date);
+//                     if (dayOfWeek === day) {
+//                         hoursForDay = currentWeekStudyDays[studyDay];
+//                     }
+//                 });
+//                 languageBarCharts[language].data.datasets[0].data = languageData;
+//                 languageBarCharts[language].update();
+//             })
+//         }
+//     }
 // }
-
-// // Llama a la función inicialmente al cargar la página
-// document.addEventListener('DOMContentLoaded', adjustPieAreaPosition);
-
-// Llama a la función cada vez que la barra lateral cambia de estado
-const sidebarToggleButton = document.querySelector('.cloud'); // Selector de tu botón de toggle (ajusta esto)
-if (sidebarToggleButton) {
-    console.log("Pulsando");
-    // sidebarToggleButton.addEventListener('click', adjustPieAreaPosition);
-}
-
-// // También es posible que necesites ajustar la posición si la ventana cambia de tamaño
-// window.addEventListener('resize', adjustPieAreaPosition);

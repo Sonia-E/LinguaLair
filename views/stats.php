@@ -26,24 +26,26 @@
         </div>
         <div class="all">
             <div class="general">
-                <div class="pie-area">
-                    <div class="chart">
-                        <canvas id="all-pie-chart"></canvas>
-                    </div>
-                    <div class="area">
-                        <?php if (!empty($userLanguages)): ?>
-                            <div class="languages-grid">
-                                <?php foreach ($userLanguages as $index => $language): ?>
-                                    <div class="language-area">
-                                        <h2><?php echo htmlspecialchars($language); ?></h2><br>
-                                        <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
-                                        <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
-                                        <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
-                                        <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
+                <div class="all-langs">
+                    <div class="pie-area">
+                        <div class="chart">
+                            <canvas id="all-pie-chart"></canvas>
+                        </div>
+                        <div class="area">
+                            <?php if (!empty($userLanguages)): ?>
+                                <div class="languages-grid">
+                                    <?php foreach ($userLanguages as $index => $language): ?>
+                                        <div class="language-area">
+                                            <h2><?php echo htmlspecialchars($language); ?></h2><br>
+                                            <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
+                                            <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
+                                            <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
+                                            <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
                 <div class="hueco"></div>
@@ -68,38 +70,48 @@
                     <?php
                     if (!empty($userLanguages)) {
                         foreach ($userLanguages as $language) {
+                            $tabId = htmlspecialchars($language) . '-tab';
                             echo '<div class="language-tab-content" id="' . htmlspecialchars($language) . '-tab">';
                             ?>
                             <div class="general">
-                                <div class="pie-area">
-                                    <div class="area">
-                                        <?php if (!empty($userLanguages)): ?>
-                                            <div class="languages-grid">
-                                                <?php foreach ($userLanguages as $index => $language): ?>
-                                                    <div class="language-area">
-                                                        <h2><?php echo htmlspecialchars($language); ?></h2><br>
-                                                        <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
-                                                        <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
-                                                        <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
-                                                        <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        <?php endif; ?>
+                                <div class="align-tabs">
+                                    <div class="pie-area">
+                                        <div class="area">
+                                            <?php if (!empty($userLanguages)): ?>
+                                                <div class="languages-grid">
+                                                    <?php foreach ($userLanguages as $index => $lang): ?>
+                                                        <?php
+                                                        $currentLanguage = htmlspecialchars($lang);
+                                                        $currentTabId = $currentLanguage . '-tab';
+                                                        if ($tabId === $currentTabId) {
+                                                        ?>
+                                                            <div class="language-area">
+                                                                <h2><?php echo $currentLanguage; ?></h2><br>
+                                                                <h3>Study hours: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_horas'] ?? '0'); ?></span></h3>
+                                                                <h3>Logs: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['total_logs'] ?? '0'); ?></span></h3>
+                                                                <h3>Day Streak: <span><?php echo htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['day_streak'] ?? '0') ?></span></h3>
+                                                                <h3>Hours per day: <span><?php echo is_array($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '') ? htmlspecialchars(implode(', ', $datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'])) : htmlspecialchars($datosIdioma['estadisticas_por_idioma'][$index]['horas_por_dia'] ?? '0') ?></span></h3><br><br>
+                                                            </div>
+                                                        <?php } ?>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="hueco"></div>
                                 <div class="charts">
                                     <div class="chart">
                                         <h2>This week</h2>
-                                        <canvas id="all-line-chart" width="400" height="300"></canvas>
+                                        <canvas id="<?php echo htmlspecialchars(strtolower(str_replace(' ', '-', $language))); ?>-week-chart"></canvas>
                                     </div>
                                     <div class="chart">
                                         <h2>This month</h2>
-                                        <canvas id="monthly-line-chart"></canvas>
+                                        <canvas id="<?php echo htmlspecialchars(strtolower(str_replace(' ', '-', $language))); ?>-month-chart"></canvas>
                                     </div>
                                     <div class="chart">
                                         <h2>This year</h2>
-                                        <canvas id="monthly-total-line-chart"></canvas>
+                                        <canvas id="<?php echo htmlspecialchars(strtolower(str_replace(' ', '-', $language))); ?>-year-chart"></canvas>
                                     </div>
                                 </div>
                                 
@@ -120,34 +132,6 @@
     const tabButtons = document.querySelectorAll('.button-group button');
     const tabContents = document.querySelectorAll('.language-tabs .language-tab-content');
     const estadisticasPorIdioma = <?php echo json_encode($datosIdioma['estadisticas_por_idioma']); ?>;
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const language = button.dataset.language;
-
-            // Desactivar todos los botones y ocultar todos los contenidos
-            tabButtons.forEach(btn => btn.classList.remove('active-tab'));
-            tabContents.forEach(content => content.style.display = 'none');
-
-            // Activar el botón clicado y mostrar el contenido correspondiente
-            button.classList.add('active-tab');
-            if (language === 'all') {
-                document.querySelector('.all').style.display = 'block'; // Mostrar el gráfico general
-            } else {
-                const targetContent = document.getElementById(language + '-tab');
-                if (targetContent) {
-                    targetContent.style.display = 'block';
-                }
-                document.querySelector('.all').style.display = 'none'; // Ocultar el gráfico general al seleccionar un idioma
-            }
-        });
-    });
-
-    // Mostrar el contenido "All" por defecto
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.all').style.display = 'block';
-        tabContents.forEach(content => content.style.display = 'none');
-    });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="./js/stats.js"></script>

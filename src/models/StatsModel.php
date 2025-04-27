@@ -215,10 +215,89 @@
             }
         }
 
+        public function obtenerHorasPorTipoPorIdioma($user_id, $language) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT DATE(log_date) AS study_date,
+                                    type,
+                                    SUM(duration) AS total_minutes
+                             FROM logs
+                             WHERE user_id = ? AND language = ?
+                             GROUP BY DATE(log_date), type
+                             ORDER BY DATE(log_date) ASC, type ASC";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("is", $user_id, $language);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+        
+                $horasPorTipoPorDia = [];
+                while ($fila = $resultado->fetch_assoc()) {
+                    $studyDate = $fila['study_date'];
+                    $type = $fila['type'];
+                    $totalMinutes = (int) $fila['total_minutes'];
+                    $totalHours = round($totalMinutes / 60, 2); // Convertir a horas
+        
+                    if (!isset($horasPorTipoPorDia[$type])) {
+                        $horasPorTipoPorDia[$type] = [];
+                    }
+                    $horasPorTipoPorDia[$type][$studyDate] = $totalHours;
+                }
+                return $horasPorTipoPorDia;
+            } else {
+                echo "Error al preparar la consulta para obtener las horas por tipo por idioma: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        // public function obtenerHorasPorTipoPorIdioma($user_id, $language) {
+        //     if (!$this->conexion) return null;
+        
+        //     $consulta = "SELECT DATE(log_date) AS study_date,
+        //                         type,
+        //                         SUM(duration) AS total_minutes
+        //                     FROM logs
+        //                     WHERE user_id = ? AND language = ?
+        //                     GROUP BY DATE(log_date), type
+        //                     ORDER BY DATE(log_date) ASC, type ASC";
+        
+        //     $stmt = $this->conexion->prepare($consulta);
+        
+        //     if ($stmt) {
+        //         $stmt->bind_param("is", $user_id, $language);
+        //         $stmt->execute();
+        //         $resultado = $stmt->get_result();
+        //         $stmt->close();
+        
+        //         $horasPorTipo = [];
+        //         while ($fila = $resultado->fetch_assoc()) {
+        //             $studyDate = $fila['study_date'];
+        //             $type = $fila['type'];
+        //             $totalMinutes = (int) $fila['total_minutes'];
+        //             $totalHours = round($totalMinutes / 60, 2); // Convertir a horas
+        
+        //             if (!isset($horasPorTipo[$type])) {
+        //                 $horasPorTipo[$type] = [
+        //                     'type' => $type,
+        //                     'dates' => []
+        //                 ];
+        //             }
+        //             $horasPorTipo[$type]['dates'][$studyDate] = $totalHours;
+        //         }
+        //         return $horasPorTipo;
+        //     } else {
+        //         echo "Error al preparar la consulta para obtener las horas por tipo por idioma: " . $this->conexion->error;
+        //         return null;
+        //     }
+        // }
 
         public function obtenerEstadisticasPorIdioma($user_id, $language) {
             $estadisticas = [];
     
+            // All tab
             $languageTotalHours = $this->obtenerTotalHorasPorIdioma($user_id, $language);
             $languageTotalHoursDay = $this->obtenerMediaHorasPorDiaPorIdioma($user_id, $language);
             $languageTotalLogs = $this->obtenerTotalLogsPorIdioma($user_id, $language);
@@ -226,7 +305,11 @@
             $languageDayStreak = $this->calculateLanguageStreak($user_id, $language);
             $languageTotalHoursInDay = $this->obtenerHorasPorDiaPorIdioma($user_id, $language);
             $languageSoloHoras = $this->obtenerSoloHorasPorIdioma($user_id, $language);
+
+            // Language tab
             $languageTypePercentages = $this->getTypePercentages($user_id, $language);
+            $typeHours = $this->obtenerHorasPorTipoPorIdioma($user_id, $language);
+            $types = $this->modelo->getLanguageTypes();
     
             $estadisticas['total_horas'] = $languageTotalHours;
             $estadisticas['horas_por_dia'] = $languageTotalHoursDay;
@@ -235,6 +318,8 @@
             $estadisticas['horas_al_dia'] = $languageTotalHoursInDay;
             $estadisticas['solo_horas'] = $languageSoloHoras;
             $estadisticas['type_percentages'] = $languageTypePercentages;
+            $estadisticas['types_hours'] = $typeHours;
+            $estadisticas['types'] = $types;
     
             return $estadisticas;
         }
@@ -247,8 +332,8 @@
 
         public function calculateLogTypePercentagesByLanguage(array $logs, string $language): array
         {
-            $typeCounts = [];
-            $totalLogs = 0;
+            $typeHours = [];
+            $totalHours = 0;
 
             if (empty($logs)) {
                 return [];
@@ -259,22 +344,25 @@
                 return $log->language === $language;
             });
 
-            // Contar la cantidad de logs por tipo para el idioma especificado
+            // Sumar las horas (calculadas desde minutos) por tipo para el idioma especificado
             foreach ($languageLogs as $log) {
                 $type = $log->type;
-                $totalLogs++;
+                $durationInMinutes = (int) $log->duration; // Asegúrate de que duration sea un número entero
+                $hours = $durationInMinutes / 60; // Convertir minutos a horas
 
-                if (isset($typeCounts[$type])) {
-                    $typeCounts[$type]++;
+                $totalHours += $hours;
+
+                if (isset($typeHours[$type])) {
+                    $typeHours[$type] += $hours;
                 } else {
-                    $typeCounts[$type] = 1;
+                    $typeHours[$type] = $hours;
                 }
             }
 
             $typePercentages = [];
-            if ($totalLogs > 0) {
-                foreach ($typeCounts as $type => $count) {
-                    $percentage = ($count / $totalLogs) * 100;
+            if ($totalHours > 0) {
+                foreach ($typeHours as $type => $hours) {
+                    $percentage = ($hours / $totalHours) * 100;
                     $typePercentages[$type] = round($percentage, 2);
                 }
             }

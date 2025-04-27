@@ -118,6 +118,31 @@
             }
             return [];
         }
+
+        public function getLanguageTypes() {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT DISTINCT type
+                             FROM logs
+                             ORDER BY type ASC";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $stmt->close();
+        
+                $allTypes = [];
+                while ($fila = $resultado->fetch_assoc()) {
+                    $allTypes[] = $fila['type'];
+                }
+                return $allTypes;
+            } else {
+                echo "Error al preparar la consulta para obtener todos los types: " . $this->conexion->error;
+                return null;
+            }
+        }
     
         /**
          * Retrieves logs, optionally for a specific user, ordered by post_date descending.

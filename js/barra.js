@@ -67,11 +67,15 @@ cloud.addEventListener("click",()=>{
     spans.forEach((span)=>{
         span.classList.toggle("oculto");
     })
-    const pieArea = document.querySelector('.pie-area');
+    const pieAreas = document.querySelectorAll('.pie-area');
     const miniBarraLateral = document.querySelector(".mini-barra-lateral");
+    pieAreas.forEach(pieArea => {
     if (pieArea && miniBarraLateral) {
-        pieArea.style.left = "10%"; // ESTOY HACIENDO ESTOOOOOOOO
+        pieArea.style.left = "13%";
+    } else if(pieArea && !miniBarraLateral) {
+        pieArea.style.left = "18.5%";
     }
+});
 })
 
 

@@ -309,7 +309,6 @@
             // Language tab
             $languageTypePercentages = $this->getTypePercentages($user_id, $language);
             $typeHours = $this->obtenerHorasPorTipoPorIdioma($user_id, $language);
-            $types = $this->modelo->getLanguageTypes();
     
             $estadisticas['total_horas'] = $languageTotalHours;
             $estadisticas['horas_por_dia'] = $languageTotalHoursDay;
@@ -319,7 +318,6 @@
             $estadisticas['solo_horas'] = $languageSoloHoras;
             $estadisticas['type_percentages'] = $languageTypePercentages;
             $estadisticas['types_hours'] = $typeHours;
-            $estadisticas['types'] = $types;
     
             return $estadisticas;
         }

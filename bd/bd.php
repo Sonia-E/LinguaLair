@@ -199,6 +199,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             learning TEXT,
             on_hold TEXT,
             dabbling TEXT,
+            future TEXT,
             level BIGINT DEFAULT 0,
             experience INT DEFAULT 0,
             dark_mode BOOLEAN DEFAULT FALSE,

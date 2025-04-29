@@ -34,11 +34,11 @@
         <div class="user-details">
             <div class="bio">
                 <div class="languages">
-                    <span class="fluent">Fluent: SP, EN</span>
-                    <span class="learning">Learning: JP, CH, KR, PT</span>
-                    <span class="future">Future: Arabic, Thai</span>
-                    <span class="on-hold hidden">On hold:</span>
-                    <span class="dabbling hidden">Dabbling:</span>
+                    <span class="fluent <?php echo $usuario->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $usuario->fluent ?></span>
+                    <span class="learning">Learning: <?php echo $usuario->learning ? $usuario->learning : $usuario->languages; ?></span>
+                    <span class="future <?php echo $usuario->future ? '' : 'hidden' ?>">Future: <?php echo $usuario->future ?></span>
+                    <span class="on-hold <?php echo $usuario->on_hold ? '' : 'hidden' ?>">On hold: <?php echo $usuario->on_hold ?></span>
+                    <span class="dabbling <?php echo $usuario->dabbling ? '' : 'hidden' ?>">Dabbling: <?php echo $usuario->dabbling ?></span>
                 </div>
                 <hr class="v">
                 <div class="text"><span><?php echo $usuario->bio ?></span></div>

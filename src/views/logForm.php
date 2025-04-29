@@ -26,12 +26,12 @@
             <div class="form-group">
                 <label for="type">Type of Activity</label>
                 <select name="type" id="type">
-                    <option value="gramática">Gramática</option>
-                    <option value="listening">Listening</option>
-                    <option value="kanji">Kanji</option>
-                    <option value="vocabulario">Vocabulario</option>
-                    <option value="lectura">Lectura</option>
-                    <option value="escritura">Escritura</option>
+                    <?php
+                    foreach ($logTypes as $type) {
+                        $capitalizedType = ucfirst($type);
+                        echo '<option value="' . htmlspecialchars($type) . '">' . htmlspecialchars($capitalizedType) . '</option>';
+                    }
+                    ?>
                 </select>
             </div>
 

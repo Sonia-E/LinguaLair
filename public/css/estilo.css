@@ -497,7 +497,13 @@ header .stats .languages {
     display: flex;
     flex-direction: column;
     padding: 5px;
-
+    text-align: justify;
+    text-justify: inter-word;
+    /* Añadimos scrollbar */
+    overflow-y: auto;
+    /* Eliminamos scrollbar horizontal */
+    overflow-x: hidden;
+    max-width: 30%;
 }
 header .stats .logs {
     height: 100%;

@@ -15,12 +15,12 @@
             require 'src/views/setProfile.php';
         }
 
-        public function open_homepage() {
-            require 'src/views/home.php';
-        }
+        // public function open_homepage() {
+        //     require 'src/views/home.php';
+        // }
 
         public function get_profile_data($id) {
-            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following;
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes;
             // Obtener los datos del usuario
             $array_usuario = $this->modelo->getUser($id);
             $usuario = $array_usuario[0][0];
@@ -37,6 +37,9 @@
 
             // Get ids following users
             $following = $this->SocialModel->getFollowingUsers($id);
+
+            // Get logs types
+            $logTypes = $this->modelo->getLanguageTypes();
         }
 }
 ?>

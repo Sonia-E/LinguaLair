@@ -9,7 +9,8 @@
 <?php
     if (isset($_SESSION['user_id'])) {
         global $usuario;
-    }
+    };
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +70,7 @@
                     </li>
                     <li>
                         <a id="<?php if (is_current_page('my_profile', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>my_profile">
-                            <ion-icon name="documents-outline"></ion-icon>
+                            <ion-icon name="person-outline"></ion-icon>
                             <span>Profile</span>
                         </a>
                     </li>
@@ -80,9 +81,15 @@
                         </a>
                     </li>
                     <li>
-                        <a id="<?php if (is_current_page('Notifications', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>Notifications">
+                        <a id="<?php if (is_current_page('notifications', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>Notifications">
                             <ion-icon name="notifications-outline"></ion-icon>
                             <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="<?php if (is_current_page('events', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>Notifications">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                            <span>Events</span>
                         </a>
                     </li>
                     <!-- <li>
@@ -162,11 +169,11 @@
                 <div class="linea"></div>
                 <div class="stats">
                     <div class="languages">
-                        <span class="fluent">Fluent: SP, EN</span>
-                        <span class="learning">Learning: JP, CH, KR, PT</span>
-                        <span class="future">Future: Arabic, Thai</span>
-                        <span class="on-hold hidden">On hold:</span>
-                        <span class="dabbling hidden">Dabbling:</span>
+                        <span class="fluent <?php echo $usuario->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $usuario->fluent ?></span>
+                        <span class="learning">Learning: <?php echo $usuario->learning ? $usuario->learning : $usuario->languages; ?></span>
+                        <span class="future <?php echo $usuario->future ? '' : 'hidden' ?>">Future: <?php echo $usuario->future ?></span>
+                        <span class="on-hold <?php echo $usuario->on_hold ? '' : 'hidden' ?>">On hold: <?php echo $usuario->on_hold ?></span>
+                        <span class="dabbling <?php echo $usuario->dabbling ? '' : 'hidden' ?>">Dabbling: <?php echo $usuario->dabbling ?></span>
                     </div>
                     <div class="logs">
                         <span class="nb"><?php echo $totalLogs ?? 0; ?></span>

@@ -96,6 +96,10 @@
   margin: 0 10px;
 }
 
+.form-group select::first-letter {
+  text-transform: uppercase;
+}
+
 .form-group textarea {
   min-height: 100px;
   resize: none;

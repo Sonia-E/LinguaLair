@@ -53,6 +53,7 @@
                 // Comprobar si ya existe una sesión
                 if (isset($_SESSION["user_id"])) {
                     // Si ya hay una sesión, redirigir al usuario a la página principal
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
                     header("Location: /LinguaLair/");
                     exit();
                 } else {

@@ -759,3 +759,7 @@ header .stats .logs {
     background-color: rgb(46, 46, 46);
     cursor: pointer;
 }
+
+button.your-feed {
+    border-radius: 10px;
+}

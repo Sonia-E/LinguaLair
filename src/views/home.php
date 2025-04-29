@@ -8,13 +8,13 @@ include 'src/views/base.php';
     <div class="dashboard">
         <div class="feed">
             <div class="button-group">
-                <button class="following">All logs</button>
+                <!-- <button class="following">All logs</button>
                 <div class="divider"></div>
-                <button class="logs">My logs</button>
+                <button class="logs">My logs</button> -->
+                <button class="your-feed">Your Feed</button>
             </div>
             <div class="following show">
-                <?php include 'views/feed.php' ?>
-                <?php // include 'src/views/feed.php' ?>
+                <?php include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden" data-user-id=<?php echo $_SESSION['user_id']; ?>>
                 <div class="log"></div>

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LinguaLair</title>
-        <link rel="stylesheet" href="/lingualair/css/login.css">
+        <link rel="stylesheet" href="public/css/login.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
@@ -34,16 +34,16 @@
                         <?php if (isset($errores['password'])): ?>
                             <div class="error-message"><?php echo htmlspecialchars($errores['password']); ?></div>
                         <?php endif; ?>
-                        <a href="#" class="forgot-password">Forgot password?</a>
+                        <!-- <a href="#" class="forgot-password">Forgot password?</a> -->
                     </div>
                     <button type="submit" class="sign-in-button">Sign in</button>
                 </form>
                 <div class="separator">
                     <span>or</span>
                 </div>
-                <button class="google-sign-in">
+                <!-- <button class="google-sign-in">
                     <i class="fab fa-google"></i> Sign in with Google
-                </button>
+                </button> -->
                 <p class="create-account">Are you new? <a href="signup">Create an Account</a></p>
             </div>
         </div>

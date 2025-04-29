@@ -15,8 +15,7 @@
 
     
         public function open_form() {
-            require 'views/setProfile.php';
-            // require 'src/views/setProfile.php';
+            require 'src/views/setProfile.php';
         }
 
         public function open_page() {
@@ -35,8 +34,7 @@
     
             // Obtener el total de minutos para the title control
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
-            require 'views/profile.php';
-            // require 'src/views/profile.php';
+            require 'src/views/profile.php';
         }
     
         public function check_data($login_identifier, $password) {
@@ -108,8 +106,7 @@
             // Si hay errores, la vista 'login.php' será cargada nuevamente
             // y los errores estarán disponibles en el array $errores
             $errores = $this->errores;
-            require 'views/login.php';
-            // require 'src/views/login.php';
+            require 'src/views/login.php';
         }
     }
 
@@ -150,8 +147,7 @@
         $isFollowing = false;
         
         $isFollowing = $this->SocialModel->isFollowing($_SESSION['user_id'], $other_user->id);
-        require 'views/othersProfile.php';
-        // require 'src/views/othersProfile.php';
+        require 'src/views/othersProfile.php';
     }
 
     

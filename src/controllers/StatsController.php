@@ -35,7 +35,7 @@
             $totalAchievements = $this->getTotalUserAchievementsCount($user_id);
             $dayStreak = $this->calculatePostingStreak($user_id);
             $datosIdioma = $this->mostrarEstadisticasUsuario($user_id);
-            require 'views/stats.php';
+            require 'src/views/stats.php';
         }
 
         public function getTotalUserAchievementsCount($userId) {

@@ -13,7 +13,7 @@
         }
 
         public function open_page() {
-            require 'views/login.php';
+            require 'src/views/login.php';
         }
     
         public function check_login($login_identifier, $password) {

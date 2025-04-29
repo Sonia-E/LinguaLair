@@ -4,8 +4,7 @@
 ?>
 <?php require_once './libreria/ti.php' ?>
 <?php blockbase(); ?>
-<?php include 'views/logForm.php' ?>
-<?php // include 'src/views/logForm.php' ?>
+<?php include 'src/views/logForm.php' ?>
 
 <?php
     if (isset($_SESSION['user_id'])) {
@@ -18,8 +17,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LinguaLair</title>
-        <link rel="stylesheet" type="text/css" href="./css/estilo.css"/>
-        <link rel="stylesheet" type="text/css" href="./css/popup.css"/>
+        <link rel="stylesheet" type="text/css" href="public/css/estilo.css"/>
+        <link rel="stylesheet" type="text/css" href="public/css/popup.css"/>
     </head>
 
     <body>
@@ -188,7 +187,7 @@
 
         <!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-        <script type="text/javascript" src="./js/barra.js"></script> -->
-        <script type="text/javascript" src="js/game.js"></script>
+        <script type="text/javascript" src="public/js/barra.js"></script> -->
+        <script type="text/javascript" src="public/js/game.js"></script>
     </body>
 </html>

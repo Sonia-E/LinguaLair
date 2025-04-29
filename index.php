@@ -38,8 +38,7 @@
 
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'load_more_logs')
-            require_once 'views/load_more_logs.php';
-            // require_once 'src/views/load_more_logs.php';
+            require_once 'src/views/load_more_logs.php';
             exit();
     } else {
         // Avoid user accessing any other page but login or signup if there's no session yet
@@ -66,7 +65,7 @@
                             exit();
                         } else {
                             $errores = $loginForm->getErrores();
-                            require 'views/login.php';
+                            require 'src/views/login.php';
                         }
                     } else {
                         // Si no hay sesión y no es un envío de formulario, mostrar la página de login
@@ -123,8 +122,7 @@
                 
             } elseif ($uri == 'get_feed') {
                 $BaseController->get_profile_data($_SESSION["user_id"]);
-                include 'views/feed.php';
-                // include 'src/views/feed.php';
+                include 'src/views/feed.php';
 
             } elseif ($uri == 'explore') {
                 $explore = new ExploreController($modelo, $BaseController, $SocialModel);
@@ -189,4 +187,4 @@
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script type="text/javascript" src="./js/barra.js"></script>
+<script type="text/javascript" src="public/js/barra.js"></script>

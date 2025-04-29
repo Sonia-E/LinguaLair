@@ -182,4 +182,4 @@
     });
 });
 </script>
-<script type="text/javascript" src="js/logs.js"></script>
+<script type="text/javascript" src="public/js/logs.js"></script>

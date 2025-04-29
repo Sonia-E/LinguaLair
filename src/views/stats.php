@@ -2,7 +2,7 @@
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
-<link rel="stylesheet" type="text/css" href="css/stats.css"/>
+<link rel="stylesheet" type="text/css" href="public/css/stats.css"/>
 <div class="dashboard">
     <div class="stats">
         <div class="button-group">
@@ -134,6 +134,6 @@
     const estadisticasPorIdioma = <?php echo json_encode($datosIdioma['estadisticas_por_idioma']); ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript" src="./js/stats.js"></script>
+<script type="text/javascript" src="public/js/stats.js"></script>
 <!-- Terminamos la estructura -->
 <?php endblock() ?>

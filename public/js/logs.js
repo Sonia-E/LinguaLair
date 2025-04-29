@@ -11,7 +11,6 @@ deleteLogBtns.forEach(deleteLogBtn => {
         const logElement = deleteLogBtn.closest('.dropdown'); // Encontrar el log padre
         if (logElement) {
             const currentLogIdentifier = logElement.dataset.logIdentifier;
-            console.log('Log Identifier del botón clickeado:', currentLogIdentifier);
 
             DeleteLogPopup.classList.add("show");
             overlayLog.style.visibility = "visible";

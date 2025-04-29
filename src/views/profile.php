@@ -2,7 +2,7 @@
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
-<link rel="stylesheet" type="text/css" href="css/profile.css"/>
+<link rel="stylesheet" type="text/css" href="public/css/profile.css"/>
 <link rel="stylesheet" type="text/css" href="libreria/countrySelect/countrySelect.css"/>
 <div class="dashboard">
     <div class="profile">
@@ -79,8 +79,7 @@
                 <h2>@<?php echo $usuario->username ?>'s Logs</h2>
             </div>
             <div class="following show">
-                <?php include 'views/feed.php' ?>
-                <?php // include 'src/views/feed.php' ?>
+                <?php include 'src/views/feed.php' ?>
             </div>
             <div class="my-logs hidden">
                 <div class="log"></div>

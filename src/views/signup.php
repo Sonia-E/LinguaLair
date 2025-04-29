@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LinguaLair</title>
-        <link rel="stylesheet" href="/lingualair/css/signup.css">
+        <link rel="stylesheet" href="public/css/signup.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <!-- Country select -->
         <link rel="stylesheet" href="libreria/countrySelect/countrySelect.css">
@@ -65,9 +65,9 @@
                 <div class="separator">
                     <span>or</span>
                 </div>
-                <button class="google-sign-in">
+                <!-- <button class="google-sign-in">
                     <i class="fab fa-google"></i> Sign up with Google
-                </button>
+                </button> -->
                 <p class="create-account">Do you already have an account? <a href="login">Sign in to your Account</a></p>
             </div>
         </div>

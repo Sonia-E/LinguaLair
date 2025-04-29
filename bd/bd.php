@@ -222,7 +222,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
 
             //Insertamos datos
             $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public, profile_pic) 
-            VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE, './img/Qi\'ra avatar.jpg')";
+            VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE, 'public/img/Qi\'ra avatar.jpg')";
             $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
             VALUES ('2', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
             $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 

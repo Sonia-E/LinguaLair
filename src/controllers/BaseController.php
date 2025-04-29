@@ -12,8 +12,7 @@
 
     
         public function open_page() {
-            require 'views/setProfile.php';
-            // require 'src/views/setProfile.php';
+            require 'src/views/setProfile.php';
         }
 
         public function open_homepage() {

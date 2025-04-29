@@ -2,7 +2,7 @@
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
-<link rel="stylesheet" type="text/css" href="css/explore.css"/>
+<link rel="stylesheet" type="text/css" href="public/css/explore.css"/>
 <div class="dashboard">
     <div class="search">
         <form id="explore-form">
@@ -15,4 +15,4 @@
 </div>
 <?php endblock() ?>
 
-<script type="text/javascript" src="js/explore.js"></script>
+<script type="text/javascript" src="public/js/explore.js"></script>

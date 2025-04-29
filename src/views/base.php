@@ -41,46 +41,56 @@
                 </button>
             </div>
 
+            <?php
+                $current_uri = $_SERVER['REQUEST_URI'];
+                $base_path = '/LinguaLair/'; // Define la ruta base de tu aplicación
+
+                // Función para verificar si la URI actual coincide con el enlace
+                function is_current_page($uri, $current_uri, $base_path = '') {
+                    $full_uri = $base_path . $uri;
+                    // Comprueba si la URI actual coincide exactamente o comienza con la URI del enlace (para la página de inicio)
+                    return ($current_uri === $full_uri) || ($uri === '/' && $current_uri === $base_path);
+                }
+            ?>
+
             <nav class="navegacion">
                 <ul>
                     <li>
-                        <!-- HACER EL AÑADIR ID CURRENT DINÁMICO SEGÚN EN QUÉ PÁGINA ESTEMOS (terminación url) -->
-                        <a id="current" href="/LinguaLair/">
+                        <a id="<?php if (is_current_page('/', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>">
                             <ion-icon name="home-outline"></ion-icon>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="explore">
+                        <a id="<?php if (is_current_page('explore', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>explore">
                             <ion-icon name="people-outline"></ion-icon>
                             <span>Explore</span>
                         </a>
                     </li>
                     <li>
-                        <a href="my_profile">
+                        <a id="<?php if (is_current_page('my_profile', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>my_profile">
                             <ion-icon name="documents-outline"></ion-icon>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="stats">
+                        <a id="<?php if (is_current_page('stats', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>stats">
                             <ion-icon name="bar-chart-outline"></ion-icon>
                             <span>Stats</span>
                         </a>
                     </li>
                     <li>
-                        <a href="Notifications">
+                        <a id="<?php if (is_current_page('Notifications', $current_uri, $base_path)): ?>current<?php endif; ?>" href="<?php echo $base_path; ?>Notifications">
                             <ion-icon name="notifications-outline"></ion-icon>
                             <span>Notifications</span>
                         </a>
                     </li>
-                    <li>
-                        <!-- Probablemente eliminar esto y poner por algún lado cerrar sesión -->
-                        <a href="#">
+                    <!-- <li>
+                        <a id="<?php if (is_current_page('#', $current_uri, $base_path)): ?>current<?php endif; ?>" href="#">
                             <ion-icon name="settings-outline"></ion-icon>
                             <span>Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
 

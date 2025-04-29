@@ -43,11 +43,11 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 echo "Inserción para tabla roles realizada con éxito";
             } else {
                 echo "<br>";
-                echo "Error insertando datos para tabla roles: " . $mysqli->error; // Importante mostrar el error
+                echo "Error insertando datos para tabla roles: " . $mysqli->error;
             }
         } else {
             echo "<br>";
-            echo "Error creando la tabla roles: " . $mysqli->error; // Importante mostrar el error
+            echo "Error creando la tabla roles: " . $mysqli->error;
         }
 
         $createTable10 = "CREATE TABLE IF NOT EXISTS permissions (
@@ -76,11 +76,11 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 echo "Inserción para tabla permissions realizada con éxito";
             } else {
                 echo "<br>";
-                echo "Error insertando datos para tabla permissions: " . $mysqli->error; // Importante mostrar el error
+                echo "Error insertando datos para tabla permissions: " . $mysqli->error;
             }
         } else {
             echo "<br>";
-            echo "Error creando la tabla permissions: " . $mysqli->error; // Importante mostrar el error
+            echo "Error creando la tabla permissions: " . $mysqli->error;
         }
 
         $createTable11 = "CREATE TABLE IF NOT EXISTS role_permissions (

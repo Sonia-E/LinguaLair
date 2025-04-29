@@ -5,8 +5,10 @@
 <link rel="stylesheet" type="text/css" href="public/css/profile.css"/>
 <link rel="stylesheet" type="text/css" href="libreria/countrySelect/countrySelect.css"/>
 <div class="dashboard">
-    <div class="profile">
+    <div class="profile other-user">
         <div class="header" style="background-image: url('<?php echo $other_user->bg_pic; ?>')">
+
+            <div class="follows-you <?php echo $followsYou ? '' : 'hidden' ?>"><span>Follows you</span></div>
             
             <div class="btn-group">
                 <button
@@ -49,6 +51,7 @@
         <div class="user-details">
             <div class="bio">
                 <div class="languages">
+                    <span class="native <?php echo $other_user->native_lang ? '' : 'hidden' ?>">Native: <?php echo $other_user->native_lang ?></span>
                     <span class="fluent <?php echo $other_user->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $other_user->fluent ?></span>
                     <span class="learning">Learning: <?php echo $other_user->learning ? $other_user->learning : $other_user->languages; ?></span>
                     <span class="future <?php echo $other_user->future ? '' : 'hidden' ?>">Future: <?php echo $other_user->future ?></span>
@@ -90,19 +93,19 @@
         </div>
     </div>
     <div class="feed">
-            <div class="button-group">
-                <h2>@<?php echo $other_user->username ?>'s Logs</h2>
-            </div>
-            <div class="following show">
-                <?php $usuario = $other_user ?>
-                <?php include 'src/views/feed.php' ?>
-            </div>
-            <div class="my-logs hidden">
-                <div class="log"></div>
-                <div class="log"></div>
-                <div class="log"></div>
-            </div>
+        <div class="button-group">
+            <h2>@<?php echo $other_user->username ?>'s Logs</h2>
         </div>
+        <div class="following show">
+            <?php $usuario = $other_user ?>
+            <?php include 'src/views/feed.php' ?>
+        </div>
+        <div class="my-logs hidden">
+            <div class="log"></div>
+            <div class="log"></div>
+            <div class="log"></div>
+        </div>
+    </div>
 </div>
 
 <?php endblock() ?>

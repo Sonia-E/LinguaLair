@@ -122,6 +122,46 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
         }
 
         //#######################################
+        //############ GAME_ROLES ###############
+        //#######################################
+
+        $game_rolesTable = "CREATE TABLE IF NOT EXISTS game_roles (
+            role_id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(50) UNIQUE NOT NULL,
+            description VARCHAR(255)
+            )";
+
+        // Creamos la tabla roles
+        if ($mysqli->query($game_rolesTable) === TRUE) {
+            echo "<br>";
+            echo "Tabla roles creada con éxito";
+
+            $sql17 = "INSERT INTO game_roles (name, description) VALUES
+                ('Novice', 'Rol inicial para nuevos jugadores.'),
+                ('Apprentice', 'Jugador que está aprendiendo los fundamentos.'),
+                ('Amateur', 'Jugador con cierta experiencia.'),
+                ('Journeyman', 'Jugador competente con habilidades sólidas.'),
+                ('Adept', 'Jugador muy hábil y con gran dominio.'),
+                ('Ace', 'Jugador excepcional con un rendimiento destacado.'),
+                ('Expert', 'Jugador con un conocimiento profundo del juego.'),
+                ('Exemplar', 'Jugador que sirve de modelo a seguir.'),
+                ('Mentor', 'Jugador experimentado que guía a otros.'),
+                ('Master', 'Jugador que ha alcanzado un nivel de maestría.'),
+                ('Grandmaster', 'Jugador de la más alta categoría.')";
+
+            if ($mysqli->query($sql17) === TRUE) {
+                echo "<br>";
+                echo "Inserción para tabla roles realizada con éxito";
+            } else {
+                echo "<br>";
+                echo "Error insertando datos para tabla roles: " . $mysqli->error;
+            }
+        } else {
+            echo "<br>";
+            echo "Error creando la tabla roles: " . $mysqli->error;
+        }
+
+        //#######################################
         //########## 1. TABLA USER ##############
         //#######################################
 
@@ -208,13 +248,12 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             is_public BOOLEAN DEFAULT TRUE,
             profile_pic TEXT,
             bg_pic TEXT,
-            game_roles TEXT,
-            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)";
+            game_roles VARCHAR(50) DEFAULT 'Novice',
+            FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+            FOREIGN KEY (game_roles) REFERENCES game_roles(name) ON DELETE CASCADE)";
 
             // Primary key is also foreign key because profile is a weak entity of user
             // languages TEXT NOT NULL, --At least one language
-            // profile_pic TEXT, --Tendré que poner aquí una de tipo default en general: un placeholder
-            // bg_pic TEXT, --Tendré que poner aquí una de tipo default en general: un placeholder
         
         // Creamos la tabla profile
         if ($mysqli->query($createTable3) === TRUE) {
@@ -222,8 +261,8 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla profile creada con éxito";
 
             //Insertamos datos
-            $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public, profile_pic) 
-            VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE, 'public/img/Qi\'ra avatar.jpg')";
+            $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, num_followers, num_following, is_public, profile_pic, bg_pic) 
+            VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, '1', '1', TRUE, 'public/img/Qi\'ra avatar.jpg', 'public/img/WWX1.jpg')";
             $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
             VALUES ('2', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
             $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
@@ -266,7 +305,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             // Insertamos el segundo registro
             $sql2 = "INSERT INTO logs (user_id, description, language, type, duration, log_date, post_date)
             VALUES ('1', 'Fusce metus elit, dignissim vitae malesuada vehicula, scelerisque viverra ligula. Suspendisse facilisis ultricies lacus eget varius.',
-            'Japanese', 'kanji', '15', '2025-03-31', '2024-10-27 15:30:00')";
+            'Japanese', 'grammar', '15', '2025-03-31', '2024-10-27 15:30:00')";
         
             if ($mysqli->query($sql1) === TRUE && $mysqli->query($sql2) === TRUE) {
                 echo "<br>";

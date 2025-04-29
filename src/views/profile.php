@@ -34,6 +34,7 @@
         <div class="user-details">
             <div class="bio">
                 <div class="languages">
+                    <span class="native <?php echo $usuario->native_lang ? '' : 'hidden' ?>">Native: <?php echo $usuario->native_lang ?></span>
                     <span class="fluent <?php echo $usuario->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $usuario->fluent ?></span>
                     <span class="learning">Learning: <?php echo $usuario->learning ? $usuario->learning : $usuario->languages; ?></span>
                     <span class="future <?php echo $usuario->future ? '' : 'hidden' ?>">Future: <?php echo $usuario->future ?></span>

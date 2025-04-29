@@ -26,9 +26,11 @@
     padding: 40px;
     background-color: rgb(214, 214, 214);
     border-radius: 10px;
-    /* background-image: url("../img/WWX1.jpg"); */
     background-position: center;
     background-repeat: no-repeat;
+}
+.profile.other-user .header {
+    height: 34%;
 }
 
 .profile .header .edit {
@@ -59,9 +61,6 @@
     height: 30px;
     padding-left: 5px;
     padding-right: 5px;
-    /* left: 100%; */
-    /* margin-top: -20px;
-    margin-right: -20px; */
     border-radius: 5px;
     border: 0;
     background-color: rgb(206, 125, 163);
@@ -69,6 +68,47 @@
     font-size: larger;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.profile .header .follows-you {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    border: 0;
+    background-color: white;
+    color: rgb(125, 183, 206);
+    font-size: larger;
+    float: left;
+    left: 24px;
+    bottom: -15px;
+    box-shadow:
+        2px 2px 20px rgba(125, 183, 206, 0.8), /* Simula borde derecho-abajo */
+        -2px -2px 0 rgba(125, 183, 206, 0.8), /* Simula borde izquierdo-arriba */
+        2px -2px 0 rgba(125, 183, 206, 0.8), /* Simula borde derecho-arriba */
+        -2px 2px 0 rgba(125, 183, 206, 0.8), /* Simula borde izquierdo-abajo */
+        0 3px 0 rgba(125, 183, 206, 0.8), /* Ajuste para la parte inferior del pico */
+        -1px 3px 0 rgba(125, 183, 206, 0.8), /* Ajuste lado izquierdo del pico */
+        1px 3px 0 rgba(125, 183, 206, 0.8); /* Ajuste lado derecho del pico */
+}
+
+.profile .header .follows-you::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: 10px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+.follows-you.hidden {
+    visibility: hidden;
 }
 
 .delete-user-btn {
@@ -131,6 +171,11 @@
     z-index: 20;
     display: flex;
     gap: 20px;
+}
+
+.profile.other-user .header .avatar {
+    top: 25%;
+    clear: left;
 }
 
 .avatar img {

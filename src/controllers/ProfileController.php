@@ -145,8 +145,10 @@
         $other_totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
 
         $isFollowing = false;
+        $followsYou = false;
         
         $isFollowing = $this->SocialModel->isFollowing($_SESSION['user_id'], $other_user->id);
+        $followsYou = $this->SocialModel->isFollowing($other_user->id, $_SESSION['user_id']);
         require 'src/views/othersProfile.php';
     }
 

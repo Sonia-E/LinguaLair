@@ -28,6 +28,7 @@
     use Sonia\LinguaLair\Controllers\ExploreController;
     use Sonia\LinguaLair\Controllers\AdminController;
     use Sonia\LinguaLair\Controllers\SocialController;
+    use Sonia\LinguaLair\Controllers\EventsController;
 
     $BaseController = new BaseController($modelo, $SocialModel);
 
@@ -176,6 +177,9 @@
                     header('Location: profile');
                     exit();
                 }
+            } elseif ($uri == 'events') {
+                $eventsController = new EventsController($modelo, $BaseController);
+                $eventsController->open_page();
             } else {
                 // Cargar una página de error
                 header("HTTP/1.0 404 Not Found");

@@ -180,6 +180,29 @@
             } elseif ($uri == 'events') {
                 $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
                 $eventsController->open_page();
+            } elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $eventId = $_GET['id'];
+                $event = $SocialModel->getEvent($eventId);
+            
+                if ($event) {
+                    header('Content-Type: application/json');
+                    echo json_encode($event);
+                    exit();
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['error' => 'Evento no encontrado']);
+                    exit();
+                }
+            } elseif ($uri == 'book_event') {
+                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController->book();
+                exit();
+
+            } elseif ($uri == 'unbook_event') {
+                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController->unbookEvent();
+                exit();
+                
             } else {
                 // Cargar una página de error
                 header("HTTP/1.0 404 Not Found");

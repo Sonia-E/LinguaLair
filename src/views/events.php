@@ -18,14 +18,14 @@
             <!-- si no hay search div no hay transición de aparición -->
             <div id="resultados"></div>
             <?php foreach ($events as $event) { ?>
-                <div class="event">
+                <div class="event" data-event-identifier="<?php echo $event->id ?>">
                     <div class="event-header usuario">
                         <div class="event-column">
                             <h3 class="event-name"><?php echo $event->name ?></h3>
                             
                             <div class="event-subtype">
                                 <div class="<?php echo $event->subtype == 'Language Exchange' ? 'exchange-type' : 'hidden' ?>">
-                                    <span class="exchange-langs"><?php echo $event->exchange_lang_1 ?>-<?php echo $event->exchange_lang_2 ?></span>
+                                    <span class="exchange-langs"><?php echo $event->exchange_lang_1 ?> - <?php echo $event->exchange_lang_2 ?></span>
                                 </div>
                                 <div class="main-lang <?php echo $event->main_lang ? '' : 'hidden' ?>">Event language: <?php echo $event->main_lang ?></div>
                                 <div class="learning-lang <?php echo $event->learning_lang ? '' : 'hidden' ?>">Target language: <?php echo $event->learning_lang ?></div>
@@ -48,8 +48,9 @@
                             <!-- Location if it's in person -->
                             <div class="location <?php echo $event->city ? '' : 'hidden' ?>">
                                 <span>
-                                    <span><?php echo $event->city ?></span>, <span><?php echo $event->country ?></span></div>
+                                    <span><?php echo $event->city ?></span>, <span><?php echo $event->country ?></span>
                                 </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,56 +69,49 @@
     <!-- <div class="feed"> -->
     <div class="profile hidden">
         <div class="header">
-        <!-- <div class="header" style="background-image: url('<?php echo $usuario->bg_pic; ?>')"> -->
-            <button class="edit">Attend</button>
-            <h1 class="event-name"><?php echo $event->name ?></h1>
-            
+            <div class="event-column">
+            <div class="attend">
+                <button
+                    <?php $isFollowing = false ?>
+                    class="<?php echo $isFollowing ? 'unbookButton' : 'bookButton'; ?>"
+                    data-user-id="<?php echo $usuario->id; ?>"
+                >
+                    <span><?php echo $isFollowing ? 'Attending' : 'Attend'; ?></span>
+                </button>
+            </div>
+                <h1 class="event-name"></h1>
+                <div class="event-subtype">
+                    <div class="exchange-type hidden">
+                        <span class="exchange-langs"></span>
+                    </div>
+                    <div class="main-lang hidden">Event language: </div>
+                    <div class="learning-lang hidden">Target language: </div>
+                </div>
+            </div>
         </div>
         <div class="user-details">
             <div class="bio">
                 <div class="languages">
-                    <span class="native <?php echo $usuario->native_lang ? '' : 'hidden' ?>">Native: <?php echo $usuario->native_lang ?></span>
-                    <span class="fluent <?php echo $usuario->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $usuario->fluent ?></span>
-                    <span class="learning">Learning: <?php echo $usuario->learning ? $usuario->learning : $usuario->languages; ?></span>
-                    <span class="future <?php echo $usuario->future ? '' : 'hidden' ?>">Future: <?php echo $usuario->future ?></span>
-                    <span class="on-hold <?php echo $usuario->on_hold ? '' : 'hidden' ?>">On hold: <?php echo $usuario->on_hold ?></span>
-                    <span class="dabbling <?php echo $usuario->dabbling ? '' : 'hidden' ?>">Dabbling: <?php echo $usuario->dabbling ?></span>
+                    <div class="event-date"><span>Event Date: </span></div>
+                    <span class="event-type"></span>
+                    <span><strong>Creation Date:</strong> <span></span></span>
+                    <div class="location hidden">
+                        <span>
+                            <span></span>, <span></span>
+                        </span>
+                    </div>
                 </div>
                 <hr class="v">
-                <div class="text"><span><?php echo $usuario->bio ?></span></div>
+                <div class="text"><span></span></div>
             </div>
-
             <hr class="separator">
-            
             <div class="stats">
-                <div class="logs">
-                    <span class="nb"><?php echo $totalLogs ?? 0; ?></span>
-                    <span class="title">Logs</span>
+                <div class="long-description">
+                    <p></p>
                 </div>
-                <div class="logs">
-                    <span class="nb"><?php echo $totalHoras ?? 0; ?></span>
-                    <span class="title"><?php echo ($totalMinutosRaw >= 60) ? "Study Hours" : "Minutes"; ?></span>
-                </div>
-                <div class="logs">
-                    <span class="nb">5</span>
-                    <span class="title">Achievements</span>
-                </div>
-                <div class="logs">
-                    <span class="nb">3</span>
-                    <span class="title">Day Streak</span>
-                </div>
-            </div>
-
-            <hr class="separator">
-
-            <div class="follow">
-                <span class="following"><?php echo $usuario->num_following ?> following</span>
-                <span class="divider">|</span>
-                <span class="followers"><?php echo $usuario->num_followers ?> followers</span>
             </div>
         </div>
     </div>
-    <!-- </div> -->
 </div>
 <?php endblock() ?>
 

@@ -18,6 +18,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow: hidden;
+    transition: display 0.3 ease;
 }
 
 .profile .header {
@@ -368,4 +369,7 @@
     width: 100%; /* Adjust the width as needed */
     border: 0; /* Remove the default border */
     border-top: 1px solid var(--color-linea); /* Add a custom top border for the line */
+}
+.hide {
+    display: none;
 }

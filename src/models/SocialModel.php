@@ -370,6 +370,91 @@
                 return null;
             }
         }
+
+        public function getEvent($event_id) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT * FROM events WHERE id = ?";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("i", $event_id); // "i" indica que el parámetro es un entero
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+        
+                if ($resultado->num_rows == 1) {
+                    $event = $resultado->fetch_object();
+                    $stmt->close();
+                    return $event;
+                } else {
+                    $stmt->close();
+                    return null; // No se encontró ningún evento con ese ID
+                }
+            } else {
+                echo "Error al preparar la consulta para obtener el evento: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        private function updateAttendingEvent($event_id, $increment) {
+            if (!$this->conexion) return false;
+            $sql = "UPDATE events SET attending = attending + ? WHERE id = ?";
+            $stmt = $this->conexion->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("ii", $increment, $event_id);
+                $stmt->execute();
+                $stmt->close();
+                return true;
+            } else {
+                error_log("Error al actualizar el contador de 'attending': " . $this->conexion->error);
+                return false;
+            }
+        }
+
+        public function bookeEvent($user_id, $event_id) {
+            if (!$this->conexion) return false;
+    
+            // Check if the booking relationship already exists
+            $checkSql = "SELECT * FROM booking WHERE user_id = ? AND event_id = ?";
+            $checkStmt = $this->conexion->prepare($checkSql);
+    
+            if ($checkStmt) {
+                $checkStmt->bind_param("ii", $user_id, $event_id);
+                $checkStmt->execute();
+                $result = $checkStmt->get_result();
+                if ($result->num_rows > 0) {
+                    $checkStmt->close();
+                    return true; // Already booked
+                }
+                $checkStmt->close();
+            } else {
+                echo "Error al preparar la consulta para verificar el booking: " . $this->conexion->error;
+                return false;
+            }
+    
+            // Insert the booking relationship
+            $insertSql = "INSERT INTO booking (user_id, event_id) VALUES (?, ?)";
+            $insertStmt = $this->conexion->prepare($insertSql);
+    
+            if ($insertStmt) {
+                $insertStmt->bind_param("ii", $user_id, $event_id);
+                $insertResult = $insertStmt->execute();
+                $insertStmt->close();
+    
+                if ($insertResult) {
+                    // Optionally update the num_following count for the follower
+                    $this->updateAttendingEvent($event_id, 1);
+                    return true;
+                } else {
+                    echo "Error al ejecutar la consulta para inscribirse al evento: " . $this->conexion->error;
+                    return false;
+                }
+            } else {
+                echo "Error al preparar la consulta para inscribirse al evento: " . $this->conexion->error;
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

@@ -345,6 +345,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             city VARCHAR(100),
             country VARCHAR(100),
             event_time TIME,
+            long_description TEXT,
             attending INT DEFAULT 0 -- Total of attending people
             )";
         
@@ -353,22 +354,58 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "<br>";
             echo "Tabla events creada con éxito";
 
-            // Insertamos el primer registro de evento
-            $sql3 = "INSERT INTO events (name, description, creation_date, event_date, type, subtype, exchange_lang_1, exchange_lang_2, city, country)
-                    VALUES ('Language Exchange Meetup', 'Join us for a casual language exchange session. Practice speaking and meet new people!',
-                    '2025-04-05', '2025-04-15', 'In person', 'Language Exchange', 'Japanese', 'Spanish', 'Madrid', 'Spain')";
+            // Insertamos el primer registro de evento con long_description
+            $sql3_extended = "INSERT INTO events (name, description, long_description, creation_date, event_date, type, subtype, exchange_lang_1, exchange_lang_2, city, country)
+            VALUES (
+                'Language Exchange Meetup',
+                'Join us for a casual language exchange session. Practice speaking and meet new people!',
+                'This is a longer description for our Language Exchange Meetup in Madrid.
 
-            // Insertamos el segundo registro de evento
-            $sql4 = "INSERT INTO events (name, description, creation_date, event_date, type, subtype, main_lang, learning_lang)
-                    VALUES ('Online Japanese Conversation Club', 'Practice your Japanese speaking skills in a relaxed online environment.',
-                    '2025-04-07', '2025-04-20', 'Online', 'General', 'English', 'Japanese')";
+We welcome speakers of Japanese and Spanish of all levels. Whether you are a beginner looking to practice basic phrases or an advanced speaker wanting to engage in in-depth conversations, you are welcome to join us.
 
-            if ($mysqli->query($sql3) === TRUE && $mysqli->query($sql4) === TRUE) {
-                echo "<br>";
-                echo "Inserción para tabla events realizada con éxito";
+The session will be held in a relaxed and friendly atmosphere at [Nombre del Lugar]. Come and enjoy practicing your target language while making new friends!
+
+Don\'t forget to bring your enthusiasm and willingness to communicate!',
+                '2025-04-05',
+                '2025-04-15',
+                'In person',
+                'Language Exchange',
+                'Japanese',
+                'Spanish',
+                'Madrid',
+                'Spain'
+            )";
+
+            if ($mysqli->query($sql3_extended) === TRUE) {
+            echo "<br>Evento 'Language Exchange Meetup' insertado con éxito.";
             } else {
-                echo "<br>";
-                echo "Error insertando datos para tabla events: " . $mysqli->error; // Importante mostrar el error
+            echo "<br>Error al insertar el evento 'Language Exchange Meetup': " . $mysqli->error;
+            }
+
+            // Insertamos el segundo registro de evento con long_description
+            $sql4_extended = "INSERT INTO events (name, description, long_description, creation_date, event_date, type, subtype, main_lang, learning_lang)
+            VALUES (
+                'Online Japanese Conversation Club',
+                'Practice your Japanese speaking skills in a relaxed online environment.',
+Welcome to our Online Japanese Conversation Club!
+
+This is a fantastic opportunity to improve your Japanese speaking skills from the comfort of your own home. We focus on creating a relaxed and supportive environment where learners of all levels can practice speaking.
+
+Our sessions often include discussions on various topics, casual conversations, and opportunities to ask questions. The main language of organization is English, but the target language is Japanese.
+
+We look forward to seeing you online and practicing Japanese together!',
+                '2025-04-07',
+                '2025-04-20',
+                'Online',
+                'General',
+                'English',
+                'Japanese'
+            )";
+
+            if ($mysqli->query($sql4_extended) === TRUE) {
+            echo "<br>Evento 'Online Japanese Conversation Club' insertado con éxito.";
+            } else {
+            echo "<br>Error al insertar el evento 'Online Japanese Conversation Club': " . $mysqli->error;
             }
         } else {
             echo "<br>";

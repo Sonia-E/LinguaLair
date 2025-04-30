@@ -69,7 +69,9 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 ('delete_any_log', 'Permite eliminar cualquier log.'),
                 ('edit_any_log', 'Permite editar cualquier log.'),
                 ('delete_user', 'Permite eliminar usuarios.'),
-                ('ban_user', 'Permite banear usuarios.')";
+                ('ban_user', 'Permite banear usuarios.'),
+                ('create_events', 'Permite organizar eventos y publicarlos.'),
+                ('attend_in_person_events', 'Permite asistir a eventos en persona')";
 
             if ($mysqli->query($sql15) === TRUE) {
                 echo "<br>";
@@ -107,7 +109,11 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'delete_any_log')),
                 ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'edit_any_log')),
                 ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'delete_user')),
-                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'ban_user'))";
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'ban_user')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'create_events')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'attend_in_person_events')),
+                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'create_events')),
+                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'attend_in_person_events'))";
 
             if ($mysqli->query($sql16) === TRUE) {
                 echo "<br>";
@@ -329,7 +335,18 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             name VARCHAR(300) NOT NULL,
             description TEXT,
             creation_date DATE,
-            event_date DATE)";
+            event_date DATE,
+            type ENUM('Online', 'In person') NOT NULL,
+            subtype ENUM('Language Exchange', 'General', 'Mixed') NOT NULL DEFAULT 'General',
+            exchange_lang_1 VARCHAR(50),
+            exchange_lang_2 VARCHAR(50),
+            main_lang VARCHAR(50), -- The organization language
+            learning_lang VARCHAR(50),
+            city VARCHAR(100),
+            country VARCHAR(100),
+            event_time TIME,
+            attending INT DEFAULT 0 -- Total of attending people
+            )";
         
         // Creamos la tabla events
         if ($mysqli->query($createTable5) === TRUE) {
@@ -337,14 +354,14 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla events creada con éxito";
 
             // Insertamos el primer registro de evento
-            $sql3 = "INSERT INTO events (name, description, creation_date, event_date)
+            $sql3 = "INSERT INTO events (name, description, creation_date, event_date, type, subtype, exchange_lang_1, exchange_lang_2, city, country)
                     VALUES ('Language Exchange Meetup', 'Join us for a casual language exchange session. Practice speaking and meet new people!',
-                    '2025-04-05', '2025-04-15')";
+                    '2025-04-05', '2025-04-15', 'In person', 'Language Exchange', 'Japanese', 'Spanish', 'Madrid', 'Spain')";
 
             // Insertamos el segundo registro de evento
-            $sql4 = "INSERT INTO events (name, description, creation_date, event_date)
+            $sql4 = "INSERT INTO events (name, description, creation_date, event_date, type, subtype, main_lang, learning_lang)
                     VALUES ('Online Japanese Conversation Club', 'Practice your Japanese speaking skills in a relaxed online environment.',
-                    '2025-04-07', '2025-04-20')";
+                    '2025-04-07', '2025-04-20', 'Online', 'General', 'English', 'Japanese')";
 
             if ($mysqli->query($sql3) === TRUE && $mysqli->query($sql4) === TRUE) {
                 echo "<br>";

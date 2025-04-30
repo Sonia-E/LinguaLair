@@ -348,6 +348,28 @@
                 return false;
             }
         }
+
+        public function getEvents() {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT * FROM events ORDER BY event_date DESC";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $events = [];
+                while ($event = $resultado->fetch_object()) {
+                    $events[] = $event;
+                }
+                $stmt->close();
+                return $events;
+            } else {
+                echo "Error al preparar la consulta para obtener eventos: " . $this->conexion->error;
+                return null;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

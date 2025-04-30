@@ -4,10 +4,12 @@
     class EventsController {
         private $modelo;
         private $BaseController;
+        private $SocialModel;
 
-        public function __construct($modelo, $BaseController) {
+        public function __construct($modelo, $BaseController, $SocialModel) {
             $this->modelo = $modelo;
             $this->BaseController = $BaseController;
+            $this->SocialModel = $SocialModel;
         }
 
         public function open_page() {
@@ -26,6 +28,7 @@
     
             // Obtener el total de minutos para the title control
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
+            $events = $this->SocialModel->getEvents();
             
             require 'src/views/events.php';
         }

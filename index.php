@@ -178,7 +178,7 @@
                     exit();
                 }
             } elseif ($uri == 'events') {
-                $eventsController = new EventsController($modelo, $BaseController);
+                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
                 $eventsController->open_page();
             } else {
                 // Cargar una página de error

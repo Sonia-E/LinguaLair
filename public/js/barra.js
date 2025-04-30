@@ -23,7 +23,7 @@ botonesLog.forEach(boton => {
 
 
 // Cerrar el popup al hacer clic en el overlay
-    overlay.addEventListener("click", () => {
+overlay.addEventListener("click", () => {
     popup.classList.remove("show");
     overlay.style.visibility = "hidden";
 });

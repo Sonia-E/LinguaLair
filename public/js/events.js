@@ -59,11 +59,32 @@ function updateProfile(eventData) {
     const profileDescription = profile.querySelector(".user-details .bio .text span");
     const profileLongDescription = profile.querySelector(".user-details .stats .long-description p");
 
+    const attendButton = profile.querySelector(".attend button");
+    const attendButtonSpan = attendButton.querySelector("span");
+
+    if (eventData.attending) {
+        attendButton.classList.remove("bookButton");
+        attendButton.classList.add("unbookButton");
+        attendButtonSpan.textContent = "Attending";
+    } else {
+        attendButton.classList.remove("unbookButton");
+        attendButton.classList.add("bookButton");
+        attendButtonSpan.textContent = "Attend";
+    }
+
+    // Agregar el data-event-identifier al botón
+    attendButton.dataset.eventId = eventData.id;
+
     // Actualiza el contenido con los datos del evento
     profileName.textContent = eventData.name;
+    profileSubtypeExchange.classList.add("hidden", !eventData.subtype === 'Language Exchange');
     if (eventData.subtype === 'Language Exchange') {
         profileExchangeLangs.textContent = `${eventData.exchange_lang_1} - ${eventData.exchange_lang_2}`;
+        profileSubtypeExchange.classList.remove("hidden");
+        console.log("Current event subtype: " + eventData.subtype);
+        profileSubtypeExchange.style.display = 'flex';
     } else {
+        console.log("Current event subtype in else: " + eventData.subtype);
         profileExchangeLangs.textContent = '';
         profileSubtypeExchange.style.display = 'none';
     }
@@ -95,3 +116,89 @@ function updateProfile(eventData) {
 
     // Opcional: Asegurarse de que el botón "Attend" también se actualice si es necesario
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(event) {
+        const bookButton = event.target.closest('.bookButton');
+        const unbookButton = event.target.closest('.unbookButton');
+        const buttonSpan = event.target.querySelector('span') || (event.target.tagName === 'SPAN' ? event.target : null);
+
+        if (bookButton) {
+            const userId = bookButton.dataset.userId;
+            const eventId = bookButton.dataset.eventId;
+
+            if (userId === 'null') {
+                alert('You must be logged in to book events.');
+                return;
+            }
+
+            if (eventId) {
+                fetch('book_event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}&event_id=${eventId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (buttonSpan) {
+                            buttonSpan.textContent = 'Attending';
+                        }
+                        bookButton.classList.remove('bookButton');
+                        bookButton.classList.add('unbookButton');
+
+                    } else {
+                        alert(data.message || 'Error booking event.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error occurred.');
+                });
+            } else {
+                console.error('Event ID to book not found.');
+                alert('Could not book event.');
+            }
+        } else if (unbookButton) {
+            const userId = unbookButton.dataset.userId;
+            const eventId = unbookButton.dataset.eventId;
+
+            if (userId === 'null') {
+                alert('You must be logged in to unbook events.');
+                return;
+            }
+
+            if (eventId) {
+                fetch('unbook_event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_id=${userId}&event_id=${eventId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (buttonSpan) {
+                            buttonSpan.textContent = 'Attend';
+                        }
+                        unbookButton.classList.remove('unbookButton');
+                        unbookButton.classList.add('bookButton');
+
+                    } else {
+                        alert(data.message || 'Error unbooking event.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error occurred.');
+                });
+            } else {
+                console.error('Event ID to unbook not found.');
+                alert('Could not unbook event.');
+            }
+        }
+    });
+});

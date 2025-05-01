@@ -2,7 +2,7 @@
     display: flex;
     margin-top: 3px;
     justify-content: center;
-    height: 73.5vh; /* Maintain the desired height */
+    height: 74.5vh; /* Maintain the desired height */
     border-radius: 10px;
     background-color: var(--color-barra-lateral);
     align-items: center;

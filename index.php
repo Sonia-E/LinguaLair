@@ -29,6 +29,7 @@
     use Sonia\LinguaLair\Controllers\AdminController;
     use Sonia\LinguaLair\Controllers\SocialController;
     use Sonia\LinguaLair\Controllers\EventsController;
+    use Sonia\LinguaLair\Controllers\AchievementsController;
 
     $BaseController = new BaseController($modelo, $SocialModel);
 
@@ -177,9 +178,14 @@
                     header('Location: profile');
                     exit();
                 }
+            } elseif ($uri == 'achievements') {
+                $achievementsController = new AchievementsController($modelo, $BaseController, $StatsModel);
+                $achievementsController->open_page();
+                
             } elseif ($uri == 'events') {
                 $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
                 $eventsController->open_page();
+
             } elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $eventId = $_GET['id'];
                 $event = $SocialModel->getEvent($eventId);
@@ -193,6 +199,11 @@
                     echo json_encode(['error' => 'Evento no encontrado']);
                     exit();
                 }
+            } elseif ($uri == 'event_details') {
+                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController->getEventDetails();
+                exit();
+
             } elseif ($uri == 'book_event') {
                 $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
                 $eventsController->book();
@@ -200,7 +211,7 @@
 
             } elseif ($uri == 'unbook_event') {
                 $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
-                $eventsController->unbookEvent();
+                $eventsController->unbook();
                 exit();
                 
             } else {

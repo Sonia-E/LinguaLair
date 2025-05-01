@@ -412,7 +412,26 @@
             }
         }
 
-        public function bookeEvent($user_id, $event_id) {
+        public function isAttending($user_id, $event_id) {
+            if (!$this->conexion) return false;
+    
+            $sql = "SELECT * FROM booking WHERE user_id = ? AND event_id = ?";
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("ii", $user_id, $event_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $isAttending = $result->num_rows > 0;
+                $stmt->close();
+                return $isAttending;
+            } else {
+                echo "Error al preparar la consulta para verificar el booking: " . $this->conexion->error;
+                return false;
+            }
+        }
+
+        public function bookEvent($user_id, $event_id) {
             if (!$this->conexion) return false;
     
             // Check if the booking relationship already exists
@@ -452,6 +471,31 @@
                 }
             } else {
                 echo "Error al preparar la consulta para inscribirse al evento: " . $this->conexion->error;
+                return false;
+            }
+        }
+
+        public function unbookEvent($user_id, $event_id) {
+            if (!$this->conexion) return false;
+    
+            $sql = "DELETE FROM booking WHERE user_id = ? AND event_id = ?";
+            $stmt = $this->conexion->prepare($sql);
+    
+            if ($stmt) {
+                $stmt->bind_param("ii", $user_id, $event_id);
+                $result = $stmt->execute();
+                $affectedRows = $stmt->affected_rows;
+                $stmt->close();
+    
+                if ($result) {
+                    $this->updateAttendingEvent($event_id, -1);
+                    return $affectedRows > 0; // Devuelve true si se eliminó alguna fila
+                } else {
+                    error_log("Error al ejecutar la consulta para eliminar inscripción al evento: " . $this->conexion->error);
+                    return false;
+                }
+            } else {
+                error_log("Error al preparar la consulta para eliminar inscripción al evento: " . $this->conexion->error);
                 return false;
             }
         }

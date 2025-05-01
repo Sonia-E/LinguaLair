@@ -3,7 +3,7 @@
     display: flex;
     margin-top: 3px;
     justify-content: center;
-    height: 73.5vh; /* Maintain the desired height */
+    height: 74.5vh; /* Maintain the desired height */
     border-radius: 10px;
     background-color: var(--color-barra-lateral);
     align-items: stretch; /* Para que los hijos se estiren a la altura del dashboard */
@@ -256,13 +256,14 @@
     overflow: hidden; /* Oculta el contenido que se desplaza fuera */
 }
 
-.profile .header .edit:hover, .profile .header .bookButton:hover, .unbookButton:hover {
-    background-color: rgb(185, 48, 112);
-    cursor: pointer;
+.header .bookButton:hover  {
+    background-color: rgb(185, 48, 112) !important;
+    cursor: pointer !important;
 }
 
 .unbookButton:hover {
-    background-color: #d9534f;
+    background-color: #d9534f !important;
+    cursor: pointer;
 }
 
 .unbookButton span {
@@ -275,7 +276,7 @@
 }
 
 .unbookButton::before {
-    content: "Unfollow";
+    content: "Unbook";
     color: white;
     position: absolute;
     left: 100%;
@@ -285,5 +286,5 @@
 }
 
 .unbookButton:hover::before {
-    transform: translate(-125%, -50%);
+    transform: translate(-120%, -50%);
 }

@@ -513,26 +513,6 @@ We look forward to seeing you online and practicing Japanese together!',
         if ($mysqli->query($createTable8) === TRUE) {
             echo "<br>";
             echo "Tabla booking creada con éxito";
-
-            // Insertamos la primera reserva
-            $sql11 = "INSERT INTO booking (user_id, event_id)
-                    VALUES ('1', '1')"; // El usuario con ID 1 se ha registrado en el evento con ID 1
-
-            // Insertamos la segunda reserva
-            $sql12 = "INSERT INTO booking (user_id, event_id)
-                    VALUES ('2', '1')"; // El usuario con ID 2 se ha registrado en el evento con ID 1
-
-            // Insertamos la tercera reserva
-            $sql13 = "INSERT INTO booking (user_id, event_id)
-                    VALUES ('1', '2')"; // El usuario con ID 1 se ha registrado en el evento con ID 2
-
-            if ($mysqli->query($sql11) === TRUE && $mysqli->query($sql12) === TRUE && $mysqli->query($sql13) === TRUE) {
-                echo "<br>";
-                echo "Inserción para tabla booking realizada con éxito";
-            } else {
-                echo "<br>";
-                echo "Error insertando datos para tabla booking: " . $mysqli->error; // Importante mostrar el error
-            }
         } else {
             echo "<br>";
             echo "Error creando la tabla booking: " . $mysqli->error; // Importante mostrar el error

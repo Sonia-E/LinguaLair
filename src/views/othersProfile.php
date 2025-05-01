@@ -141,7 +141,6 @@
         const buttonSpan = event.target.querySelector('span') || (event.target.tagName === 'SPAN' ? event.target : null);
 
         if (followButton) {
-            // Lógica para seguir (ya existente)
             const followedId = followButton.dataset.userId;
             const followerId = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>;
 

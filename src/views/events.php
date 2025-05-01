@@ -72,16 +72,16 @@
             <div class="event-column">
             <div class="attend">
                 <button
-                    <?php $isFollowing = false ?>
-                    class="<?php echo $isFollowing ? 'unbookButton' : 'bookButton'; ?>"
+                    <?php $isAttending = false ?>
+                    class="<?php echo $isAttending ? 'unbookButton' : 'bookButton'; ?>"
                     data-user-id="<?php echo $usuario->id; ?>"
                 >
-                    <span><?php echo $isFollowing ? 'Attending' : 'Attend'; ?></span>
+                    <span><?php echo $isAttending ? 'Attending' : 'Attend'; ?></span>
                 </button>
             </div>
                 <h1 class="event-name"></h1>
                 <div class="event-subtype">
-                    <div class="exchange-type hidden">
+                    <div class="exchange-type">
                         <span class="exchange-langs"></span>
                     </div>
                     <div class="main-lang hidden">Event language: </div>

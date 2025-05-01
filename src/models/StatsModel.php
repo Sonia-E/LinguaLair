@@ -373,5 +373,115 @@
             return $this->calculateLogTypePercentagesByLanguage($userLogs, $language);
         }
 
+        public function getUserAchievements($user_id) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT
+                                a.id,
+                                a.name,
+                                a.description,
+                                a.icon,
+                                a.type,
+                                a.level,
+                                ua.unlock_date
+                            FROM achievements a
+                            INNER JOIN user_achievements ua ON a.id = ua.achievement_id
+                            WHERE ua.user_id = ?";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $achievements = [];
+                while ($achievement = $resultado->fetch_object()) {
+                    $achievements[] = $achievement;
+                }
+                $stmt->close();
+                return $achievements;
+            } else {
+                echo "Error al preparar la consulta para obtener los achievements del usuario: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        public function getUnlockedAchievements($user_id) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT
+                                a.id,
+                                a.name,
+                                a.description,
+                                a.icon,
+                                a.type,
+                                a.level
+                            FROM achievements a
+                            WHERE a.id NOT IN (
+                                SELECT achievement_id
+                                FROM user_achievements
+                                WHERE user_id = ?
+                            )";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $unlockedAchievements = [];
+                while ($achievement = $resultado->fetch_object()) {
+                    $unlockedAchievements[] = $achievement;
+                }
+                $stmt->close();
+                return $unlockedAchievements;
+            } else {
+                echo "Error al preparar la consulta para obtener los achievements no desbloqueados: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        public function checkIfUserHasAchievement($user_id, $achievement_id) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT unlock_date
+                            FROM user_achievements
+                            WHERE user_id = ? AND achievement_id = ?";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("ii", $user_id, $achievement_id);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $row = $resultado->fetch_object();
+                $stmt->close();
+                return $row ? $row->unlock_date : null;
+            } else {
+                echo "Error al preparar la consulta para verificar si el usuario tiene el achievement: " . $this->conexion->error;
+                return null;
+            }
+        }
+        
+        public function unlockAchievement($user_id, $achievement_id) {
+            if (!$this->conexion) return false;
+        
+            $consulta = "INSERT INTO user_achievements (user_id, achievement_id, unlock_date)
+                            VALUES (?, ?, NOW())";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("ii", $user_id, $achievement_id);
+                $stmt->execute();
+                $affectedRows = $stmt->affected_rows;
+                $stmt->close();
+                return $affectedRows > 0;
+            } else {
+                echo "Error al preparar la consulta para desbloquear el achievement: " . $this->conexion->error;
+                return false;
+            }
+        }
+
     }
 ?>

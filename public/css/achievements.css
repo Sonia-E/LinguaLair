@@ -1,0 +1,89 @@
+.dashboard {
+    height: 74.5vh;
+    display: flex;
+    justify-content: center; /* Mantén esto si lo necesitas */
+    align-items: stretch;
+}
+.dashboard .achievements {
+    margin: 10px;
+    border-radius: 10px;
+    min-height: 71vh; /* O un valor similar */
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column; /* Para que los elementos de la lista se apilen verticalmente */
+    align-items: center; /* Si quieres centrar los elementos de la lista horizontalmente */
+    padding: 30px;
+    overflow-y: auto;
+}
+.achievement-list {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.achievement-item:last-child {
+    border-bottom: none;
+}
+
+.achievement-icon {
+    font-size: 2em;
+    margin-right: 15px;
+    color: #3498db; /* Un color claro y llamativo para los iconos */
+    text-align: center;
+}
+
+.achievement-details {
+    flex-grow: 1;
+}
+
+.achievement-title {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.achievement-description {
+    color: #777;
+    margin: 0;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+.achievement-level {
+    border: 2px dotted rgb(94, 94, 94);
+    border-radius: 5px;
+    padding: 0 2px;
+    color: rgb(94, 94, 94);
+    text-align: center;
+}
+
+.achievement-date {
+    color: #999;
+    font-size: 0.8em;
+    margin-left: auto;
+}
+.button-group h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    background-color: var(--color-boton);
+    color: var(--color-boton-texto);
+    font-family: "Tektur", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    border-radius: 10px;
+}

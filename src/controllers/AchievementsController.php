@@ -28,6 +28,9 @@
     
             // Obtener el total de minutos para the title control
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
+
+            $unlockedAchievements = $this->StatsModel->getUserAchievements($user_id);
+            $lockedAchievements = $this->StatsModel->getUnlockedAchievements($user_id);
             
             require 'src/views/achievements.php';
         }

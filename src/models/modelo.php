@@ -122,9 +122,7 @@
         public function getLanguageTypes() {
             if (!$this->conexion) return null;
         
-            $consulta = "SELECT DISTINCT type
-                             FROM logs
-                             ORDER BY type ASC";
+            $consulta = "SHOW COLUMNS FROM logs LIKE 'type'";
         
             $stmt = $this->conexion->prepare($consulta);
         
@@ -133,15 +131,24 @@
                 $resultado = $stmt->get_result();
                 $stmt->close();
         
-                $allTypes = [];
-                while ($fila = $resultado->fetch_assoc()) {
-                    $allTypes[] = $fila['type'];
+                if ($resultado && $resultado->num_rows > 0) {
+                    $fila = $resultado->fetch_assoc();
+                    $enum_definition = $fila['Type'];
+        
+                    // Extraer los valores del ENUM
+                    preg_match('/enum\((.*?)\)/i', $enum_definition, $matches);
+        
+                    if (isset($matches[1])) {
+                        $values = str_getcsv($matches[1], ',', "'");
+                        return $values;
+                    }
                 }
-                return $allTypes;
             } else {
-                echo "Error al preparar la consulta para obtener todos los types: " . $this->conexion->error;
+                echo "Error al preparar la consulta para obtener la definición del ENUM de 'type': " . $this->conexion->error;
                 return null;
             }
+        
+            return []; // Devolver un array vacío si no se encuentra la definición del ENUM
         }
     
         /**

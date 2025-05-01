@@ -35,6 +35,9 @@
             $totalAchievements = $this->getTotalUserAchievementsCount($user_id);
             $dayStreak = $this->calculatePostingStreak($user_id);
             $datosIdioma = $this->mostrarEstadisticasUsuario($user_id);
+            // Get logs types
+            $logTypes = $this->modelo->getLanguageTypes();
+            
             require 'src/views/stats.php';
         }
 

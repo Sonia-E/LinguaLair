@@ -182,6 +182,35 @@
                 $achievementsController = new AchievementsController($modelo, $BaseController, $StatsModel);
                 $achievementsController->open_page();
                 
+            } elseif ($uri == 'check_achievements') {
+                $achievementsController = new AchievementsController($modelo, $BaseController, $StatsModel);
+                $user_id = $_SESSION["user_id"];
+                $unlockedLogAchievementId = $achievementsController->checkAndUnlockLogsAchievement($user_id);
+                $unlockedGrammarAchievementId = $achievementsController->checkAndUnlockGrammarAchievement($user_id);
+
+                $response = ["unlocked" => false]; // Inicializamos la respuesta
+
+                if ($unlockedLogAchievementId !== null) {
+                    $achievementInfo = $StatsModel->getAchievementById($unlockedLogAchievementId);
+                    $response = [
+                        "unlocked" => true,
+                        "achievement_id" => $unlockedLogAchievementId,
+                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!",
+                        "achievement" => $achievementInfo
+                    ];
+                } elseif ($unlockedGrammarAchievementId !== null) {
+                    $achievementInfo = $StatsModel->getAchievementById($unlockedGrammarAchievementId);
+                    $response = [
+                        "unlocked" => true,
+                        "achievement_id" => $unlockedGrammarAchievementId,
+                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!", // Puedes personalizar el mensaje
+                        "achievement" => $achievementInfo
+                    ];
+                }
+
+                http_response_code(200);
+                echo json_encode($response);
+                exit();
             } elseif ($uri == 'events') {
                 $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
                 $eventsController->open_page();

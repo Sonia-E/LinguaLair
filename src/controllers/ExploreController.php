@@ -28,6 +28,9 @@
     
             // Obtener el total de minutos para the title control
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
+
+            // Get logs types
+            $logTypes = $this->modelo->getLanguageTypes();
             
             require 'src/views/explore.php';
         }

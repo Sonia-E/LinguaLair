@@ -222,15 +222,12 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla achievements creada con éxito";
 
             //Insertamos datos
-            // $sql1 = "INSERT INTO achievements (id, name, description) VALUES ('1','Consistency is key!','Share your logs for 30 days in a row')";
-            // $sql2 = "INSERT INTO achievements (id, name, description) VALUES ('2','Loyal follower','React to the logs of the same user you follow 
-            // more than 20 times')";
             $sql1 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Fear means nothing to you!','Study grammar for 5 days straight', 'public/img/achievements/1-Book.gif', 'grammar', 'bronze')";
             $sql2 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Fear means nothing to you!','Study grammar for 10 days straight', 'public/img/achievements/2-Book.gif', 'grammar', 'silver')";
             $sql3 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Fear means nothing to you!','Study grammar for 15 days straight', 'public/img/achievements/3-Book.gif', 'grammar', 'gold')";
-            $sql4 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Share your logs for 10 days in a row', 'public/img/achievements/1-Sword.gif', 'logs', 'bronze')";
-            $sql5 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Share your logs for 20 days in a row', 'public/img/achievements/2-Sword.gif', 'logs', 'silver')";
-            $sql6 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Share your logs for 30 days in a row', 'public/img/achievements/3-Sword.gif', 'logs', 'gold')";
+            $sql4 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Post 5 logs', 'public/img/achievements/1-Sword.gif', 'logs', 'bronze')";
+            $sql5 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Post 10 logs', 'public/img/achievements/2-Sword.gif', 'logs', 'silver')";
+            $sql6 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('Consistency is key!','Post 15 logs', 'public/img/achievements/3-Sword.gif', 'logs', 'gold')";
             $sql7 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('You love your adding ingredients to your!','Study grammar for 5 days straight', 'public/img/achievements/1-Potion.gif', 'vocabulary', 'bronze')";
             $sql8 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('You love your adding ingredients to your cauldron!','Study grammar for 10 days straight', 'public/img/achievements/2-Potion.gif', 'vocabulary', 'silver')";
             $sql9 = "INSERT INTO achievements (name, description, icon, type, level) VALUES ('You love your adding ingredients to your cauldron!','Study grammar for 15 days straight', 'public/img/achievements/3-Potion.gif', 'vocabulary', 'gold')";
@@ -375,9 +372,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             VALUES (
                 'Language Exchange Meetup',
                 'Join us for a casual language exchange session. Practice speaking and meet new people!',
-                'This is a longer description for our Language Exchange Meetup in Madrid.
-
-We welcome speakers of Japanese and Spanish of all levels. Whether you are a beginner looking to practice basic phrases or an advanced speaker wanting to engage in in-depth conversations, you are welcome to join us.
+                'We welcome speakers of Japanese and Spanish of all levels. Whether you are a beginner looking to practice basic phrases or an advanced speaker wanting to engage in in-depth conversations, you are welcome to join us.
 
 The session will be held in a relaxed and friendly atmosphere at [Nombre del Lugar]. Come and enjoy practicing your target language while making new friends!
 
@@ -490,26 +485,6 @@ We look forward to seeing you online and practicing Japanese together!',
         if ($mysqli->query($createTable7) === TRUE) {
             echo "<br>";
             echo "Tabla user_achievements creada con éxito";
-
-            // Insertamos la primera asignación de logro a usuario
-            $sql8 = "INSERT INTO user_achievements (user_id, achievement_id)
-                    VALUES ('1', '1')"; // El usuario con ID 1 ha obtenido el logro con ID 1
-
-            // Insertamos la segunda asignación de logro a usuario
-            $sql9 = "INSERT INTO user_achievements (user_id, achievement_id)
-                    VALUES ('2', '2')"; // El usuario con ID 2 ha obtenido el logro con ID 2
-
-            // Insertamos la tercera asignación de logro a usuario
-            $sql10 = "INSERT INTO user_achievements (user_id, achievement_id)
-                    VALUES ('1', '3')"; // El usuario con ID 1 ha obtenido el logro con ID 3
-
-            if ($mysqli->query($sql8) === TRUE && $mysqli->query($sql9) === TRUE && $mysqli->query($sql10) === TRUE) {
-                echo "<br>";
-                echo "Inserción para tabla user_achievements realizada con éxito";
-            } else {
-                echo "<br>";
-                echo "Error insertando datos para tabla user_achievements: " . $mysqli->error; // Importante mostrar el error
-            }
         } else {
             echo "<br>";
             echo "Error creando la tabla user_achievements: " . $mysqli->error; // Importante mostrar el error

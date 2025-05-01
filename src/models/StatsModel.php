@@ -462,6 +462,37 @@
                 return null;
             }
         }
+
+        public function getAchievementId($type, $level): ?int
+        {
+            if (!$this->conexion) {
+                return null;
+            }
+
+            $consulta = "SELECT id
+                            FROM achievements
+                            WHERE type = ? AND level = ?";
+
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("ss", $type, $level);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+
+                if ($resultado && $resultado->num_rows > 0) {
+                    $row = $resultado->fetch_object();
+                    $stmt->close();
+                    return (int) $row->id;
+                } else {
+                    $stmt->close();
+                    return null; // No se encontró ningún achievement con ese tipo y nivel
+                }
+            } else {
+                echo "Error al preparar la consulta para obtener el ID del achievement: " . $this->conexion->error;
+                return null;
+            }
+        }
         
         public function unlockAchievement($user_id, $achievement_id) {
             if (!$this->conexion) return false;
@@ -480,6 +511,69 @@
             } else {
                 echo "Error al preparar la consulta para desbloquear el achievement: " . $this->conexion->error;
                 return false;
+            }
+        }
+
+        public function getAchievementById(int $achievementId): ?object
+        {
+            if (!$this->conexion) {
+                return null;
+            }
+
+            $consulta = "SELECT
+                                id,
+                                name,
+                                description,
+                                icon,
+                                type,
+                                level
+                            FROM achievements
+                            WHERE id = ?";
+
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("i", $achievementId);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+
+                if ($resultado && $resultado->num_rows > 0) {
+                    $achievement = $resultado->fetch_object();
+                    $stmt->close();
+                    return $achievement;
+                } else {
+                    $stmt->close();
+                    return null; // No se encontró ningún achievement con ese ID
+                }
+            } else {
+                echo "Error al preparar la consulta para obtener el achievement por ID: " . $this->conexion->error;
+                return null;
+            }
+        }
+
+        public function geDatesLogsByType($user_id, $log_type) {
+            if (!$this->conexion) return null;
+        
+            $consulta = "SELECT DATE(log_date) as log_date
+                            FROM logs 
+                            WHERE user_id = ? AND type = ?
+                            ORDER BY log_date DESC";
+        
+            $stmt = $this->conexion->prepare($consulta);
+        
+            if ($stmt) {
+                $stmt->bind_param("is", $user_id, $log_type);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $dates = [];
+                while ($fila = $resultado->fetch_object()) {
+                    $dates[] = $fila->log_date;
+                }
+                $stmt->close();
+                return $dates;
+            } else {
+                echo "Error al preparar la consulta para obtener fechas de logs por tipo: " . $this->conexion->error;
+                return null;
             }
         }
 

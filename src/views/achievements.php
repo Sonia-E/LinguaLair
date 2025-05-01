@@ -26,7 +26,7 @@
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-                <p>¡Has desbloqueado todos los achievements!</p>
+                <p>You haven't unlocked any achievement yet :(</p>
             <?php endif; ?>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-                <p>¡Has desbloqueado todos los achievements!</p>
+                <p>You have unlocked all achievements!</p>
             <?php endif; ?>
         </div>
     </div>

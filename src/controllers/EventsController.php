@@ -30,6 +30,9 @@
             $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
             $events = $this->SocialModel->getEvents();
             
+            // Get logs types
+            $logTypes = $this->modelo->getLanguageTypes();
+
             require 'src/views/events.php';
         }
 

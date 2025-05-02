@@ -379,7 +379,7 @@
             $stmt = $this->conexion->prepare($consulta);
         
             if ($stmt) {
-                $stmt->bind_param("i", $event_id); // "i" indica que el parámetro es un entero
+                $stmt->bind_param("i", $event_id);
                 $stmt->execute();
                 $resultado = $stmt->get_result();
         
@@ -462,7 +462,7 @@
                 $insertStmt->close();
     
                 if ($insertResult) {
-                    // Optionally update the num_following count for the follower
+                    // Update the num_following count for the follower
                     $this->updateAttendingEvent($event_id, 1);
                     return true;
                 } else {

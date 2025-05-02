@@ -190,9 +190,9 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla user creada con éxito";
 
             //Insertamos datos
-            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, role_id) VALUES ('1','chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', '2')";
-            $sql2 = "INSERT INTO user (id, username, password,  email, country) VALUES ('2','Sauron','bu','hola1@gmail', 'Mordor')";
-            $sql3 = "INSERT INTO user (id, username, password,  email, country) VALUES ('3','Kakashi','bu','hola2@gmail', 'Konoha')";
+            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', '2')";
+            $sql2 = "INSERT INTO user (id, username, password,  email, country) VALUES ('Sauron','bu','hola1@gmail', 'Mordor')";
+            $sql3 = "INSERT INTO user (id, username, password,  email, country) VALUES ('Kakashi','bu','hola2@gmail', 'Konoha')";
             
             if ($mysqli->query($sql1) && $mysqli->query($sql2) && $mysqli->query($sql3)) {
                 echo "<br>";

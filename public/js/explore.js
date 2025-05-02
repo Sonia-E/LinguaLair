@@ -30,17 +30,15 @@ function explore(texto) {
         function estadoCambiado() {
             // Comprobamos si se han recibido los datos y si la comunicación es correcta
             if (request.readyState === 4 && request.status === 200) {
-                console.log("saludos desde estadoCambiado " + texto);
                 try {
                     // Intentamos parsear la respuesta como JSON
                     var resultados = JSON.parse(request.responseText);
                     var lista = "";
         
                     if (resultados.length === 0) {
-                        lista = "<p class='error'>No se encontraron resultados para: " + texto + "</p>";
+                        lista = "<p class='error'>There are no results for: " + texto + "</p>";
                     } else if (resultados[0] && resultados[0].password) {
                         // Si el primer resultado tiene la propiedad 'username', asumimos que son usuarios
-                        console.log("saludos desde usuario");
                         lista = "<div class='user-container'>";
                         resultados.forEach(function(usuario) {
                             lista += `

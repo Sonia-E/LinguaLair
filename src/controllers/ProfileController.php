@@ -41,7 +41,6 @@
         }
 
     public function procesarFormulario() {
-        // Procesamiento del formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             if (empty($_POST["nickname"])) {
                 $nickname = $_SESSION["username"];
@@ -58,9 +57,7 @@
             $bio = $_POST['bio'] ?? '';
             $bio = $_POST['bio'];
             $is_public = $_POST['public'] ?? 1;
-            // $profile_pic = './img/pic_placeholder.png';
             $profile_pic = 'public/img/pic_placeholder.png';
-            // $bg_pic = './img/bg_pic_placeholder.png';
             $bg_pic = 'public/img/bg_pic_placeholder.png';
     
             if (empty($this->errores)) {
@@ -101,8 +98,8 @@
     }
 
     public function openUserProfile($user_id) {
-        global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
-        
+        global $usuario, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
+
         $array_usuario = $this->modelo->getUser($user_id);
         $other_user = $array_usuario[0][0];
         $logs = $array_usuario[0][1];

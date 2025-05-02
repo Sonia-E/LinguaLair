@@ -31,8 +31,7 @@
     use Sonia\LinguaLair\Controllers\EventsController;
     use Sonia\LinguaLair\Controllers\AchievementsController;
 
-    $BaseController = new BaseController($modelo, $SocialModel);
-    $StatsController = new StatsController($modelo, $BaseController, $StatsModel);
+    $StatsController = new StatsController($modelo, $StatsModel);
     $BaseController = new BaseController($modelo, $SocialModel, $StatsController);
 
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -82,6 +81,7 @@
                 $signupForm = new SignupFormController($modelo);
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $signupForm->procesarFormulario();
+                    exit();
                 } else {
                     $signupForm->open_page();
                 }
@@ -98,6 +98,7 @@
                     $profileForm = new ProfileController($modelo);
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $profileForm->procesarFormulario();
+                        exit();
                     } else {
                         // Si no hay sesión y no es un envío de formulario, mostrar la página de login
                         $profileForm->open_form();
@@ -118,13 +119,15 @@
                     $profile->openUserProfile($_GET['id']);
                 }
             } elseif ($uri == 'stats') {
-                $stats = new StatsController($modelo, $BaseController, $StatsModel);
+                $stats = new StatsController($modelo, $StatsModel);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
                 $stats->open_page($modelo);
 
             } elseif ($uri == 'log') {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $logController = new LogController($modelo);
                     $logController->procesarFormulario();
+                    exit();
                 }
                 
             } elseif ($uri == 'get_feed') {
@@ -132,10 +135,12 @@
                 include 'src/views/feed.php';
 
             } elseif ($uri == 'explore') {
-                $explore = new ExploreController($modelo, $BaseController, $SocialModel);
+                $explore = new ExploreController($modelo, $SocialModel);
                 if ($_SERVER["REQUEST_METHOD"] == "GET" & isset($_GET["texto"])) {
                     $explore->procesarFormulario();
+                    exit();
                 } else {
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
                     $explore->open_page();
                 }
 
@@ -183,11 +188,12 @@
                     exit();
                 }
             } elseif ($uri == 'achievements') {
-                $achievementsController = new AchievementsController($modelo, $BaseController, $StatsModel);
+                $achievementsController = new AchievementsController($modelo, $StatsModel);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
                 $achievementsController->open_page();
                 
             } elseif ($uri == 'check_achievements') {
-                $achievementsController = new AchievementsController($modelo, $BaseController, $StatsModel);
+                $achievementsController = new AchievementsController($modelo, $StatsModel);
                 $user_id = $_SESSION["user_id"];
                 $unlockedLogAchievementId = $achievementsController->checkAndUnlockLogsAchievement($user_id);
                 $unlockedGrammarAchievementId = $achievementsController->checkAndUnlockGrammarAchievement($user_id);
@@ -207,7 +213,7 @@
                     $response = [
                         "unlocked" => true,
                         "achievement_id" => $unlockedGrammarAchievementId,
-                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!", // Puedes personalizar el mensaje
+                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!",
                         "achievement" => $achievementInfo
                     ];
                 }
@@ -216,34 +222,22 @@
                 echo json_encode($response);
                 exit();
             } elseif ($uri == 'events') {
-                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController = new EventsController($SocialModel);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
                 $eventsController->open_page();
 
-            } elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
-                $eventId = $_GET['id'];
-                $event = $SocialModel->getEvent($eventId);
-            
-                if ($event) {
-                    header('Content-Type: application/json');
-                    echo json_encode($event);
-                    exit();
-                } else {
-                    http_response_code(404);
-                    echo json_encode(['error' => 'Evento no encontrado']);
-                    exit();
-                }
             } elseif ($uri == 'event_details') {
-                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController = new EventsController($SocialModel);
                 $eventsController->getEventDetails();
                 exit();
 
             } elseif ($uri == 'book_event') {
-                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController = new EventsController($SocialModel);
                 $eventsController->book();
                 exit();
 
             } elseif ($uri == 'unbook_event') {
-                $eventsController = new EventsController($modelo, $BaseController, $SocialModel);
+                $eventsController = new EventsController($SocialModel);
                 $eventsController->unbook();
                 exit();
                 

@@ -21,7 +21,7 @@ events.forEach(event => {
                 .then(response => response.json())
                 .then(data => {
                     console.log("Event details:", data);
-                    updateProfile(data);
+                    updateEvent(data);
                     if (!isProfileVisible) {
                         profile.classList.remove("hidden");
                         feed.classList.add("profile-hidden");
@@ -36,15 +36,11 @@ events.forEach(event => {
     });
 });
 
-function updateProfile(eventData) {
-    // ... (Tu función updateProfile actual - sin cambios necesarios)
-}
-
 // Inicialización
 profile.classList.add("hidden");
 feed.classList.remove("profile-hidden");
-function updateProfile(eventData) {
-    // Selecciona los elementos dentro de .profile que necesitas actualizar
+function updateEvent(eventData) {
+    // Selecciona los elementos dentro de .profile que tenemos que actualizar
     const profileName = profile.querySelector(".header .event-name");
     const profileSubtypeExchange = profile.querySelector(".header .event-subtype .exchange-type");
     const profileExchangeLangs = profileSubtypeExchange.querySelector(".exchange-langs");
@@ -99,7 +95,6 @@ function updateProfile(eventData) {
     profileEventDate.textContent = `Event Date: ${eventData.event_date}`;
     profileEventType.textContent = eventData.type;
     if (profileCreationDateSpan) {
-        // Para mantener solo la fecha, podrías necesitar manipular el texto
         const fullText = profileCreationDateSpan.textContent;
         const datePart = fullText.substring(fullText.indexOf(':') + 2); // Extrae la parte después de ": "
         profileCreationDateSpan.textContent = datePart;
@@ -113,8 +108,6 @@ function updateProfile(eventData) {
     }
     profileDescription.textContent = eventData.description;
     profileLongDescription.textContent = eventData.long_description;
-
-    // Opcional: Asegurarse de que el botón "Attend" también se actualice si es necesario
 }
 
 document.addEventListener('DOMContentLoaded', function() {

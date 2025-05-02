@@ -2,37 +2,15 @@
     namespace Sonia\LinguaLair\controllers;
     
     class EventsController {
-        private $modelo;
-        private $BaseController;
         private $SocialModel;
 
-        public function __construct($modelo, $BaseController, $SocialModel) {
-            $this->modelo = $modelo;
-            $this->BaseController = $BaseController;
+        public function __construct($SocialModel) {
             $this->SocialModel = $SocialModel;
         }
 
         public function open_page() {
-            $user_id = $_SESSION['user_id'];
-            $this->BaseController->get_profile_data($user_id);
-            // Obtener los datos del usuario
-            $array_usuario = $this->modelo->getUser($user_id);
-            $usuario = $array_usuario[0][0];
-            $logs = $array_usuario[0][1];
-    
-            // Contar los logs del usuario
-            $totalLogs = $this->modelo->contarLogsUsuario($user_id);
-    
-            // Obtener el total de horas de estudio
-            $totalHoras = $this->modelo->obtenerTotalHorasUsuario($user_id);
-    
-            // Obtener el total de minutos para the title control
-            $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
             $events = $this->SocialModel->getEvents();
-            
-            // Get logs types
-            $logTypes = $this->modelo->getLanguageTypes();
-
             require 'src/views/events.php';
         }
 
@@ -89,7 +67,7 @@
         public function getEventDetails() {
             if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 $eventId = $_GET['id'];
-                $event = $this->SocialModel->getEventById($eventId);
+                $event = $this->SocialModel->getEvent($eventId);
     
                 if ($event) {
                     $isAttending = $this->SocialModel->isAttending($_SESSION['user_id'], $eventId);

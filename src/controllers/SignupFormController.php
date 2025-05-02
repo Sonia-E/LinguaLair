@@ -67,26 +67,10 @@
                     session_start();
                     $_SESSION["username"] = $username;
                     header("Location: set_profile");
-                    exit;
                 } else {
                     $this->errores['registration'] = "Error during registration. Please try again.";
                 }
             }
-
-            // // Si no hay errores de validación, intentar el login
-            // if (empty($this->errores)) {
-            //     $validData = $this->check_data($username, $passwordNoHash, $email);
-    
-            //     if ($validData) {
-            //         $passwordHash = password_hash($passwordNoHash, PASSWORD_DEFAULT);
-            //         $this->modelo->addNewUser($username, $nickname, $passwordHash, $email, $country);
-
-            //         session_start();
-            //         $_SESSION["username"] = $username;
-            //         header("Location: set_profile");
-            //         exit;
-            //     }
-            // }
 
             $errores = $this->errores;
             require 'src/views/signup.php';

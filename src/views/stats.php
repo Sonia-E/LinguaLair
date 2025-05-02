@@ -127,7 +127,6 @@
 </div>
 
 <script>
-    // Datos de PHP que pasaste a la vista
     const languagePercentages = <?php echo json_encode($languagePercentages); ?>;
     const tabButtons = document.querySelectorAll('.button-group button');
     const tabContents = document.querySelectorAll('.language-tabs .language-tab-content');

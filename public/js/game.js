@@ -91,6 +91,7 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            // --- Update user's experience bar and level ---
             const currentLevelElement = document.getElementById('level-value');
             const currentLevel = parseInt(currentLevelElement.innerText);
 
@@ -99,6 +100,7 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
             console.log('Log guardado y experiencia actualizada:', data);
             document.getElementById('addLogForm').reset();
 
+            // --- Close the popup ---
             const popupCerrar = document.getElementById('myPopup');
             const overlayCerrar = document.getElementById('overlay');
 
@@ -109,6 +111,7 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                 overlayCerrar.style.visibility = "hidden";
             }
 
+            // --- Reaload the feed content only if it exists in the current page ---
             const feed = document.querySelector('.feed');
 
             if (feed) {
@@ -127,6 +130,7 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                     });
             }
 
+            // --- Check if new added log unlocks an achievement ---
             let achievementUnlocked = false;
 
             fetch('check_achievements')
@@ -233,11 +237,9 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
 
         } else {
             console.error('Error al guardar el log:', data.error);
-            // Opcional: Mostrar un mensaje de error
         }
     })
     .catch(error => {
         console.error('Error de red:', error);
-        // Opcional: Mostrar mensaje de error de red
     });
 });

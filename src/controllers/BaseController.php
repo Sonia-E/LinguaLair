@@ -4,23 +4,20 @@
     class BaseController {
         private $modelo;
         private $SocialModel;
+        private $StatsController;
 
-        public function __construct($modelo, $SocialModel = null) { // Accept the $modelo instance
-            $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        public function __construct($modelo, $SocialModel, $StatsController = null) {
+            $this->modelo = $modelo;
             $this->SocialModel = $SocialModel;
+            $this->StatsController = $StatsController;
         }
-
     
         public function open_page() {
             require 'src/views/setProfile.php';
         }
 
-        // public function open_homepage() {
-        //     require 'src/views/home.php';
-        // }
-
         public function get_profile_data($id) {
-            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes;
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
             // Obtener los datos del usuario
             $array_usuario = $this->modelo->getUser($id);
             $usuario = $array_usuario[0][0];
@@ -40,6 +37,9 @@
 
             // Get logs types
             $logTypes = $this->modelo->getLanguageTypes();
+
+            $totalAchievements = $this->StatsController->getTotalUserAchievementsCount($id);
+            $dayStreak = $this->StatsController->calculatePostingStreak($id);
         }
 }
 ?>

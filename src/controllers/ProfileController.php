@@ -4,13 +4,13 @@
     class ProfileController {
         private $modelo;
         private $errores = [];
-        private $BaseController;
         private $SocialModel;
+        private $StatsController;
 
-        public function __construct($modelo, $BaseController = null, $SocialModel = null) {
+        public function __construct($modelo, $SocialModel = null, $StatsController = null) {
             $this->modelo = $modelo;
-            $this->BaseController = $BaseController;
             $this->SocialModel = $SocialModel;
+            $this->StatsController = $StatsController;
         }
 
     
@@ -19,25 +19,7 @@
         }
 
         public function open_page() {
-            $user_id = $_SESSION['user_id'];
-            $this->BaseController->get_profile_data($user_id);
-            // Obtener los datos del usuario
-            $array_usuario = $this->modelo->getUser($user_id);
-            $usuario = $array_usuario[0][0];
-            $logs = $array_usuario[0][1];
-    
-            // Contar los logs del usuario
-            $totalLogs = $this->modelo->contarLogsUsuario($user_id);
-    
-            // Obtener el total de horas de estudio
-            $totalHoras = $this->modelo->obtenerTotalHorasUsuario($user_id);
-    
-            // Obtener el total de minutos para the title control
-            $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
-
-            // Get logs types
-            $logTypes = $this->modelo->getLanguageTypes();
-
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
             require 'src/views/profile.php';
         }
     
@@ -119,25 +101,11 @@
     }
 
     public function openUserProfile($user_id) {
-        $loggedUser_id = $_SESSION["user_id"];
-        $this->BaseController->get_profile_data($_SESSION["user_id"]);
-        // Obtener los datos del usuario
+        global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
+        
         $array_usuario = $this->modelo->getUser($user_id);
         $other_user = $array_usuario[0][0];
         $logs = $array_usuario[0][1];
-
-        $array_usuario2 = $this->modelo->getUser($loggedUser_id);
-        $usuario = $array_usuario2[0][0];
-
-        // Contar los logs del usuario
-        $totalLogs = $this->modelo->contarLogsUsuario($loggedUser_id);
-
-        // Obtener el total de horas de estudio
-        $totalHoras = $this->modelo->obtenerTotalHorasUsuario($loggedUser_id);
-
-        // Obtener el total de minutos para the title control
-        $totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($loggedUser_id);
-
 
         // Contar los logs del usuario
         $other_totalLogs = $this->modelo->contarLogsUsuario($user_id);
@@ -148,14 +116,15 @@
         // Obtener el total de minutos para the title control
         $other_totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
 
-        // Get logs types
-        $logTypes = $this->modelo->getLanguageTypes();
-
         $isFollowing = false;
         $followsYou = false;
         
         $isFollowing = $this->SocialModel->isFollowing($_SESSION['user_id'], $other_user->id);
         $followsYou = $this->SocialModel->isFollowing($other_user->id, $_SESSION['user_id']);
+
+        $other_totalAchievements = $this->StatsController->getTotalUserAchievementsCount($other_user->id);
+        $other_dayStreak = $this->StatsController->calculatePostingStreak($other_user->id);
+
         require 'src/views/othersProfile.php';
     }
 

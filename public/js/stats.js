@@ -1,5 +1,5 @@
 // ###########################################
-// ############### TYPE PIE CHART ##############
+// ############### TYPE PIE CHART ############
 // ###########################################
 
 // Iterar sobre el array de estadísticas por idioma
@@ -114,15 +114,12 @@ tabButtons.forEach(button => {
                 if (weekChartCanvas) {
                     const newId = `${language.toLowerCase().replace(' ', '-')}-week-chart`;
                     weekChartCanvas.id = newId;
-                    console.log("Nuevo ID del canvas:", newId);
 
                     const fetchedCanvas = document.getElementById(newId);
-                    console.log("Canvas recogido:", fetchedCanvas);
 
                     // Destruir el gráfico existente si lo hay
                     if (fetchedCanvas && fetchedCanvas.__chart) {
                         fetchedCanvas.__chart.destroy();
-                        console.log("Gráfico anterior destruido en:", newId);
                     }
 
                     // Crear el gráfico de barras para el idioma activo
@@ -649,7 +646,7 @@ const myMonthlyBarChart = new Chart(ctxMonthlyBar, {
 // ----------------- ALL LANGUAGES
 
 // ###########################################
-// ############### YEAR BAR CHART ####
+// ############### YEAR BAR CHART ############
 // ###########################################
 
 const monthlyTotalBarData = {

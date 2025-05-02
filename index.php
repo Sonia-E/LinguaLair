@@ -32,6 +32,8 @@
     use Sonia\LinguaLair\Controllers\AchievementsController;
 
     $BaseController = new BaseController($modelo, $SocialModel);
+    $StatsController = new StatsController($modelo, $BaseController, $StatsModel);
+    $BaseController = new BaseController($modelo, $SocialModel, $StatsController);
 
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     $uri = str_replace('/LinguaLair/', '', $uri);
@@ -103,14 +105,16 @@
                 }
 
             } elseif ($uri == 'my_profile') {
-                $profile = new ProfileController($modelo, $BaseController);
+                $profile = new ProfileController($modelo);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
                 $profile->open_page();
 
             } elseif ($uri == 'profile' && isset($_GET['id'])) {
-                $profile = new ProfileController($modelo, $BaseController, $SocialModel);
+                $profile = new ProfileController($modelo, $SocialModel, $StatsController);
                 if ($_GET['id'] == $_SESSION["user_id"]) {
                     header("Location: my_profile");
                 } else {
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
                     $profile->openUserProfile($_GET['id']);
                 }
             } elseif ($uri == 'stats') {

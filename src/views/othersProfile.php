@@ -74,11 +74,11 @@
                     <span class="title"><?php echo ($other_totalMinutosRaw >= 60) ? "Study Hours" : "Minutes"; ?></span>
                 </div>
                 <div class="logs">
-                    <span class="nb">5</span>
+                    <span class="nb"><?php echo $other_totalAchievements; ?></span>
                     <span class="title">Achievements</span>
                 </div>
                 <div class="logs">
-                    <span class="nb">3</span>
+                    <span class="nb"><?php echo $other_dayStreak; ?></span>
                     <span class="title">Day Streak</span>
                 </div>
             </div>

@@ -29,6 +29,7 @@ class SignupFormControllerTest extends TestCase
         }
     }
 
+    // 1. Registro de usuario exitoso:
     public function testProcesarFormularioSuccess()
     {
         // Arrange
@@ -74,6 +75,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals('testuser', $_SESSION['username']);
     }
 
+    // 2. Registro de usuario falla por nombre de usuario vacío:
     public function testProcesarFormularioFailsEmptyUsername()
     {
         // Arrange
@@ -93,6 +95,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Please enter a username", $errores['username']);
     }
 
+    // 3. Registro de usuario falla por nombre de usuario existente:
     public function testProcesarFormularioFailsExistingUsername()
     {
         // Arrange
@@ -124,6 +127,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("This username is already taken", $errores['username']);
     }
 
+    // 4. Registro de usuario falla por contraseña vacía:
     public function testProcesarFormularioFailsEmptyPassword()
     {
         // Arrange
@@ -143,6 +147,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Please enter a password", $errores['password']);
     }
 
+    // 5. Registro de usuario falla por contraseña corta:
     public function testProcesarFormularioFailsShortPassword()
     {
         // Arrange
@@ -162,6 +167,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Password must be at least 5 characters long", $errores['password']);
     }
 
+    // 6. Registro de usuario falla por email vacío:
     public function testProcesarFormularioFailsEmptyEmail()
     {
         // Arrange
@@ -181,6 +187,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Please enter your email address", $errores['email']);
     }
 
+    // 7. Registro de usuario falla por email inválido:
     public function testProcesarFormularioFailsInvalidEmail()
     {
         // Arrange
@@ -200,6 +207,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Please enter a valid email address", $errores['email']);
     }
 
+    // 8. Registro de usuario falla por email existente:
     public function testProcesarFormularioFailsExistingEmail()
     {
         // Arrange
@@ -231,6 +239,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("This email address is already registered", $errores['email']);
     }
 
+    // 9. Registro de usuario falla por contraseñas no coincidentes:
     public function testProcesarFormularioFailsMismatchPasswords()
     {
         // Arrange
@@ -250,6 +259,7 @@ class SignupFormControllerTest extends TestCase
         $this->assertEquals("Passwords do not match", $errores['confirm_password']);
     }
 
+    // 10. Registro de usuario falla por error en la base de datos:
     public function testProcesarFormularioFailsDatabaseError()
     {
         // Arrange

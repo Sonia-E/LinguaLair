@@ -42,13 +42,16 @@ class LogController {
 
                 header('Content-Type: application/json');
                 echo json_encode(['success' => true, 'nuevaExperiencia' => $nueva_experiencia, 'nuevoNivel' => $nuevo_nivel]);
+                exit();
             } else {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Error al guardar el log.']);
+                exit();
             }
         } else {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'error' => 'Acceso no permitido.']);
+            exit();
         }
     }
 

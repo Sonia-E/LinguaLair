@@ -79,12 +79,16 @@
 
             } elseif ($uri == 'signup') {
                 $signupForm = new SignupFormController($modelo);
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $signupForm->procesarFormulario();
-                    exit();
-                } else {
-                    $signupForm->open_page();
-                }
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $succes = $signupForm->procesarFormulario();
+                        if ($succes) {
+                            header("Location: set_profile");
+                            exit();
+                        } else {
+                            $errores = $signupForm->getErrores();
+                            require 'src/views/signup.php';
+                        }
+                    }
 
             } elseif ($uri == 'set_profile') {
                 // si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario

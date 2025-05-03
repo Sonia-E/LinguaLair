@@ -5,9 +5,9 @@ namespace Tests\Unit;
 use Sonia\LinguaLair\Controllers\LoginFormController;
 use Sonia\LinguaLair\Models\modelo;
 use PHPUnit\Framework\TestCase;
+
 class LoginFormControllerTest extends TestCase
 {
-
     private $modeloMock;
     private $controller;
 
@@ -31,11 +31,13 @@ class LoginFormControllerTest extends TestCase
         // Arrange
         $loginIdentifier = 'testuser';
         $password = 'password123';
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+        
         $usuarioSimulado = new \stdClass();
         $usuarioSimulado->id = 1;
         $usuarioSimulado->username = $loginIdentifier;
         $usuarioSimulado->email = 'test@example.com';
-        $usuarioSimulado->password = $password; // En la realidad esto sería el hash
+        $usuarioSimulado->password = $hashedPassword; // Store the hashed password
 
         $this->modeloMock->expects($this->once())
             ->method('getUserByUsernameOrEmail')
@@ -79,11 +81,13 @@ class LoginFormControllerTest extends TestCase
         $loginIdentifier = 'testuser';
         $correctPassword = 'password123';
         $incorrectPassword = 'wrongpassword';
+        $hashedPassword = password_hash($correctPassword, PASSWORD_DEFAULT); 
+        
         $usuarioSimulado = new \stdClass();
         $usuarioSimulado->id = 1;
         $usuarioSimulado->username = $loginIdentifier;
         $usuarioSimulado->email = 'test@example.com';
-        $usuarioSimulado->password = $correctPassword; // Contraseña correcta
+        $usuarioSimulado->password = $hashedPassword; // Store the hashed password
 
         $this->modeloMock->expects($this->once())
             ->method('getUserByUsernameOrEmail')
@@ -108,13 +112,14 @@ class LoginFormControllerTest extends TestCase
         // Arrange
         $_POST['username'] = 'testuser';
         $_POST['password'] = 'password123';
+        $hashedPassword = password_hash('password123', PASSWORD_DEFAULT);
 
         $usuarioSimulado = new \stdClass();
         $usuarioSimulado->id = 1;
         $usuarioSimulado->role_id = 1;
         $usuarioSimulado->username = 'testuser';
         $usuarioSimulado->email = 'test@example.com';
-        $usuarioSimulado->password = 'password123';
+        $usuarioSimulado->password = $hashedPassword; // Use hashed password
 
         $this->modeloMock->expects($this->once())
             ->method('getUserByUsernameOrEmail')
@@ -135,6 +140,8 @@ class LoginFormControllerTest extends TestCase
         $this->assertEquals(1, $_SESSION['user_id']);
         $this->assertArrayHasKey('user_role', $_SESSION);
         $this->assertEquals('standard', $_SESSION['user_role']);
+        // Implicit check.
+        $this->assertTrue(password_verify($_POST['password'], $hashedPassword), 'La contraseña no se verificó correctamente.');
         error_log("TEST: Fin de testProcesarFormularioSuccess()");
     }
 
@@ -155,7 +162,7 @@ class LoginFormControllerTest extends TestCase
         $this->assertEquals("Please enter your username or email", $errores['username']);
         $this->assertArrayNotHasKey('user_id', $_SESSION);
     }
-    
+
 
     // 6. Dejar campo contraseña vacío
     public function testProcesarFormularioFailsValidationEmptyPassword()
@@ -179,13 +186,15 @@ class LoginFormControllerTest extends TestCase
         // Arrange
         $_POST['username'] = 'testuser';
         $_POST['password'] = 'wrongpassword';
+        $correctPassword = 'password123';
+        $hashedCorrectPassword = password_hash($correctPassword, PASSWORD_DEFAULT);
 
         $usuarioSimulado = new \stdClass();
         $usuarioSimulado->id = 1;
         $usuarioSimulado->role_id = 1;
         $usuarioSimulado->username = 'testuser';
         $usuarioSimulado->email = 'test@example.com';
-        $usuarioSimulado->password = 'correctpassword'; // Contraseña correcta en la base de datos
+        $usuarioSimulado->password = $hashedCorrectPassword;
 
         $this->modeloMock->expects($this->once())
             ->method('getUserByUsernameOrEmail')
@@ -200,5 +209,4 @@ class LoginFormControllerTest extends TestCase
         $this->assertEquals("Incorrect password", $this->controller->errores['password']);
         $this->assertArrayNotHasKey('user_id', $_SESSION);
     }
-
 }

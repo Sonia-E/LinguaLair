@@ -190,7 +190,7 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
             echo "Tabla user creada con éxito";
 
             //Insertamos datos
-            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', 'contrasenia','hola@gmail', 'Spain', '2')";
+            $sql1 = "INSERT INTO user (id, username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', '$2y$10$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','hola@gmail', 'Spain', '2')";
             $sql2 = "INSERT INTO user (id, username, password,  email, country) VALUES ('Sauron','bu','hola1@gmail', 'Mordor')";
             $sql3 = "INSERT INTO user (id, username, password,  email, country) VALUES ('Kakashi','bu','hola2@gmail', 'Konoha')";
             

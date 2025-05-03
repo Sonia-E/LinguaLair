@@ -49,34 +49,34 @@
         }
 
     public function procesarFormulario() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-            $username = $_POST["username"] ?? '';
-            $nickname = $_POST["username"] ?? ''; // Set nickname with the same value from username
-            $passwordNoHash = $_POST["password"] ?? '';
-            $confirm_password = $_POST['confirm_password'] ?? '';
-            $email = $_POST["email"] ?? '';
-            $country = $_POST["country"] ?? '';
+        $username = $_POST["username"] ?? '';
+        $nickname = $_POST["username"] ?? ''; // Set nickname with the same value from username
+        $passwordNoHash = $_POST["password"] ?? '';
+        $confirm_password = $_POST['confirm_password'] ?? '';
+        $email = $_POST["email"] ?? '';
+        $country = $_POST["country"] ?? '';
 
-            // Llamar al método de validación
-            if ($this->check_data($username, $passwordNoHash, $email, $confirm_password)) {
-                // Si los datos son válidos, intentar registrar al usuario
-                $passwordHash = password_hash($passwordNoHash, PASSWORD_DEFAULT);
-                $registrationSuccess = $this->modelo->addNewUser($username, $nickname, $passwordHash, $email, $country);
-               
-                if ($registrationSuccess) {
-                    session_start();
-                    $_SESSION["username"] = $username;
-                    header("Location: set_profile");
-                } else {
-                    $this->errores['registration'] = "Error during registration. Please try again.";
-                }
+        // Llamar al método de validación
+        if ($this->check_data($username, $passwordNoHash, $email, $confirm_password)) {
+            // Si los datos son válidos, intentar registrar al usuario
+            $passwordHash = password_hash($passwordNoHash, PASSWORD_DEFAULT);
+            $registrationSuccess = $this->modelo->addNewUser($username, $nickname, $passwordHash, $email, $country);
+            
+            if ($registrationSuccess) {
+                session_start();
+                $_SESSION["username"] = $username;
+                return true;
+            } else {
+                $this->errores['registration'] = "Error during registration. Please try again.";
+                return false;
             }
-
-            $errores = $this->errores;
-            require 'src/views/signup.php';
         }
+
+        return false;
     }
 
-    
+    public function getErrores() {
+        return $this->errores;
+    }
 }
 ?>

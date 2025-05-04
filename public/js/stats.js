@@ -315,30 +315,39 @@ tabButtons.forEach(button => {
                     }
 
                     const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
-                    if (languageStats && languageStats.hasOwnProperty('solo_horas')) {
+                    if (languageStats && languageStats.hasOwnProperty('types_hours')) {
+                        const typeStats = languageStats.types_hours;
                         const yearlyBarDataForLanguage = {
                             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                             datasets: []
                         };
-
-                        const hoursByMonth = Array(12).fill(0); // Inicializar array para horas por mes
-
-                        for (const date in languageStats.solo_horas) {
-                            if (languageStats.solo_horas.hasOwnProperty(date)) {
-                                const logDate = new Date(date);
-                                const currentYear = new Date().getFullYear();
-                                if (logDate.getFullYear() === currentYear) {
-                                    const monthIndex = logDate.getMonth(); // 0 = Enero, 11 = Diciembre
-                                    hoursByMonth[monthIndex] += languageStats.solo_horas[date];
+                    
+                        const allTypesForLanguage = Object.keys(typeStats);
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    
+                        allTypesForLanguage.forEach(type => {
+                            const typeDataForYear = Array(12).fill(0);
+                            const backgroundColor = languageTypeColors[type] || randomRgb();
+                    
+                            for (const monthIndex in months) {
+                                const monthName = months[monthIndex];
+                                for (const date in typeStats[type]) {
+                                    if (typeStats[type].hasOwnProperty(date)) {
+                                        const logDate = new Date(date);
+                                        const month = logDate.getMonth();
+                                        if (logDate.getMonth() === parseInt(monthIndex)) {
+                                            typeDataForYear[monthIndex] += typeStats[type][date];
+                                        }
+                                    }
                                 }
                             }
-                        }
-
-                        yearlyBarDataForLanguage.datasets.push({
-                            label: language,
-                            data: hoursByMonth,
-                            backgroundColor: languageColors[language] || randomRgb(),
-                            borderWidth: 1
+                    
+                            yearlyBarDataForLanguage.datasets.push({
+                                label: type,
+                                data: typeDataForYear,
+                                backgroundColor: backgroundColor,
+                                borderWidth: 1
+                            });
                         });
 
                         if (fetchedCanvasYear) {
@@ -364,7 +373,7 @@ tabButtons.forEach(button => {
                                     },
                                     plugins: {
                                         legend: {
-                                            display: false // Solo un dataset por idioma
+                                            display: true, // Mostrar leyenda para los tipos
                                         },
                                         chartAreaBorder: { borderColor: 'gray', borderWidth: 1, borderDash: [5, 5], borderDashOffset: 1 }
                                     }

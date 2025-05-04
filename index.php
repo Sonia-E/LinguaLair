@@ -88,6 +88,8 @@
                             $errores = $signupForm->getErrores();
                             require 'src/views/signup.php';
                         }
+                    } else {
+                        $signupForm->open_page();
                     }
 
             } elseif ($uri == 'set_profile') {

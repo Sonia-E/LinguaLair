@@ -6,9 +6,9 @@ use Sonia\LinguaLair\Controllers\LogController;
 use Sonia\LinguaLair\Models\modelo;
 use Sonia\LinguaLair\Models\PermissionsModel;
 use PHPUnit\Framework\TestCase;
+
 class LogControllerTest extends TestCase
 {
-
     private $modeloMock;
     private $permissionsModelMock;
     private $logController;
@@ -19,7 +19,7 @@ class LogControllerTest extends TestCase
         $this->permissionsModelMock = $this->createMock(PermissionsModel::class); // Si lo necesitas
         $this->logController = new LogController($this->modeloMock, $this->permissionsModelMock);
 
-        // Simular la sesión si es necesario para tus pruebas
+        // Simular la sesión de un usuario
         $_SESSION = ['user_id' => 1];
     }
 

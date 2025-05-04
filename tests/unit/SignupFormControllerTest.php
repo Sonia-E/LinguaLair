@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use Sonia\LinguaLair\Controllers\SignupFormController;
 use Sonia\LinguaLair\Models\Modelo;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 
 class SignupFormControllerTest extends TestCase
 {

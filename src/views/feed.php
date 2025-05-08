@@ -5,6 +5,7 @@
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
 
     $loggedInUserId = $_SESSION['user_id'];
+    $userRole = $_SESSION['user_role'] ?? 'user';
 
     // Encaminamos la petición internamente
     $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -73,13 +74,22 @@
                         </div>
                         <div class="post-date">
                             <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
-                            <div class="log_options_btn"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></div>
+                            <?php if ($userRole == 'admin' || $userRole == 'premium' || $log['user_id'] == $loggedInUserId): ?>
+                                <div class="log_options_btn"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
                 
-                <div class="log-options-popup"> 
-                    <div class="delete_log"><ion-icon name="trash-outline"></ion-icon><span>Delete Log</span></div>
+                <div class="log-options-popup">
+                    <div class="options-buttons">
+                        <?php if ($userRole == 'admin'): ?>
+                            <div class="delete_log"><ion-icon name="trash-outline"></ion-icon><span>Delete Log</span></div>
+                        <?php endif; ?>
+                        <?php if ($userRole == 'admin' && $log['user_id'] == $loggedInUserId || $userRole == 'premium' && $log['user_id'] == $loggedInUserId): ?>
+                            <div class="edit_log"><ion-icon name="create-outline"></ion-icon><span>Edit Log</span></div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
             <?php include 'src/views/deleteLog.php' ?>

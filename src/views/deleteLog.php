@@ -1,4 +1,3 @@
-<?php // $logId = $_GET['log_id']; ?>
 <div class="popup">
     <div class="popuptext" id="DeleteLogPopup">
     <ion-icon class="close-button" name="close-outline"></ion-icon>

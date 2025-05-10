@@ -124,6 +124,16 @@
                     $BaseController->get_profile_data($_SESSION["user_id"]);
                     $profile->openUserProfile($_GET['id']);
                 }
+            } elseif ($uri == 'edit_profile') {
+                $profile = new ProfileController($modelo);
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $profile->procesarEditForm();
+                    exit();
+                } else {
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
+                    $profile->open_edit_form();
+                }
+
             } elseif ($uri == 'stats') {
                 $stats = new StatsController($modelo, $StatsModel);
                 $BaseController->get_profile_data($_SESSION["user_id"]);

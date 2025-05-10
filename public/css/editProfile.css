@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap');
+
+.profile {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 1000px; /* Adjust as needed */
+    height: 700px;
+    overflow: hidden;
+}
+
+.left-side {
+    padding: 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-side {
+    background-color: #f7e0ee;
+    padding: 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a62666; /* Teal accent */
+}
+
+.logo h2 {
+    font-size: 3em;
+    font-family: "Tektur", sans-serif;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.logo h3 {
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+
+.login-form {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.login-form .form-group .form-item {
+    width: calc(100% + 20px);
+}
+
+.login-form .form-group label {
+    color: #4a374f;
+    font-size: 0.95em;
+}
+
+.login-form .form-group input[type="text"],
+.login-form .form-group select {
+    width: calc(100% - 15px);
+    padding: 10px;
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+.login-form .form-group .languages {
+    margin-bottom: 10px;
+}
+.login-form .form-group select {
+    margin-bottom: 10px;
+    margin-top: 3px;
+}
+
+.login-form .form-group textarea {
+    width: calc(96% + 1px);
+    padding: 10px;
+    border: 1px solid #cfd8dc;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: none; /* Prevent resizing */
+    min-height: 100px; /* Set a reasonable minimum height */
+    margin: 0;
+    color: #4a374f;
+}
+
+.login-form .form-group input[type="text"]:focus,
+.login-form .form-group input[type="password"]:focus, .login-form .form-group textarea:focus {
+    border-color: #a626a6;
+    outline: none;
+}
+
+.login-form .sign-in-button {
+    background-color: #37474f;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.login-form .sign-in-button:hover {
+    background-color: #263238;
+}
+
+.login-form .radio-group {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center; /* Alinea los pares de radio buttons horizontalmente */
+    gap: 50px; /* Espacio entre los pares */
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+}
+
+.radio-item input[type="radio"] {
+    margin-right: 5px; /* Espacio entre el radio button y el texto */
+}
+
+select {
+    color: #6e6e6e;
+}
+
+option {
+    color: #292929; 
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.visible {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.visible .label-input input {
+    width: calc(160%) !important;
+}
+
+.visible .form-check {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8%;
+}
+
+#selected {
+  text-transform: uppercase;
+  color: teal;
+  padding: 0 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: grey;
+  font-family: Consolas;
+  font-size: 0.8em;
+  border-radius: 5px;
+  text-align: center;
+}
+[value="Choose a picture"] {
+  background-color: #37474f;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+[value="Choose a picture"]:hover {
+  background: #0aa;
+}

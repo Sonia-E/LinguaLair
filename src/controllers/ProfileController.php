@@ -22,6 +22,11 @@
             global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
             require 'src/views/profile.php';
         }
+
+        public function open_edit_form() {
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
+            require 'src/views/editProfile.php';
+        }
     
         public function check_data($login_identifier, $password) {
             // Buscar al usuario por nombre de usuario O por correo electrónico
@@ -51,8 +56,8 @@
             $languages = $_POST['learning_languages'] ?? [];
 
             // Filtrar valores vacíos y luego unir los idiomas con comas
-            $native_lang_string = implode(',', array_filter($native_lang));
-            $languages_string = implode(',', array_filter($languages));
+            $native_lang_string = implode(', ', array_filter($native_lang));
+            $languages_string = implode(', ', array_filter($languages));
 
             $bio = $_POST['bio'] ?? '';
             $bio = $_POST['bio'];
@@ -91,6 +96,10 @@
             $errores = $this->errores;
             require 'src/views/login.php';
         }
+    }
+
+    procesarEditForm() {
+        
     }
 
     public function editProfile() {

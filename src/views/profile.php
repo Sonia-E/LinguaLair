@@ -1,4 +1,3 @@
-<?php //include 'views/base.php' ?>
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
@@ -7,7 +6,7 @@
 <div class="dashboard">
     <div class="profile">
         <div class="header" style="background-image: url('<?php echo $usuario->bg_pic; ?>')">
-            <button class="edit">Edit</button>
+            <a href="edit_profile"><button class="edit">Edit</button></a>
             <div class="avatar">
                 <img src="<?php echo $usuario->profile_pic ?>" alt="profile picture" width="100%" height="100%">
                 <div class="country-select">
@@ -76,18 +75,18 @@
         </div>
     </div>
     <div class="feed">
-            <div class="button-group">
-                <h2>@<?php echo $usuario->username ?>'s Logs</h2>
-            </div>
-            <div class="following show">
-                <?php include 'src/views/feed.php' ?>
-            </div>
-            <div class="my-logs hidden">
-                <div class="log"></div>
-                <div class="log"></div>
-                <div class="log"></div>
-            </div>
+        <div class="button-group">
+            <h2>@<?php echo $usuario->username ?>'s Logs</h2>
         </div>
+        <div class="following show">
+            <?php include 'src/views/feed.php' ?>
+        </div>
+        <div class="my-logs hidden">
+            <div class="log"></div>
+            <div class="log"></div>
+            <div class="log"></div>
+        </div>
+    </div>
 </div>
 
 <?php endblock() ?>

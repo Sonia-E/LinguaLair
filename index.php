@@ -127,7 +127,7 @@
             } elseif ($uri == 'edit_profile') {
                 $profile = new ProfileController($modelo);
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $profile->procesarEditForm();
+                    $profile->procesarEditForm($_POST, $_FILES, $_SESSION["user_id"]);
                     exit();
                 } else {
                     $BaseController->get_profile_data($_SESSION["user_id"]);

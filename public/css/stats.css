@@ -107,7 +107,7 @@
     padding-left: 10px;
 }
 
-.all-langs {
+.area {
     overflow-y: auto;
     /* Eliminamos scrollbar horizontal */
     overflow-x: hidden;

@@ -548,21 +548,35 @@
             }
         }
 
-        public function updateProfileNO($user_id, $bio = null, $native_lang = null, $languages = null, $fluent = null, $learning = null, $on_hold = null, $dabbling = null, 
-        $dark_mode = null, $is_public = null, $profile_pic = null, $bg_pic = null) {
-            //
-        }
+        public function updateProfile(
+            $userId,
+            $bio = null,
+            $nativeLang = null,
+            $languages = null,
+            $fluent = null,
+            $learning = null,
+            $onHold = null,
+            $dabbling = null,
+            $future = null,
+            $level = null,
+            $experience = null,
+            $darkMode = null,
+            $numFollowers = null,
+            $numFollowing = null,
+            $isPublic = null,
+            $profilePic = null,
+            $bg_pic = null,
+            $gameRoles = null
+        ) {
+            if (!$this->conexion) {
+                return false;
+            }
 
-        public function updateProfile($userId, $bio = null, $nativeLang = null, $languages = null, $fluent = null, $learning = null, $onHold = null, $dabbling = null, 
-        $level = null, $experience = null, $darkMode = null, $numFollowers = null, $numFollowing = null, $isPublic = null, $profilePic = null, 
-        $bg_pic = null, $gameRoles = null) {
-            if (!$this->conexion) return false;
-    
             $sql = "UPDATE profile SET ";
             $params = [];
             $types = "";
             $conditions = [];
-    
+
             if ($bio !== null) {
                 $conditions[] = "bio = ?";
                 $params[] = $bio;
@@ -596,6 +610,11 @@
             if ($dabbling !== null) {
                 $conditions[] = "dabbling = ?";
                 $params[] = $dabbling;
+                $types .= "s";
+            }
+            if ($future !== null) {
+                $conditions[] = "future = ?";
+                $params[] = $future;
                 $types .= "s";
             }
             if ($level !== null) {
@@ -643,29 +662,32 @@
                 $params[] = $gameRoles;
                 $types .= "s";
             }
-    
-            if (empty($conditions)) {
-                return true; // No data to update
-            }
-    
+
             $sql .= implode(", ", $conditions);
             $sql .= " WHERE user_id = ?";
             $params[] = $userId;
             $types .= "i";
-    
+
             $stmt = $this->conexion->prepare($sql);
-    
+
             if ($stmt) {
                 $stmt->bind_param($types, ...$params);
                 $stmt->execute();
-                $affectedRows = $stmt->affected_rows;
+                $error = $stmt->error; // Capturar el error antes de cerrar la sentencia
                 $stmt->close();
-                return $affectedRows > 0;
+                if ($error) { // Comprobar si hubo un error
+                    echo "Error al actualizar el perfil: " . $error;
+                    return false; // Devolver false en caso de error
+                }
+                return true; // Devolver true si la ejecución fue exitosa, incluso si no se modificaron filas
             } else {
                 echo "Error al preparar la consulta para actualizar el perfil: " . $this->conexion->error;
                 return false;
             }
         }
+
+
+
 
         public function findLogByUsernameAndId($username, $logId) {
             if (!$this->conexion) {

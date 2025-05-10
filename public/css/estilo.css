@@ -787,124 +787,100 @@ button.your-feed {
     border-radius: 10px;
 }
 
-/* .speech-bubble {
-    position: relative;
-    margin: .5em auto;
-    padding: 1em;
-    width: 10em; height: 4em;
-    border-radius: .25em;
-    transform: rotate(-4deg) rotateY(15deg);
-    background: #629bdd;
-    font: 2em/4 Century Gothic, Verdana, sans-serif;
+.speech-bubble {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
     text-align: center;
-    }
-    .speech-bubble:before, .speech-bubble:after {
-    position: absolute;
-    z-index: -1;
-    content: '';
-    }
-    .speech-bubble:after {
-    top: 0; right: 0; bottom: 0; left: 0;
-    border-radius: inherit;
-    transform: rotate(2deg) translate(.35em, -.15em) scale(1.02);
-    background: #f4fbfe;
-    }
-    .speech-bubble:before {
-    border: solid 0 transparent;
-    border-right: solid 3.5em #f4fbfe;
-    border-bottom: solid .25em #629bdd;
-    bottom: .25em; left: 1.25em;
-    width: 0; height: 1em;
-    transform: rotate(45deg) skewX(75deg);
-    } */
-
-    .speech-bubble {
-        position: fixed;
-        bottom: -100%;
-        left: 50%;
-        transform: translateX(-50%);
-        display: inline-block;
-        margin: 5px;
-        padding: 10px;
-        text-align: center;
-        font-family: 'VT323', monospace;
-        font-size: 20px;
-        line-height: 1.2em;
-        background-color: white;
-        color: black;
-        border-radius: 8px;
-        box-sizing: border-box;
-        white-space: pre-wrap;
-        word-break: break-word;
-        opacity: 0;
-        box-shadow:
-          -2px -2px 0 black,
-          -2px -1px 0 black,
-          -2px 0px 0 black,
-          -2px 1px 0 black,
-          -2px 2px 0 black,
-          -1px -2px 0 black,
-          -1px 2px 0 black,
-          0px -2px 0 black,
-          0px 2px 0 black,
-          1px -2px 0 black,
-          1px 2px 0 black,
-          2px -2px 0 black,
-          2px -1px 0 black,
-          2px 0px 0 black,
-          2px 1px 0 black,
-          2px 2px 0 black;
-        padding: 12px;
-        z-index: 1000;
-        animation: slideUpFadeInBounce 0.7s ease-out forwards; /* Modificamos el nombre y la duración */
-      }
-      
-      .speech-bubble::before {
-        content: '';
-        position: absolute;
-        bottom: -12px;
-        left: 15px;
-        border-top: 12px solid black;
-        border-left: 12px solid transparent;
-      }
-      
-      .speech-bubble::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 17px;
-        border-top: 10px solid white;
-        border-left: 10px solid transparent;
-      }
-      
-      /* Definición de la animación con rebote */
-      @keyframes slideUpFadeInBounce {
-        0% {
-          bottom: -100%;
-          opacity: 0;
-        }
-        60% {
-          bottom: 55%; /* Sobrepasa un poco el punto final */
-          opacity: 1;
-        }
-        80% {
-          bottom: 45%; /* Rebota hacia abajo */
-        }
-        100% {
-          bottom: 50%; /* Punto final */
-          opacity: 1;
-        }
-      }
-
-      .popup.achievement-popup {
-        bottom: 20px;
-        left: 20px;
-        transform: translateX(0); /* Elimina el centrado horizontal */
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    line-height: 1.2em;
+    background-color: white;
+    color: black;
+    border-radius: 8px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    word-break: break-word;
+    opacity: 0;
+    box-shadow:
+        -2px -2px 0 black,
+        -2px -1px 0 black,
+        -2px 0px 0 black,
+        -2px 1px 0 black,
+        -2px 2px 0 black,
+        -1px -2px 0 black,
+        -1px 2px 0 black,
+        0px -2px 0 black,
+        0px 2px 0 black,
+        1px -2px 0 black,
+        1px 2px 0 black,
+        2px -2px 0 black,
+        2px -1px 0 black,
+        2px 0px 0 black,
+        2px 1px 0 black,
+        2px 2px 0 black;
+    padding: 12px;
+    z-index: 1000;
+    animation: slideUpFadeInBounce 0.7s ease-out forwards; /* Modificamos el nombre y la duración */
     }
     
-    .popup.level-up-popup {
-        bottom: 20px;
-        right: 20px;
-        left: auto; /* Anula el left: 50% */
-        transform: translateX(0); /* Elimina el centrado horizontal */
+    .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 15px;
+    border-top: 12px solid black;
+    border-left: 12px solid transparent;
     }
+    
+    .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 17px;
+    border-top: 10px solid white;
+    border-left: 10px solid transparent;
+    }
+    
+    /* Definición de la animación con rebote */
+    @keyframes slideUpFadeInBounce {
+    0% {
+        bottom: -100%;
+        opacity: 0;
+    }
+    60% {
+        bottom: 55%; /* Sobrepasa un poco el punto final */
+        opacity: 1;
+    }
+    80% {
+        bottom: 45%; /* Rebota hacia abajo */
+    }
+    100% {
+        bottom: 50%; /* Punto final */
+        opacity: 1;
+    }
+    }
+
+.popup.achievement-popup {
+    bottom: 20px;
+    left: 20px;
+    transform: translateX(0); /* Elimina el centrado horizontal */
+}
+
+.popup.level-up-popup {
+    bottom: 20px;
+    right: 20px;
+    left: auto; /* Anula el left: 50% */
+    transform: translateX(0); /* Elimina el centrado horizontal */
+}
+
+.popup.edit-profile-popup {
+    bottom: 410px;
+    right: 880px;
+    left: 10px;
+    transform: translateX(0); /* Elimina el centrado horizontal */
+}

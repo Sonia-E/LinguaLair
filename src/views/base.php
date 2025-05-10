@@ -178,6 +178,22 @@
                         <span class="native <?php echo $usuario->native_lang ? '' : 'hidden' ?>">Native: <?php echo $usuario->native_lang ?></span>
                         <span class="fluent <?php echo $usuario->fluent ? '' : 'hidden' ?>">Fluent: <?php echo $usuario->fluent ?></span>
                         <span class="learning">Learning: <?php echo $usuario->learning ? $usuario->learning : $usuario->languages; ?></span>
+                    </div>
+                    <?php
+                        $column2 = [];
+
+                        // Llenar el array $column2 con los valores de los idiomas, si existen
+                        if (!empty($usuario->future)) {
+                            $column2[] = ['type' => 'future', 'value' => $usuario->future];
+                        }
+                        if (!empty($usuario->on_hold)) {
+                            $column2[] = ['type' => 'fluent', 'value' => $usuario->on_hold];
+                        }
+                        if (!empty($usuario->dabbling)) {
+                            $column2[] = ['type' => 'learning', 'value' => $usuario->dabbling];
+                        }
+                    ?>
+                    <div class="<?php echo $column2 ? 'languages' : 'hidden' ?>">
                         <span class="future <?php echo $usuario->future ? '' : 'hidden' ?>">Future: <?php echo $usuario->future ?></span>
                         <span class="on-hold <?php echo $usuario->on_hold ? '' : 'hidden' ?>">On hold: <?php echo $usuario->on_hold ?></span>
                         <span class="dabbling <?php echo $usuario->dabbling ? '' : 'hidden' ?>">Dabbling: <?php echo $usuario->dabbling ?></span>

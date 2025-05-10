@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap');
 
+.dashboard {
+    overflow: hidden;
+}
+
 .profile {
     font-family: sans-serif;
     margin: 0;
@@ -47,15 +51,11 @@
 }
 
 .logo h2 {
-    font-size: 3em;
+    font-size: 2em;
     font-family: "Tektur", sans-serif;
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 10px;
-}
-.logo h3 {
-    margin-top: -10px;
-    margin-bottom: 30px;
 }
 
 .login-form {
@@ -177,7 +177,7 @@ option {
     margin-top: 8%;
 }
 
-#selected {
+#selected_profile, #selected_bg {
   text-transform: uppercase;
   color: teal;
   padding: 0 5px;
@@ -189,8 +189,9 @@ option {
   border-radius: 5px;
   text-align: center;
 }
-[value="Choose a picture"] {
-  background-color: #37474f;
+[value="Choose a profile picture"],
+[value="Choose a header picture"] {
+  background-color: #47768d;
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -200,6 +201,25 @@ option {
     width: 100%;
     transition: background-color 0.3s ease;
 }
-[value="Choose a picture"]:hover {
+[value="Choose a profile picture"]:hover,
+[value="Choose a header picture"]:hover {
   background: #0aa;
+}
+
+.close-edit-button {
+  top: 10px;
+  position: relative;
+  left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6e6565;
+  cursor: pointer;
+  font-size: 25px;
+  margin-right: -25px;
+}
+
+.close-edit-button:hover {
+  color: white;
+  background-color: #6d6d6d;
+  border-radius: 5px;
 }

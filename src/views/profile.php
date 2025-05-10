@@ -118,3 +118,30 @@
   document.querySelector(".flag").classList.add(isoCode);
 
 </script>
+
+<script>
+    let successMessage = "<?php echo $_SESSION['success_message'] ?>"
+
+    if (successMessage) {
+    // Crear y mostrar el popup de éxito
+    const popup = document.createElement('div');
+    popup.classList.add('popup', 'edit-profile-popup'); // Reutilizamos 'popup' y añadimos una clase específica
+    const popupBubble = document.createElement('div');
+    popupBubble.classList.add('speech-bubble');
+    const successText = document.createElement('div');
+    successText.textContent = 'Profile updated successfully!'; // Mensaje de éxito
+    popupBubble.appendChild(successText);
+    popup.appendChild(popupBubble);
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+      popup.classList.add('show');
+      setTimeout(() => {
+        popup.remove();
+        <?php echo $_SESSION['success_message'] = null ?>
+      }, 1500); // Duración del mensaje
+    }, 100);
+  }
+
+  console.log(successMessage);
+</script>

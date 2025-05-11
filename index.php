@@ -278,12 +278,11 @@
                 
             } elseif ($uri == 'contact') {
                 $IncidentsController = new IncidentsController($IncidentsModel);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
                 
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $IncidentsController->procesarFormulario();
-                    exit();
                 } else {
-                    $BaseController->get_profile_data($_SESSION["user_id"]);
                     $IncidentsController->open_page();
                 }
                 
@@ -312,7 +311,7 @@
                 // Cargar una página de error
                 header("HTTP/1.0 404 Not Found");
                 // Mostrar un mensaje de error
-                echo '<html><body><h1>Página no encontrada</h1></body></html>';
+                echo '<html><body><h1>Page Not Found</h1></body></html>';
             }
         }
     }

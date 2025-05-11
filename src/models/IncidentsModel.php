@@ -1,6 +1,10 @@
 <?php
 namespace Sonia\LinguaLair\Models;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class IncidentsModel {
     private $conexion;
 
@@ -17,7 +21,7 @@ class IncidentsModel {
     public function insertarIncidencia(int $userId, string $username, ?string $userEmail, string $incidentType, string $description, string $urgency = 'medium'): ?array {
         if (!$this->conexion) {
             error_log("No hay conexión a la base de datos.");
-            return null; // Importante: retornar null en caso de error
+            return null;
         }
 
         try {
@@ -38,129 +42,119 @@ class IncidentsModel {
             $stmt->execute();
 
             // Verificar si la inserción fue exitosa.
-            if ($this->conexion->affected_rows <= 0) {
-                error_log("No se pudo insertar la incidencia. Detalles: " . $this->conexion->error);
+            if ($stmt->affected_rows <= 0) {
+                error_log("No se pudo insertar la incidencia. Detalles: " . $stmt->error);
                 $stmt->close();
                 return null;
             }
 
             // Obtener el ID de la incidencia recién insertada.
-        $incidentId = $this->conexion->insert_id;
+            $incidentId = $this->conexion->insert_id;
 
-        // Recuperar los datos de la incidencia insertada para retornar.
-        $sql_select = "SELECT id, user_id, username, user_email, incident_type, description, urgency, creation_date, state FROM incidents WHERE id = ?";
-        $stmt_select = $this->conexion->prepare($sql_select);
+            // Recuperar los datos de la incidencia insertada para retornar.
+            $sql_select = "SELECT id, user_id, username, user_email, incident_type, description, urgency, creation_date, state FROM incidents WHERE id = ?";
+            $stmt_select = $this->conexion->prepare($sql_select);
 
-        if (!$stmt_select) {
-            error_log("Error al preparar la consulta de selección: " . $this->conexion->error);
-            $stmt->close();
-            $this->conexion->rollback();
-            return null;
-        }
-        $stmt_select->bind_param("i", $incidentId);
-        $stmt_select->execute();
-        $result = $stmt_select->get_result();
-        $newIncident = $result->fetch_assoc();
+            if (!$stmt_select) {
+                error_log("Error al preparar la consulta de selección: " . $this->conexion->error);
+                $stmt->close();
+                return null;
+            }
+            $stmt_select->bind_param("i", $incidentId);
+            $stmt_select->execute();
+            $result = $stmt_select->get_result();
+            $newIncident = $result->fetch_assoc();
 
-        if (!$newIncident)
-        {
-             error_log("No se pudo obtener la incidencia insertada.");
-             $stmt->close();
-             $stmt_select->close();
-             $this->conexion->rollback();
-             return null;
-        }
+            if (!$newIncident) {
+                error_log("No se pudo obtener la incidencia insertada.");
+                $stmt->close();
+                $stmt_select->close();
+                return null;
+            }
 
             // Cerrar las declaraciones preparadas.
             $stmt->close();
             $stmt_select->close();
 
-            return $newIncident ?: null; // Retorna null si no se encuentra la incidencia.
+            // Enviar correo electrónico
+            $this->enviarCorreoNotificacion($newIncident);
+
+            return $newIncident;
 
         } catch (\Exception $e) {
             // Registrar el error en el log para su posterior análisis.
             error_log("Error al insertar la incidencia: " . $e->getMessage());
-            return null; // Retornar null en caso de error
+            return null;
         }
     }
 
+    private function enviarCorreoNotificacion(array $incidencia): void {
+        $mail = new PHPMailer(true);
+        try {
+            // Configuración del servidor
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';  // O tu servidor SMTP
+            $mail->Port       = 587;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'soniaenjutom94@gmail.com';  // Tu correo
+            $mail->Password   = 'psnf byzz mpuo suuq'; // Contraseña de aplicación
 
+            // Configuración del correo
+            $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Remitente
+            $mail->addAddress('soniaenjutom94@gmail.com'); // Destinatario - ¡Cambiar!
+            $mail->addReplyTo('soniaenjutom94@gmail.com', 'Incidents Management System');
 
-    public function insertarIncidencia2(int $userId, string $username, ?string $userEmail, string $incidentType, string $description, string $urgency = 'medium'): ?array {
-    if (!$this->conexion) {
-        error_log("No hay conexión a la base de datos.");
-        return null;
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+
+            // Asunto
+            $subject = 'New Incident Registered - ID: ' . $incidencia['id'];
+
+            // Cuerpo del correo (texto plano)
+            $message = "A new incident has been registered with the following details:\n\n";
+            $message .= "ID: " . $incidencia['id'] . "\n";
+            $message .= "Creation date: " . $incidencia['creation_date'] . "\n";
+            $message .= "Username: " . $incidencia['username'] . "\n";
+            if (!empty($incidencia['user_email'])) {
+                $message .= "User's email: " . $incidencia['user_email'] . "\n";
+            }
+            $message .= "Incident type: " . $incidencia['incident_type'] . "\n";
+            $message .= "Urgency: " . $incidencia['urgency'] . "\n";
+            $message .= "Description:\n" . $incidencia['description'] . "\n";
+            $message .= "State: " . $incidencia['state'] . "\n";
+            $message .= "\n";
+            $message .= "Sincerely,\n";
+            $message .= "Incidents Management System";
+
+            // Cuerpo del correo (HTML)
+            $htmlMessage = "<h1>A new incident has been registered with the following details:</h1>" .
+                "<p><strong>ID:</strong> " . $incidencia['id'] . "</p>" .
+                "<p><strong>Creation date:</strong> " . $incidencia['creation_date'] . "</p>" .
+                "<p><strong>Username:</strong> " . $incidencia['username'] . "</p>" .
+                (!empty($incidencia['user_email']) ? "<p><strong>User's email:</strong> " . $incidencia['user_email'] . "</p>" : "") .
+                "<p><strong>Incident type:</strong> " . $incidencia['incident_type'] . "</p>" .
+                "<p><strong>Urgency:</strong> " . $incidencia['urgency'] . "</p>" .
+                "<p><strong>Description:</strong><br>" . $incidencia['description'] . "</p>" .
+                "<p><strong>State:</strong> " . $incidencia['state'] . "</p>" .
+                "<p>Sincerely,<br>Incidents Management System</p>";
+
+            $mail->Subject = $subject;
+            $mail->Body    = $htmlMessage;
+            $mail->AltBody = $message;
+
+            $mail->send();
+
+        } catch (\Exception $e) {
+            error_log("Error al enviar el correo: {$mail->ErrorInfo}");
+            echo "Error al enviar el correo: {$mail->ErrorInfo}"; // Importante: Muestra el error
+        }
     }
-
-    try {
-        $this->conexion->begin_transaction();
-
-        // Preparar la consulta SQL para la inserción.
-        $sql = "INSERT INTO incidents (user_id, username, user_email, incident_type, description, urgency, creation_date, state)
-                VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $this->conexion->prepare($sql);
-
-        if (!$stmt) {
-            error_log("Error al preparar la consulta de inserción: " . $this->conexion->error);
-            $this->conexion->rollback();
-            return null;
-        }
-
-        // Vincular los parámetros a la consulta preparada.
-        $stmt->bind_param("issssss", $userId, $username, $userEmail, $incidentType, $description, $urgency,);
-
-        // Ejecutar la consulta.
-        $stmt->execute();
-
-        // Verificar si la inserción fue exitosa.
-        if ($this->conexion->affected_rows <= 0) {
-            error_log("No se pudo insertar la incidencia. Detalles: " . $this->conexion->error);
-            $stmt->close();
-            $this->conexion->rollback();
-            return null;
-        }
-
-        // Obtener el ID de la incidencia recién insertada.
-        $incidentId = $this->conexion->insert_id;
-
-        // Recuperar los datos de la incidencia insertada para retornar.
-        $sql_select = "SELECT id, user_id, username, user_email, incident_type, description, urgency, creation_date, state FROM incidents WHERE id = ?";
-        $stmt_select = $this->conexion->prepare($sql_select);
-
-        if (!$stmt_select) {
-            error_log("Error al preparar la consulta de selección: " . $this->conexion->error);
-            $stmt->close();
-            $this->conexion->rollback();
-            return null;
-        }
-        $stmt_select->bind_param("i", $incidentId);
-        $stmt_select->execute();
-        $result = $stmt_select->get_result();
-        $newIncident = $result->fetch_assoc();
-
-        if (!$newIncident)
-        {
-             error_log("No se pudo obtener la incidencia insertada.");
-             $stmt->close();
-             $stmt_select->close();
-             $this->conexion->rollback();
-             return null;
-        }
-
-        // Cerrar las declaraciones preparadas.
-        $stmt->close();
-        $stmt_select->close();
-        $this->conexion->commit();
-
-        return $newIncident;
-
-    } catch (\Exception $e) {
-        // Registrar el error en el log para su posterior análisis.
-        error_log("Error al insertar la incidencia: " . $e->getMessage());
-        $this->conexion->rollback(); // Hacer rollback en caso de excepción
-        return null;
-    }
-}
 
     public function __destruct() {
         if ($this->conexion) {

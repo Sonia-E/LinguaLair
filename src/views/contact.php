@@ -37,16 +37,19 @@
                 <label for="description">Describe the incident:</label>
                 <textarea id="description" name="description" rows="5" required></textarea>
             </div>
-            <button type="submit" name="submit_incident">Send Incident</button>
+            <div class="btn">
+                <button type="submit" name="submit_incident">Send Incident</but>
+            </div>
+
         </form>
 
         <?php
         // Mensajes de error o éxito después del procesamiento del formulario
-        if (isset($error)) {
-            echo '<div class="error-message">' . $error . '</div>';
+        if (isset($mensajeError)) {
+            echo '<div style="color: red; margin-top: 10px; text-align: center;">' . $mensajeError . '</div>';
         }
         if (isset($mensajeExito)) {
-            echo '<div style="color: green; margin-top: 10px;">' . $mensajeExito . '</div>';
+            echo '<div style="color: green; margin-top: 10px; text-align: center;">' . $mensajeExito . '</div>';
         }
         ?>
     </div>

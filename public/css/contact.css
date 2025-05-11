@@ -48,24 +48,34 @@ h2 {
     padding-right: 30px;
 }
 .contact textarea {
-    resize: vertical;
+    resize: none;
     min-height: 100px;
 }
+.contact .btn {
+    display: flex;
+    justify-content: center;
+}
 .contact button[type="submit"] {
-    background-color: #5cb85c;
+    background-color: var(--color-boton);
     color: white;
     padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 18px;
     transition: background-color 0.3s ease;
 }
 .contact button[type="submit"]:hover {
-    background-color: #4cae4c;
+    background-color: rgb(46, 46, 46);
 }
 .contact .error-message {
+    text-align: center;
     color: red;
-    margin-top: 5px;
-    font-size: 14px;
+    margin-top: 10px;
+}
+
+.contact .success-message {
+    text-align: center;
+    color: green;
+    margin-top: 10px;
 }

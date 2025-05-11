@@ -57,5 +57,3 @@
     </div>
 </div>
 <?php endblock() ?>
-
-<script type="text/javascript" src="public/js/explore.js"></script>

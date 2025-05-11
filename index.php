@@ -10,12 +10,14 @@
     // Model import
     use Sonia\LinguaLair\Models\modelo;
     $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
-    use Sonia\LinguaLair\Models\SocialModel;
-    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
     use Sonia\LinguaLair\Models\PermissionsModel;
     $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
     use Sonia\LinguaLair\Models\StatsModel;
     $StatsModel = new StatsModel("localhost", "foc", "foc", 'LinguaLair', $modelo);
+    use Sonia\LinguaLair\Models\NotificationModel;
+    $NotificationModel = new NotificationModel("localhost", "foc", "foc", 'LinguaLair');
+    use Sonia\LinguaLair\Models\SocialModel;
+    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair', $NotificationModel, $modelo);
 
     // Controllers imports
     require_once 'src/controllers/controladores.php';
@@ -30,6 +32,7 @@
     use Sonia\LinguaLair\Controllers\SocialController;
     use Sonia\LinguaLair\Controllers\EventsController;
     use Sonia\LinguaLair\Controllers\AchievementsController;
+    use Sonia\LinguaLair\Controllers\NotificationsController;
 
     $StatsController = new StatsController($modelo, $StatsModel);
     $BaseController = new BaseController($modelo, $SocialModel, $StatsController);
@@ -256,6 +259,32 @@
                 $eventsController = new EventsController($SocialModel);
                 $eventsController->unbook();
                 exit();
+                
+            } elseif ($uri == 'notifications') {
+                $NotificationsController = new NotificationsController($NotificationModel);
+                $BaseController->get_profile_data($_SESSION["user_id"]);
+                $NotificationsController->open_page();
+                
+            } elseif ($uri == 'log_out') {
+                // Inicializar la sesión.
+                session_start();
+
+                // Destruir todas las variables de sesión.
+                $_SESSION = array();
+
+                if (ini_get("session.use_cookies")) {
+                    $params = session_get_cookie_params();
+                    setcookie(session_name(), '', time() - 42000,
+                        $params["path"], $params["domain"],
+                        $params["secure"], $params["httponly"]
+                    );
+                }
+
+                // Destruir la sesión.
+                session_destroy();
+
+                header("Location: /LinguaLair/");
+                exit;
                 
             } else {
                 // Cargar una página de error

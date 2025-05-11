@@ -99,6 +99,7 @@
     }
 
     public function procesarEditForm(array $post, array $files, int $user_id) {
+        $_SESSION['error_message'] = null;
         $array_usuario = $this->modelo->getUser($user_id);
         $usuario = $array_usuario[0][0];
         // 1. Validación y saneamiento de los datos
@@ -131,6 +132,8 @@
         $future = sanearTexto($post['future']);
 
         $bio = empty($bio) ? $usuario->bio : $bio;
+        $native_lang = empty($bnative_langio) ? $usuario->native_lang : $native_lang;
+        $languages = empty($languages) ? $usuario->languages : $languages;
 
         // 2. Procesamiento de los archivos subidos (profile_pic, bg_pic)
         $profile_pic_path = $usuario->profile_pic;
@@ -207,7 +210,7 @@
         $nombre_archivo = basename($file['name']);
         $ruta_destino = $destination_folder . $nombre_archivo; //ojo con esto, puede sobreescribir archivos
         $tipo_archivo = pathinfo($ruta_destino, PATHINFO_EXTENSION);
-        $tamano_maximo = 10 * 1024 * 1024; // 10MB
+        $tamano_maximo = 2 * 1024 * 1024; // 10MB
 
         // Validar tipo de archivo
         $tipos_permitidos = array('jpg', 'jpeg', 'png', 'gif');

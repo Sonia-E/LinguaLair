@@ -1,8 +1,12 @@
 <?php
     $initialLogLimit = 10; // Number of logs to load initially
 
+    use Sonia\LinguaLair\Models\modelo;
+    $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    use Sonia\LinguaLair\Models\NotificationModel;
+    $NotificationModel = new NotificationModel("localhost", "foc", "foc", 'LinguaLair');
     use Sonia\LinguaLair\Models\SocialModel;
-    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair');
+    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair', $NotificationModel, $modelo);
 
     $loggedInUserId = $_SESSION['user_id'];
     $userRole = $_SESSION['user_role'] ?? 'user';

@@ -3,8 +3,10 @@
 
     class SocialModel {
         private $conexion;
+        private $notificationModel;
+        private $modelo;
     
-        public function __construct($servidor, $usuario, $contrasenia, $base_datos) {
+        public function __construct($servidor, $usuario, $contrasenia, $base_datos, NotificationModel $notificationModel, modelo $modelo) {
             $this->conexion = new  \mysqli($servidor, $usuario, $contrasenia, $base_datos);
     
             if ($this->conexion->connect_error) {
@@ -12,6 +14,8 @@
             } else {
                 $this->conexion->set_charset("utf8");
             }
+            $this->notificationModel = $notificationModel;
+            $this->modelo = $modelo;
         }
     
         public function followUser($followerId, $followedId) {
@@ -50,10 +54,19 @@
                 $insertStmt->close();
     
                 if ($insertResult) {
-                    // Optionally update the num_following count for the follower
                     $this->updateFollowingCount($followerId, 1);
-                    // Optionally update the num_followers count for the followed user
                     $this->updateFollowersCount($followedId, 1);
+
+                    $array_usuario = $this->modelo->getUser($followerId);
+                    $follower = $array_usuario[0][0];
+
+                    // *** CREAMOS LA NOTIFICACIÓN ***
+                    $this->notificationModel->saveNotification(
+                        $followedId, // El ID del usuario que recibe la notificación (el seguido)
+                        'follow',       // El tipo de notificación
+                        $follower->username . " followed you", // El contenido de la notificación
+                        $followerId    // El ID del usuario relacionado (el seguidor)
+                    );
                     return true;
                 } else {
                     echo "Error al ejecutar la consulta para seguir al usuario: " . $this->conexion->error;

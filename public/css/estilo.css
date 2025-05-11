@@ -884,3 +884,9 @@ button.your-feed {
     left: 10px;
     transform: translateX(0); /* Elimina el centrado horizontal */
 }
+
+.barra-lateral .usuario:hover {
+    background-color: #c2c2c2;
+    border-radius: 5px;
+    cursor: pointer;
+}

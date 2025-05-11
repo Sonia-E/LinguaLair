@@ -124,6 +124,10 @@
                     </div>
                 </div>
 
+                <?php if (isset($_SESSION['error_message'])): ?>
+                    <div class="error-message"><?php echo $_SESSION['error_message'] ?></div>
+                <?php endif; ?>
+
                 <button type="submit" class="sign-in-button">Save Changes</button>
             </div>
         </div>

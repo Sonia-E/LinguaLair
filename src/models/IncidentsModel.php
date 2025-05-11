@@ -98,7 +98,7 @@ class IncidentsModel {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->SMTPAuth   = true;
             $mail->Username   = 'soniaenjutom94@gmail.com';  // Tu correo
-            $mail->Password   = 'psnf byzz mpuo suuq'; // Contraseña de aplicación
+            $mail->Password   = ''; // Contraseña de aplicación
 
             // Configuración del correo
             $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Remitente

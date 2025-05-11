@@ -2,8 +2,9 @@
 namespace Sonia\LinguaLair\Models;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
+require_once 'SMTP_password.php';
 
 class IncidentsModel {
     private $conexion;
@@ -89,6 +90,7 @@ class IncidentsModel {
     }
 
     private function enviarCorreoNotificacion(array $incidencia): void {
+        global $smtp_password;
         $mail = new PHPMailer(true);
         try {
             // Configuración del servidor
@@ -98,7 +100,7 @@ class IncidentsModel {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->SMTPAuth   = true;
             $mail->Username   = 'soniaenjutom94@gmail.com';  // Tu correo
-            $mail->Password   = 'psnf byzz mpuo suuq'; // Contraseña de aplicación
+            $mail->Password   =  $smtp_password; // Contraseña de aplicación
 
             // Configuración del correo
             $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Remitente

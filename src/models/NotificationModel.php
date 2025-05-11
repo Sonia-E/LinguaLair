@@ -1,9 +1,9 @@
 <?php
 namespace Sonia\LinguaLair\Models;
 
-class NotificationModel { // Cambié el nombre de la clase a NotificationModel para evitar confusiones
+class NotificationModel {
     private $conexion;
-    private $tabla = 'notifications'; // Nombre de la tabla en la base de datos
+    private $tabla = 'notifications';
 
     public function __construct($servidor, $usuario, $contrasenia, $base_datos) {
         $this->conexion = new \mysqli($servidor, $usuario, $contrasenia, $base_datos);
@@ -77,19 +77,3 @@ class NotificationModel { // Cambié el nombre de la clase a NotificationModel p
         }
     }
 }
-
-// Ejemplo de uso:
-// 1. Incluir el archivo de la clase
-// include_once 'NotificationModel.php';
-
-// 2. Crear una instancia de la clase
-// $notificationModel = new NotificationModel($servidor, $usuario, $contrasenia, $base_datos);
-
-// 3. Guardar una notificación
-// $notificationModel->saveNotification($userId, $type, $content, $relatedId);
-
-// 4. Obtener las notificaciones de un usuario
-//$notificaciones = $notificationModel->getNotificationsByUserId($userId);
-
-// 5. Marcar las notificaciones como leídas
-//$notificationModel->markAsReadByUserId($userId);

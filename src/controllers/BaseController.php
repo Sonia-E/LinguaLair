@@ -16,6 +16,16 @@
             require 'src/views/setProfile.php';
         }
 
+        public function open_about() {
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
+            require 'src/views/about.php';
+        }
+
+        public function open_FAQ() {
+            global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
+            require 'src/views/FAQ.php';
+        }
+
         public function get_profile_data($id) {
             global $usuario, $logs, $totalLogs, $totalHoras, $totalMinutosRaw, $following, $logTypes, $totalAchievements, $dayStreak;
             // Obtener los datos del usuario

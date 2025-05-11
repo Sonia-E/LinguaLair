@@ -18,6 +18,8 @@
     $NotificationModel = new NotificationModel("localhost", "foc", "foc", 'LinguaLair');
     use Sonia\LinguaLair\Models\SocialModel;
     $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair', $NotificationModel, $modelo);
+    use Sonia\LinguaLair\Models\IncidentsModel;
+    $IncidentsModel = new IncidentsModel("localhost", "foc", "foc", 'LinguaLair');
 
     // Controllers imports
     require_once 'src/controllers/controladores.php';
@@ -33,6 +35,7 @@
     use Sonia\LinguaLair\Controllers\EventsController;
     use Sonia\LinguaLair\Controllers\AchievementsController;
     use Sonia\LinguaLair\Controllers\NotificationsController;
+    use Sonia\LinguaLair\Controllers\IncidentsController;
 
     $StatsController = new StatsController($modelo, $StatsModel);
     $BaseController = new BaseController($modelo, $SocialModel, $StatsController);
@@ -264,6 +267,25 @@
                 $NotificationsController = new NotificationsController($NotificationModel);
                 $BaseController->get_profile_data($_SESSION["user_id"]);
                 $NotificationsController->open_page();
+                
+            } elseif ($uri == 'about') {
+                $BaseController->get_profile_data($_SESSION["user_id"]);
+                $BaseController->open_about();
+                
+            } elseif ($uri == 'FAQ') {
+                $BaseController->get_profile_data($_SESSION["user_id"]);
+                $BaseController->open_FAQ();
+                
+            } elseif ($uri == 'contact') {
+                $IncidentsController = new IncidentsController($IncidentsModel);
+                
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $IncidentsController->procesarFormulario();
+                    exit();
+                } else {
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
+                    $IncidentsController->open_page();
+                }
                 
             } elseif ($uri == 'log_out') {
                 // Inicializar la sesión.

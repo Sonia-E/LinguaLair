@@ -1,12 +1,10 @@
 <?php
 namespace Sonia\LinguaLair\controllers;
 
-use Sonia\LinguaLair\Models\NotificationModel; // Importar la clase del modelo
-
 class NotificationsController {
     private $notificationModel;
 
-    public function __construct(NotificationModel $notificationModel) {
+    public function __construct($notificationModel) {
         $this->notificationModel = $notificationModel;
     }
 
@@ -65,19 +63,3 @@ class NotificationsController {
         }
     }
 }
-
-// Ejemplo de uso (en tu archivo de rutas o donde instancies los controladores):
-// Suponiendo que ya tienes una instancia de NotificationModel:
-// $notificationModel = new NotificationModel($servidor, $usuario, $contrasenia, $base_datos);
-// $notificationController = new NotificationController($notificationModel);
-
-// Para obtener las notificaciones de un usuario (ejemplo de ruta: /api/notifications/get)
-// if ($uri == '/api/notifications/get') {
-//     $notificationController->getNotifications();
-// }
-
-//Para guardar una notificación (ejemplo de ruta: /api/notifications/save)
-//if ($uri == '/api/notifications/save') {
-//  $notificationController->saveNotification();
-//}
-?>

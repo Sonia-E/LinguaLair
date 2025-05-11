@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+.dashboard {
+    overflow: hidden;
+}
+.container {
+    max-width: 800px; /* Increased max-width for larger screens */
+    margin: 0 auto;
+    padding: 2rem; /* Increased padding */
+    font-family: 'Inter', sans-serif;
+    color: #1a202c; /* Dark text */
+    line-height: 1.7; /* Improved line height for readability */
+    text-align: justify;
+}
+.dashboard .container h2.second {
+    text-align: center;
+    font-size: 1.5rem; /* Increased heading size */
+    font-weight: 600;
+    color: #4a5568; /* Slightly darker heading color */
+    margin-top: 1.5rem; /* Increased margin */
+    margin-bottom: 1.5rem;
+}
+
+.dashboard .container h2.margin {
+    margin-bottom: 1.5rem;
+}
+
+.dashboard .container h3 {
+    text-align: center;
+    font-size: 1rem;
+    font-style: italic;
+}
+.dashboard .container h3.last {
+    margin-bottom: 20px;
+}
+
+.dashboard .container p {
+    font-size: 1.1rem; /* Slightly increased font size */
+    color: #4a5568;
+    margin-bottom: 1.5rem; /* Increased margin */
+}
+.dashboard .container .highlight {
+    color: #63b3ed; /* Highlight color */
+    font-weight: 600;
+}
+.dashboard .container ul {
+    list-style-type: disc;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem; /* Increased margin */
+}
+.dashboard .container ul li {
+    font-size: 1.1rem; /* Slightly increased font size */
+    color: #4a5568;
+    margin-bottom: 0.75rem; /* Increased margin */
+}
+
+
+.container.faq {
+    width: 50%;
+}
+.faq-item {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+.faq-question {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+    width: 100%;
+}
+.faq-question:hover {
+    color: #63b3ed;
+}
+.faq-question::after {
+    content: "+";
+    font-size: 1.5rem;
+    color: #4a5568;
+    transition: transform 0.5s ease;
+}
+.faq-question.active::after {
+    transform: rotate(45deg);
+}
+.faq-answer {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-top: 1rem;
+    display: none;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.faq-answer.active {
+    display: block;
+    opacity: 1;
+    height: auto;
+}

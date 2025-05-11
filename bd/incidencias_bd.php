@@ -1,9 +1,6 @@
 <?php
-if ($mysqli = new mysqli("localhost", "foc", "foc")) {
-// Seleccionamos BD libros para crear tablas
-        $mysqli->select_db("Lingualair");
 
-$incidentsTable = "CREATE TABLE IF NOT EXISTS incidents (
+    $incidentsTable = "CREATE TABLE IF NOT EXISTS incidents (
         id INT AUTO_INCREMENT PRIMARY KEY,
         creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         user_id INT NOT NULL,
@@ -23,13 +20,4 @@ $incidentsTable = "CREATE TABLE IF NOT EXISTS incidents (
         FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
     )";
 
-        // Creamos la tabla incidents
-        if ($mysqli->query($incidentsTable) === TRUE) {
-            echo "<br>";
-            echo "Tabla incidents creada con éxito";
-        } else {
-            echo "<br>";
-            echo "Error creando la tabla incidents: " . $mysqli->error; // Importante mostrar el error
-        }
-    }
 ?>

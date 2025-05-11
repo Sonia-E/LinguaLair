@@ -281,7 +281,8 @@ header .boton {
     min-width: 50px;
     font-size: 25px;
 }
-.barra-lateral .boton:hover, header .boton:hover {
+.barra-lateral .boton:hover, header .boton:hover,
+#about-btn:hover, #faq-btn:hover, #contact-btn:hover {
     background-color: rgb(46, 46, 46);
     cursor: pointer;
 }

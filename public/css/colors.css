@@ -1,5 +1,6 @@
 /* Creación variables colores */
 :root {
+    --lingualair: rgb(194, 154, 194);
     --color-barra-lateral:rgb(255,255,255);
 
     --color-texto:rgb(0,0,0);
@@ -50,6 +51,7 @@
 }
 
 .dark-mode {
+    --lingualair: rgb(114, 89, 114);
     --color-barra-lateral:rgb(44,45,49);
     /* --color-barra-lateral:#333; */
 

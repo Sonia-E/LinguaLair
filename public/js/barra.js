@@ -7,6 +7,12 @@ const circulo = document.querySelector(".circulo");
 const menu = document.querySelector(".menu");
 const main = document.querySelector("main");
 
+const lingualair = document.getElementById("lingualair");
+
+lingualair.addEventListener('click', () => {
+  window.location.href = "/LinguaLair/";
+});
+
 window.addEventListener("load", () => {
     let body = document.body;
 

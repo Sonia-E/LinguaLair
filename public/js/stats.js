@@ -1,3 +1,72 @@
+let originalDefaultColor = Chart.defaults.color; // Guardar el color por defecto original
+let chartInstances = {}; // Objeto para almacenar las instancias de los gráficos
+
+        function applyDarkMode(darkModeEnabled) {
+            if (darkModeEnabled) {
+                Chart.defaults.color = 'rgb(221, 221, 221)';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                Chart.defaults.color = originalDefaultColor; // Restaurar el color original
+                localStorage.setItem('darkMode', 'disabled');
+            }
+            updateAllChartColors();
+        }
+
+        function updateChartColors(chartInstance) {
+            if (!chartInstance) return;
+
+            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            const textColor = isDarkMode ? 'rgb(221, 221, 221)' : originalDefaultColor;
+            const gridlineColor = isDarkMode ? 'rgb(82, 82, 82)' : 'rgba(0, 0, 0, 0.1)';
+
+            // Actualizar colores comunes a todos los tipos de gráficos (si aplica)
+            if (chartInstance.options.scales) {
+                for (const scaleId in chartInstance.options.scales) {
+                    chartInstance.options.scales[scaleId].ticks.color = textColor;
+                    chartInstance.options.scales[scaleId].grid.color = gridlineColor;
+                }
+            }
+            if (chartInstance.options.plugins?.legend?.labels) {
+                chartInstance.options.plugins.legend.labels.color = textColor;
+            }
+
+            // Actualizar colores específicos del tipo de gráfico
+            chartInstance.data.datasets.forEach(dataset => {
+                if (chartInstance.config.type === 'pie') {
+                    // Los colores de fondo y borde del pie chart se establecen al crear el gráfico, pero se pueden modificar aquí si es necesario.
+                } else {
+                    dataset.borderColor = isDarkMode ? 'rgba(255,255,255,1)' : 'transparent'; // Establecer el borde a blanco o transparente
+                    dataset.borderWidth = isDarkMode ? 2 : 0; // Establecer el ancho del borde a 1 o 0
+                }
+            });
+            chartInstance.update();
+        }
+
+        function updateAllChartColors() {
+            for (const chartId in chartInstances) {
+                updateChartColors(chartInstances[chartId]);
+            }
+        }
+
+        window.addEventListener("load", () => {
+            if (localStorage.getItem("darkMode") === "enabled") {
+                applyDarkMode(true);
+            } else {
+                applyDarkMode(false);
+            }
+        });
+
+
+document.querySelector('.switch').addEventListener('click', () => {
+    
+    if (localStorage.getItem("darkMode") !== "enabled") {
+        applyDarkMode(true);
+    } else {
+        applyDarkMode(false);
+    }
+    
+});
+
 // ###########################################
 // ############### TYPE PIE CHART ############
 // ###########################################
@@ -51,7 +120,7 @@ estadisticasPorIdioma.forEach(idiomaStats => {
                 }]
             };
 
-            new Chart(ctxType, {
+            const languagePieChart = new Chart(ctxType, {
                 type: 'pie',
                 data: typeData,
                 options: {
@@ -73,6 +142,7 @@ estadisticasPorIdioma.forEach(idiomaStats => {
                     }
                 }
             });
+            chartInstances[`type-pie-chart-${language.replace(/\s+/g, '-').toLowerCase()}`] = languagePieChart;
 
             // Almacenar el objeto de colores específico del idioma en el elemento de la pestaña
             languageTab.dataset.typeColors = JSON.stringify(typeColors);
@@ -91,6 +161,7 @@ tabButtons.forEach(button => {
         // Desactivar todos los botones y ocultar todos los contenidos
         tabButtons.forEach(btn => btn.classList.remove('active-tab'));
         tabContents.forEach(content => content.style.display = 'none');
+        
 
         // Activar el botón clicado y mostrar el contenido correspondiente
         button.classList.add('active-tab');
@@ -99,8 +170,6 @@ tabButtons.forEach(button => {
             // No necesitamos hacer nada específico con los gráficos aquí, asumimos que el de "All" está visible
         } else {
             const targetContent = document.getElementById(language + '-tab');
-            console.log("idiomaa actual: " + targetContent);
-            console.log("idioma supuesto: " + language);
             if (targetContent) {
                 targetContent.style.display = 'block';
 
@@ -204,9 +273,9 @@ tabButtons.forEach(button => {
                                 },
                                 plugins: [chartAreaBorder]
                             });
+                            chartInstances[`${language.toLowerCase().replace(' ', '-')}-week-chart`] = myBarChartLanguage;
                             // Almacenar la instancia del gráfico en el canvas para futuras destrucciones
                             fetchedCanvas.__chart = myBarChartLanguage;
-                            console.log("Gráfico de barras del idioma creado:", myBarChartLanguage);
                         }
                     }
                 }
@@ -217,12 +286,10 @@ tabButtons.forEach(button => {
                 if (monthChartCanvas) {
                     const newIdMonth = `${language.toLowerCase().replace(' ', '-')}-month-chart`;
                     monthChartCanvas.id = newIdMonth;
-                    console.log("Nuevo ID del canvas (mes):", newIdMonth);
 
                     const fetchedCanvasMonth = document.getElementById(newIdMonth);
                     if (fetchedCanvasMonth && fetchedCanvasMonth.__chart) {
                         fetchedCanvasMonth.__chart.destroy();
-                        console.log("Gráfico anterior destruido (mes) en:", newIdMonth);
                     }
 
                     const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
@@ -239,21 +306,16 @@ tabButtons.forEach(button => {
                             const languageMonthlyTypeData = [0, 0, 0, 0, 0];
                             const backgroundColor = languageTypeColors[type] || randomRgb();
 
-                            console.log(`\n--- Type: ${type} ---`);
-
                             for (let i = 1; i <= 5; i++) {
                                 let weeklyHours = 0;
-                                console.log(`  Semana ${i}:`);
 
                                 for (const date in typeStats[type]) {
                                     if (typeStats[type].hasOwnProperty(date) && isDateInCurrentMonthWeek(date, i)) {
                                         const hours = typeStats[type][date];
                                         weeklyHours += hours;
-                                        console.log(`    Fecha: ${date}, Horas: ${hours}`);
                                     }
                                 }
                                 languageMonthlyTypeData[i - 1] = parseFloat(weeklyHours.toFixed(2));
-                                console.log(`  Total Semana ${i}: ${languageMonthlyTypeData[i - 1]} horas`);
                             }
 
                             monthlyBarDataForLanguage.datasets.push({
@@ -294,8 +356,8 @@ tabButtons.forEach(button => {
                                 },
                                 plugins: [{ id: 'chartAreaBorder', beforeDraw: (chart) => { const { ctx, chartArea: { left, top, width, height } } = chart; ctx.save(); ctx.strokeStyle = chart.options.plugins.chartAreaBorder.borderColor; ctx.lineWidth = chart.options.plugins.chartAreaBorder.borderWidth; ctx.setLineDash(chart.options.plugins.chartAreaBorder.borderDash); ctx.lineDashOffset = chart.options.plugins.chartAreaBorder.borderDashOffset; ctx.strokeRect(left, top, width, height); ctx.restore(); } }]
                             });
+                            chartInstances[`${language.toLowerCase().replace(' ', '-')}-month-chart`] = myBarChartLanguageMonth;
                             fetchedCanvasMonth.__chart = myBarChartLanguageMonth;
-                            console.log("Gráfico de barras del idioma (mes por semana) creado:", myBarChartLanguageMonth);
                         }
                     }
                 }
@@ -306,12 +368,10 @@ tabButtons.forEach(button => {
                 if (yearChartCanvas) {
                     const newIdYear = `${language.toLowerCase().replace(' ', '-')}-year-chart`;
                     yearChartCanvas.id = newIdYear;
-                    console.log("Nuevo ID del canvas (año):", newIdYear);
 
                     const fetchedCanvasYear = document.getElementById(newIdYear);
                     if (fetchedCanvasYear && fetchedCanvasYear.__chart) {
                         fetchedCanvasYear.__chart.destroy();
-                        console.log("Gráfico anterior destruido (año) en:", newIdYear);
                     }
 
                     const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
@@ -380,14 +440,16 @@ tabButtons.forEach(button => {
                                 },
                                 plugins: [{ id: 'chartAreaBorder', beforeDraw: (chart) => { const { ctx, chartArea: { left, top, width, height } } = chart; ctx.save(); ctx.strokeStyle = chart.options.plugins.chartAreaBorder.borderColor; ctx.lineWidth = chart.options.plugins.chartAreaBorder.borderWidth; ctx.setLineDash(chart.options.plugins.chartAreaBorder.borderDash); ctx.lineDashOffset = chart.options.plugins.chartAreaBorder.borderDashOffset; ctx.strokeRect(left, top, width, height); ctx.restore(); } }]
                             });
+                            chartInstances[`${language.toLowerCase().replace(' ', '-')}-year-chart`] = myBarChartLanguageYear;
                             fetchedCanvasYear.__chart = myBarChartLanguageYear;
-                            console.log("Gráfico de barras del idioma (año) creado:", myBarChartLanguageYear);
                         }
                     }
                 }
             }
             document.querySelector('.all').style.display = 'none';
         }
+        // Aplicar el modo oscuro al cambiar de tab
+        applyDarkMode(localStorage.getItem('darkMode') === 'enabled');
     });
 });
 
@@ -442,7 +504,7 @@ const pieData = {
     }]
 };
 
-new Chart(ctx, {
+const allPieChart = new Chart(ctx, {
     type: 'pie',
     data: pieData,
     options: {
@@ -464,6 +526,8 @@ new Chart(ctx, {
         }
     }
 });
+
+chartInstances['all-pie-chart'] = allPieChart;
 
 // ###########################################
 // ############# WEEK BAR CHART ##############
@@ -538,7 +602,7 @@ const chartAreaBorder = {
   };
 
 const ctxBar = document.getElementById('all-line-chart').getContext('2d');
-const myBarChart = new Chart(ctxBar, {
+const weeklyBarChart = new Chart(ctxBar, {
     type: 'bar',
     data: barData,
     options: {
@@ -563,6 +627,7 @@ const myBarChart = new Chart(ctxBar, {
         },
     plugins: [chartAreaBorder]
 });
+chartInstances['all-line-chart'] = weeklyBarChart;
 
 // ----------------- ALL LANGUAGES
 
@@ -651,6 +716,7 @@ const myMonthlyBarChart = new Chart(ctxMonthlyBar, {
         },
     plugins: [chartAreaBorder]
 });
+chartInstances['monthly-line-chart'] = myMonthlyBarChart;
 
 // ----------------- ALL LANGUAGES
 
@@ -670,7 +736,6 @@ estadisticasPorIdioma.forEach(idiomaStats => {
         const languageMonthlyTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         const backgroundColor = languageColors[languageLabel] || randomRgb();
 
-        console.log(idiomaStats);
         for (const date in idiomaStats.solo_horas) {
             if (idiomaStats.solo_horas.hasOwnProperty(date)) {
                 const studyDate = new Date(date);
@@ -716,3 +781,4 @@ const myMonthlyTotalBarChart = new Chart(ctxMonthlyTotalBar, {
         },
     plugins: [chartAreaBorder]
 });
+chartInstances['monthly-total-line-chart'] = myMonthlyTotalBarChart;

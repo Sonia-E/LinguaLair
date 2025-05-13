@@ -3,12 +3,13 @@
     --color-barra-lateral:rgb(255,255,255);
 
     --color-texto:rgb(0,0,0);
-    --color-texto-menu:rgb(134,136,144);
+    --color-texto-menu:rgb(176, 179, 187);
 
     --color-menu-hover:rgb(238,238,238);
     --color-menu-hover-texto:rgb(0,0,0);
 
     --color-boton:rgb(0,0,0);
+    --color-boton-hover:rgb(46, 46, 46);
     --color-boton-texto:rgb(255,255,255);
 
     --color-linea:rgb(180,180,180);
@@ -18,10 +19,39 @@
 
     --color-scroll:rgb(192,192,192);
     --color-scroll-hover:rgb(134,134,134);
+
+    --color-body-bg: rgb(175, 175, 175);
+    --color-log-usuario: rgb(204, 204, 204);
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --border: 0;
+    --logout: #c2c2c2;
+    --bar-bg: #eee;
+
+    /* Popups */
+    --pp-bg: #555;
+    --pp-bg-form: #333;
+
+    /* Feed data */
+    --meter-bg: #f3f3f3;
+    --p-text: #555;
+
+    /* Search bars */
+    --search-bar: white;
+    --icon-image: url('../img/icons/search-outline.svg');
+
+    /* Profile */
+    --header: rgb(214, 214, 214);
+
+    /* Achievements */
+    --title-text: #333;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --level: rgb(94, 94, 94);
 }
 
 .dark-mode {
     --color-barra-lateral:rgb(44,45,49);
+    /* --color-barra-lateral:#333; */
 
     --color-texto:rgb(221, 221, 221);
     --color-texto-menu:rgb(110,110,117);
@@ -30,6 +60,7 @@
     --color-menu-hover-texto:rgb(238,238,238);
 
     --color-boton:rgb(255,255,255);
+    --color-boton-hover:rgb(146, 137, 143);
     --color-boton-texto:rgb(0,0,0);
 
     --color-linea:rgb(90,90,90);
@@ -39,4 +70,33 @@
 
     --color-scroll:rgb(68,69,74);
     --color-scroll-hover:rgb(85,85,85);
+
+    --color-body-bg: rgb(83, 66, 78);
+    --color-log-usuario: rgb(100, 94, 98);
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --border: 1px solid #7272727e;
+    --logout: rgb(83, 66, 78);
+    --bar-bg: rgb(100, 94, 98);
+
+    /* Popups */
+    --pp-bg: rgb(83, 66, 78);
+    --pp-bg-form: rgb(44,45,49);
+
+    /* Feed data */
+    --meter-bg: rgb(100, 94, 98);
+    --p-text: #b3b3b3;
+
+    /* Search bars */
+    --search-bar: rgb(83, 66, 78);
+    --icon-image: url('../img/icons/search-outline-dark-mode.svg');
+
+    /* Profile */
+    --header: rgb(126, 119, 123);
+
+    /* Achievements */
+    --title-text: #d1d1d1;
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --level: rgb(167, 167, 167);
 }

@@ -10,6 +10,7 @@
     overflow-x: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    outline: var(--border);
 }
 
 /* Feed */
@@ -31,9 +32,11 @@
     font-family: "Tektur", sans-serif;
     font-weight: 600;
     font-size: 15px;
+    
 }
 .dashboard .stats button:hover {
-    background-color: rgb(46, 46, 46);
+    transition: background-color 0.3s ease;
+    background-color: var(--color-boton-hover);
     cursor: pointer;
 }
 .dashboard .stats .divider {
@@ -62,6 +65,7 @@
     justify-content: center;
     width: 50%;
     padding: 50px;
+    color: var(--color-texto);
 }
 
 #all-pie-chart {
@@ -103,7 +107,7 @@
 .align-tabs .pie-area .area {
     display: flex;
     align-items: center;
-    width: 60%;
+    width: 100%;
     padding-left: 10px;
 }
 
@@ -161,7 +165,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el ancho mínimo según necesites */
     gap: 15px; /* Espacio entre los elementos del grid */
-    /* Añadimos scrollbar */
 }
 
 .all-langs .language-area {
@@ -175,10 +178,10 @@
 .align-tabs .language-area {
     padding: 15px;
     border: 1px solid #ccc;
+    width: 96%;
     border-radius: 5px;
-    width: 100%;
-    margin-left: 15%;
-    margin-bottom: 70%;
+    margin-left: 20px;
+    margin-bottom: 9em;
 }
 
 .language-area h2 {

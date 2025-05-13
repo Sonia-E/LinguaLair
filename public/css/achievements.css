@@ -16,14 +16,17 @@
     align-items: center; /* Si quieres centrar los elementos de la lista horizontalmente */
     padding: 30px;
     overflow-y: auto;
+    outline: var(--border);
 }
 .achievement-list {
-    background-color: #fff;
+    background-color: var(--color-barra-lateral);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     padding: 20px;
     width: 100%;
     max-width: 600px;
+    outline: var(--border);
+    margin-top: 10px;
 }
 
 .achievement-item {
@@ -40,7 +43,6 @@
 .achievement-icon {
     font-size: 2em;
     margin-right: 15px;
-    color: #3498db; /* Un color claro y llamativo para los iconos */
     text-align: center;
 }
 
@@ -49,10 +51,14 @@
 }
 
 .achievement-title {
-    color: #333;
+    color: var(--title-text);
     margin-top: 0;
     margin-bottom: 5px;
     font-size: 1.1em;
+}
+
+.achievement-item ion-icon {
+    color: var(--title-text);
 }
 
 .achievement-description {
@@ -62,10 +68,10 @@
     font-size: 0.9em;
 }
 .achievement-level {
-    border: 2px dotted rgb(94, 94, 94);
+    border: 2px dotted var(--level);
     border-radius: 5px;
     padding: 0 2px;
-    color: rgb(94, 94, 94);
+    color: var(--level);
     text-align: center;
 }
 

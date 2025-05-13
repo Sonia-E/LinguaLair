@@ -115,5 +115,4 @@
 </div>
 <?php endblock() ?>
 
-<script type="text/javascript" src="public/js/explore.js"></script>
 <script type="text/javascript" src="public/js/events.js"></script>

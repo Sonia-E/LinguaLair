@@ -19,13 +19,15 @@
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     overflow: hidden;
     transition: display 0.3 ease;
+    outline: var(--border);
+    color: var(--color-texto);
 }
 
 .profile .header {
     top: 0;
     height: 40%;
     padding: 40px;
-    background-color: rgb(214, 214, 214);
+    background-color: var(--header);
     border-radius: 10px;
     background-position: center;
     background-repeat: no-repeat;

@@ -7,6 +7,17 @@ const circulo = document.querySelector(".circulo");
 const menu = document.querySelector(".menu");
 const main = document.querySelector("main");
 
+window.addEventListener("load", () => {
+    let body = document.body;
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+        body.classList.add("dark-mode");
+        if (circulo) {
+           circulo.classList.add("pulsado");
+        }
+    }
+});
+
 menu.addEventListener("click",()=>{
     barraLateral.classList.toggle("max-barra-lateral");
     if (barraLateral.classList.contains("max-barra-lateral")) {
@@ -56,6 +67,13 @@ palanca.addEventListener("click",()=>{
     let body = document.body;
     body.classList.toggle("dark-mode");
     circulo.classList.toggle("pulsado");
+
+    // Guardar el estado en localStorage
+    if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.setItem("darkMode", "disabled");
+    }
 })
 
 cloud.addEventListener("click",()=>{

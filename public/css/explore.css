@@ -72,6 +72,7 @@ opacity: 1; /* Mostrar elemento con opacidad completa */
 
 .search .user-result {
     width: 400px;
+    outline: var(--border);
 }
 
 .search .log, .search .user-result {
@@ -104,6 +105,7 @@ opacity: 1; /* Mostrar elemento con opacidad completa */
     align-items: center;
     width: 100%;
     display: inline-flex;
+    background-color: var(--color-log-usuario);
 }
 .user-details {
     padding: 5px;
@@ -129,5 +131,5 @@ opacity: 1; /* Mostrar elemento con opacidad completa */
 
 a {
     text-decoration: none;
-    color: black;
+    color: var(--color-texto);
 }

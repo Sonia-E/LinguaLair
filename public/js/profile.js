@@ -1,3 +1,48 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModeYes = document.getElementById('dark_yes');
+    const darkModeNo = document.getElementById('dark_no');
+    const body = document.body;
+    const circulo = document.querySelector(".circulo");
+
+    // Función para aplicar el modo oscuro
+    function applyDarkMode(enable) {
+        if (enable) {
+            body.classList.add('dark-mode');
+            circulo.classList.add("pulsado");
+            localStorage.setItem('darkMode', 'enabled'); // Guarda "enabled"
+        } else {
+            body.classList.remove('dark-mode');
+            circulo.classList.remove("pulsado");
+            localStorage.setItem('darkMode', 'disabled'); // Guarda "disabled"
+        }
+    }
+
+    // Guardar el estado en localStorage
+    if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.setItem("darkMode", "disabled");
+    }
+
+    // Comprueba el estado guardado al cargar la página
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        darkModeYes.checked = true;
+        applyDarkMode(true);
+    } else {
+        darkModeNo.checked = true;
+        applyDarkMode(false);
+    }
+
+    // Event listeners para los botones de radio
+    darkModeYes.addEventListener('change', () => {
+        applyDarkMode(true); // Activa el modo oscuro
+    });
+
+    darkModeNo.addEventListener('change', () => {
+        applyDarkMode(false); // Desactiva el modo oscuro
+    });
+});
+
 // DeleteUser Popup
 const deleteBtn = document.querySelector(".delete-user-btn");
 const DeletePopup = document.getElementById("DeletePopup");

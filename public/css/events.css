@@ -61,6 +61,8 @@
     font-weight: 600;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    outline: var(--border);
+    color: var(--color-texto);
 }
 .dashboard .feed .event:hover {
     transform: scale(1.05);
@@ -78,6 +80,7 @@
     background-color: rgb(204, 204, 204);
     justify-content: space-between;
     align-items: center;
+    background-color: var(--color-log-usuario);
 }
 .log-user {
     display: inline-flex;
@@ -117,6 +120,7 @@
     padding: 0 6px;
     background-color: rgb(235, 235, 235);
     border-radius: 7px;
+    color: black;
 }
 .event-info .log-row {
     display: inline-flex;

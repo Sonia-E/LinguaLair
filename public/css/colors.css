@@ -32,6 +32,9 @@
     /* Popups */
     --pp-bg: #555;
     --pp-bg-form: #333;
+    --pp-btn: darkslateblue;
+    --pp-btn-hover: #5e5aa4;
+    --log-options: #555;
 
     /* Feed data */
     --meter-bg: #f3f3f3;
@@ -48,6 +51,27 @@
     --title-text: #333;
     --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     --level: rgb(94, 94, 94);
+
+    /* About & FAQ */
+    --container-text: #1a202c;
+    --paragraph: #4a5568;
+    --h2: #4a5568;
+    --highlight: rgb(206, 125, 163);
+
+    /* Contact */
+    --contact-text: #333;
+    --contact-label: #555;
+    --contact-input: rgb(255,255,255);
+
+    /* Edit Profile Form */
+    --edit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    --right-side: #f7e0ee;
+    --label: #4a374f;
+    --right-input: rgb(255,255,255);
+    --file-btn: #47768d;
+    --file-message: #0aa;
+    --edit-btn: #37474f;
+    --edit-title: #a62666;
 }
 
 .dark-mode {
@@ -84,6 +108,9 @@
     /* Popups */
     --pp-bg: rgb(83, 66, 78);
     --pp-bg-form: rgb(44,45,49);
+    --pp-btn: rgb(139, 61, 100);
+    --pp-btn-hover: #a45a8e;
+    --log-options: rgb(44,45,49);
 
     /* Feed data */
     --meter-bg: rgb(100, 94, 98);
@@ -101,4 +128,25 @@
     --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     --level: rgb(167, 167, 167);
+
+    /* About & FAQ */
+    --container-text: #a36d86;
+    --paragraph: #f3e5eb;
+    --h2: #97788a;
+    
+    /* Contact */
+    --contact-text: #dbdbdb;
+    --contact-label: #bdbdbd;
+    --contact-input: rgb(83, 66, 78);
+
+    /* Edit Profile Form */
+    --edit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --right-side: rgb(83, 66, 79);
+    --label: #ebe1e6;
+    --right-input: rgb(44,45,49);
+    --file-btn: #315a70;
+    --file-message: rgb(1, 187, 187);
+    --edit-btn: #1a2830;
+    --edit-title: rgb(190, 98, 144);
 }

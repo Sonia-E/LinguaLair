@@ -4,24 +4,15 @@
     overflow: hidden;
 }
 
-.profile {
-    font-family: sans-serif;
-    margin: 0;
-    background-color: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
 .container {
-    background-color: #fff;
+    background-color: var(--color-barra-lateral);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--edit-box-shadow);
     display: flex;
-    width: 1000px; /* Adjust as needed */
+    width: 1000px;
     height: 700px;
     overflow: hidden;
+    outline: var(--border);
 }
 
 .left-side {
@@ -34,7 +25,7 @@
 }
 
 .right-side {
-    background-color: #f7e0ee;
+    background-color: var(--right-side);
     padding: 50px;
     flex: 1;
     display: flex;
@@ -47,7 +38,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #a62666; /* Teal accent */
+    color: var(--edit-title);
 }
 
 .logo h2 {
@@ -72,7 +63,7 @@
 }
 
 .login-form .form-group label {
-    color: #4a374f;
+    color: var(--label);
     font-size: 0.95em;
 }
 
@@ -83,6 +74,15 @@
     border: 1px solid #cfd8dc;
     border-radius: 5px;
     font-size: 1em;
+    color: var(--color-texto);
+}
+.left-side .form-group input[type="text"],
+.left-side .form-group select {
+    background-color: var(--contact-input);
+}
+.right-side .form-group input[type="text"],
+.right-side .form-group select {
+    background-color: var(--right-input);
 }
 .login-form .form-group .languages {
     margin-bottom: 10px;
@@ -96,14 +96,14 @@
     width: calc(96% + 1px);
     padding: 10px;
     border: 1px solid #cfd8dc;
-    background-color: white;
+    background-color: var(--contact-input);
     border-radius: 5px;
     font-size: 1em;
     box-sizing: border-box;
-    resize: none; /* Prevent resizing */
-    min-height: 100px; /* Set a reasonable minimum height */
+    resize: none;
+    min-height: 100px;
     margin: 0;
-    color: #4a374f;
+    color: var(--color-texto);
 }
 
 .login-form .form-group input[type="text"]:focus,
@@ -113,7 +113,7 @@
 }
 
 .login-form .sign-in-button {
-    background-color: #37474f;
+    background-color: var(--edit-btn);
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -194,7 +194,7 @@ option {
 }
 [value="Choose a profile picture"],
 [value="Choose a header picture"] {
-  background-color: #47768d;
+  background-color: var(--file-btn);
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -206,7 +206,7 @@ option {
 }
 [value="Choose a profile picture"]:hover,
 [value="Choose a header picture"]:hover {
-  background: #0aa;
+  background: var(--file-message);
 }
 
 .close-edit-button {

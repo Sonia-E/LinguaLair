@@ -3,20 +3,20 @@
     overflow: hidden;
 }
 .container {
-    max-width: 800px; /* Increased max-width for larger screens */
+    max-width: 800px;
     margin: 0 auto;
-    padding: 2rem; /* Increased padding */
+    padding: 2rem;
     font-family: 'Inter', sans-serif;
-    color: #1a202c; /* Dark text */
-    line-height: 1.7; /* Improved line height for readability */
+    color: var(--container-text);
+    line-height: 1.7;
     text-align: justify;
 }
 .dashboard .container h2.second {
     text-align: center;
-    font-size: 1.5rem; /* Increased heading size */
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #4a5568; /* Slightly darker heading color */
-    margin-top: 1.5rem; /* Increased margin */
+    color: var(--h2);
+    margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
@@ -34,25 +34,24 @@
 }
 
 .dashboard .container p {
-    font-size: 1.1rem; /* Slightly increased font size */
-    color: #4a5568;
-    margin-bottom: 1.5rem; /* Increased margin */
+    font-size: 1.1rem;
+    color: var(--paragraph);
+    margin-bottom: 1.5rem;
 }
 .dashboard .container .highlight {
-    color: #63b3ed; /* Highlight color */
+    color: var(--highlight);
     font-weight: 600;
 }
 .dashboard .container ul {
     list-style-type: disc;
     padding-left: 2rem;
-    margin-bottom: 1.5rem; /* Increased margin */
+    margin-bottom: 1.5rem;
 }
 .dashboard .container ul li {
-    font-size: 1.1rem; /* Slightly increased font size */
-    color: #4a5568;
-    margin-bottom: 0.75rem; /* Increased margin */
+    font-size: 1.1rem;
+    color: var(--paragraph);
+    margin-bottom: 0.75rem;
 }
-
 
 .container.faq {
     width: 50%;
@@ -65,7 +64,7 @@
 .faq-question {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #4a5568;
+    color: var(--paragraph);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -74,12 +73,12 @@
     width: 100%;
 }
 .faq-question:hover {
-    color: #63b3ed;
+    color: var(--highlight);
 }
 .faq-question::after {
     content: "+";
     font-size: 1.5rem;
-    color: #4a5568;
+    color: var(--paragraph);
     transition: transform 0.5s ease;
 }
 .faq-question.active::after {
@@ -87,7 +86,7 @@
 }
 .faq-answer {
     font-size: 1.1rem;
-    color: #4a5568;
+    color: var(--paragraph);
     margin-top: 1rem;
     display: none;
     opacity: 0;

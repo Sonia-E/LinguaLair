@@ -62,7 +62,7 @@ body {
 }
 .log-data .language, .log-data .type {
     height: 30px;
-    background-color: darkslateblue;
+    background-color: var(--pp-btn);
     padding-left: 6px;
     padding-right: 6px;
     margin-left: 10px;
@@ -105,22 +105,23 @@ body {
 }
 
 .log-container {
-    position: relative; /* Establecer el contexto de posicionamiento para el popup */
-    margin-bottom: 20px; /* O el espaciado que desees entre los logs */
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .log-options-popup {
-    position: absolute; /* Posicionar el popup absolutamente dentro de .log-container */
-    top: 95%; /* Mostrar el popup justo debajo del .log */
-    right: 0; /* Alinear el popup con el borde izquierdo del .log */
-    background-color: #555;
+    position: absolute;
+    top: 95%;
+    right: 0;
+    background-color: var(--log-options);
     color: #fff;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1001; /* Asegurar que el popup esté por encima de otros elementos */
-    display: none; /* Ocultar el popup inicialmente */
+    z-index: 1001;
+    display: none;
     border-radius: 6px;
     border: 0;
     overflow: hidden;
+    outline: var(--border);
 }
 .options-buttons {
     display: flex;
@@ -264,14 +265,23 @@ header .boton {
     /* Eliminamos scrollbar horizontal */
     overflow-x: hidden;
 }
-.barra-lateral .navegacion::-webkit-scrollbar, .dashboard .feed::-webkit-scrollbar {
+.barra-lateral .navegacion::-webkit-scrollbar, .dashboard .feed::-webkit-scrollbar,
+.dashboard .stats::-webkit-scrollbar, .dashboard .stats .area::-webkit-scrollbar,
+.dashboard .profile .user-details .languages::-webkit-scrollbar,
+.dashboard .achievements::-webkit-scrollbar, .dashboard .search::-webkit-scrollbar {
     width: 5px;
 }
-.barra-lateral .navegacion::-webkit-scrollbar-thumb, .dashboard .feed::-webkit-scrollbar-thumb {
+.barra-lateral .navegacion::-webkit-scrollbar-thumb, .dashboard .feed::-webkit-scrollbar-thumb,
+.dashboard .stats::-webkit-scrollbar-thumb, .dashboard .stats .area::-webkit-scrollbar-thumb,
+.dashboard .profile .user-details .languages::-webkit-scrollbar-thumb,
+.dashboard .achievements::-webkit-scrollbar-thumb, .dashboard .search::-webkit-scrollbar-thumb {
     background-color: var(--color-scroll);
     border-radius: 5px;
 }
-.barra-lateral .navegacion::-webkit-scrollbar-thumb:hover, .dashboard .feed::-webkit-scrollbar-thumb:hover {
+.barra-lateral .navegacion::-webkit-scrollbar-thumb:hover, .dashboard .feed::-webkit-scrollbar-thumb:hover,
+.dashboard .stats::-webkit-scrollbar-thumb:hover, .dashboard .stats .area::-webkit-scrollbar-thumb:hover,
+.dashboard .profile .user-details .languages::-webkit-scrollbar-thumb:hover,
+.dashboard .achievements::-webkit-scrollbar-thumb:hover, .dashboard .search::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-scroll-hover);
 }
 .barra-lateral .navegacion li {

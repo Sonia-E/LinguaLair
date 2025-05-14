@@ -135,7 +135,7 @@
 }
 
 .log-form button[type="submit"] {
-  background-color: darkslateblue;
+  background-color: var(--pp-btn);
   color: white;
   padding: 12px 20px;
   border: none;
@@ -149,7 +149,7 @@
 }
 
 .log-form button[type="submit"]:hover {
-  background-color: #5e5aa4;
+  background-color: var(--pp-btn-hover);
 }
 
 .life-bar-container {
@@ -229,9 +229,8 @@ header .life-bar {
   flex: 1;
   margin: 20px auto;
   padding: 30px;
-  border: 1px solid #555;
   border-radius: 5px;
-  background-color: #333;
+  background-color: var(--pp-bg-form);
   color: white;
   margin-bottom: 20px;
   display: flex;

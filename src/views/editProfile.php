@@ -141,3 +141,4 @@
 
 
 <script type="text/javascript" src="public/js/selectFile.js"></script>
+<script type="text/javascript" src="public/js/profile.js"></script>

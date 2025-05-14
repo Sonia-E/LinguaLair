@@ -2,16 +2,17 @@
     overflow: hidden;
 }
 .container.contact {
-    background-color: #fff;
+    background-color: var(--color-barra-lateral);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
+    outline: var(--border);
 }
 h2 {
     text-align: center;
-    color: #333;
+    color: var(--contact-text);
     margin-bottom: 20px;
 }
 .contact .form-group {
@@ -20,7 +21,7 @@ h2 {
 .contact label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: var(--contact-label);
     font-weight: bold;
 }
 .contact input[type="text"],
@@ -33,8 +34,8 @@ h2 {
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
-    background-color: white;
-    color: #333;
+    background-color: var(--contact-input);
+    color: var(--contact-text);
     margin: 0;
 }
 .contact select {
@@ -57,7 +58,7 @@ h2 {
 }
 .contact button[type="submit"] {
     background-color: var(--color-boton);
-    color: white;
+    color: var(--color-boton-texto);
     padding: 12px 20px;
     border: none;
     border-radius: 10px;
@@ -66,7 +67,7 @@ h2 {
     transition: background-color 0.3s ease;
 }
 .contact button[type="submit"]:hover {
-    background-color: rgb(46, 46, 46);
+    background-color: var(--color-boton-hover);
 }
 .contact .error-message {
     text-align: center;

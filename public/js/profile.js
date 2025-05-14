@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const circulo = document.querySelector(".circulo");
 
+    if (localStorage.getItem("darkMode") === "enabled") {
+        darkModeYes.checked = true;
+    } else {
+        darkModeNo.checked = true;
+    }
+
     // Función para aplicar el modo oscuro
     function applyDarkMode(enable) {
         if (enable) {
@@ -15,13 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             circulo.classList.remove("pulsado");
             localStorage.setItem('darkMode', 'disabled'); // Guarda "disabled"
         }
-    }
-
-    // Guardar el estado en localStorage
-    if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        localStorage.setItem("darkMode", "disabled");
     }
 
     // Comprueba el estado guardado al cargar la página

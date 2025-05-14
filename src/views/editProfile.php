@@ -100,11 +100,11 @@
                     <label for="dark_mode">Dark Mode:</label>
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="dark_yes" name="dark_mode" value="1" <?php echo $usuario->dark_mode ? 'checked' : '' ?>>
+                            <input type="radio" id="dark_yes" name="dark_mode" value="1">
                             <label for="dark_yes">Yes</label>
                         </div>
                         <div class="radio-item">
-                            <input type="radio" id="dark_no" name="dark_mode" value="0" <?php echo $usuario->dark_mode ? '' : 'checked' ?>>
+                            <input type="radio" id="dark_no" name="dark_mode" value="0">
                             <label for="dark_no">No</label>
                         </div>
                     </div>

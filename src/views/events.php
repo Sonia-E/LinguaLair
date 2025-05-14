@@ -11,50 +11,50 @@
             <h2>Events Feed</h2>
         </div>
         <form id="explore-form">
-            <input type="text" id="texto" onkeyup="explore(this.value)" placeholder="Search for events!" autofocus>
+            <input type="text" id="texto" onkeyup="search(this.value)" placeholder="Search for events!" autofocus>
         </form>
         <div class="following show">
-            <?php // include 'src/views/events_feed.php' ?>
             <!-- si no hay search div no hay transición de aparición -->
-            <div id="resultados"></div>
-            <?php foreach ($events as $event) { ?>
-                <div class="event" data-event-identifier="<?php echo $event->id ?>">
-                    <div class="event-header usuario">
-                        <div class="event-column">
-                            <h3 class="event-name"><?php echo $event->name ?></h3>
-                            
-                            <div class="event-subtype">
-                                <div class="<?php echo $event->subtype == 'Language Exchange' ? 'exchange-type' : 'hidden' ?>">
-                                    <span class="exchange-langs"><?php echo $event->exchange_lang_1 ?> - <?php echo $event->exchange_lang_2 ?></span>
+            <div id="resultados">
+                <?php foreach ($events as $event) { ?>
+                    <div class="event" data-event-identifier="<?php echo $event->id ?>">
+                        <div class="event-header usuario">
+                            <div class="event-column">
+                                <h3 class="event-name"><?php echo $event->name ?></h3>
+                                
+                                <div class="event-subtype">
+                                    <div class="<?php echo $event->subtype == 'Language Exchange' ? 'exchange-type' : 'hidden' ?>">
+                                        <span class="exchange-langs"><?php echo $event->exchange_lang_1 ?> - <?php echo $event->exchange_lang_2 ?></span>
+                                    </div>
+                                    <div class="main-lang <?php echo $event->main_lang ? '' : 'hidden' ?>">Event language: <?php echo $event->main_lang ?></div>
+                                    <div class="learning-lang <?php echo $event->learning_lang ? '' : 'hidden' ?>">Target language: <?php echo $event->learning_lang ?></div>
                                 </div>
-                                <div class="main-lang <?php echo $event->main_lang ? '' : 'hidden' ?>">Event language: <?php echo $event->main_lang ?></div>
-                                <div class="learning-lang <?php echo $event->learning_lang ? '' : 'hidden' ?>">Target language: <?php echo $event->learning_lang ?></div>
+                            </div>
+                            <div class="event-right">
+                                <div class="event-date"><span><?php echo $event->event_date ?></span></div>
+                                <span class="event-type"><?php echo $event->type ?></span>
                             </div>
                         </div>
-                        <div class="event-right">
-                            <div class="event-date"><span><?php echo $event->event_date ?></span></div>
-                            <span class="event-type"><?php echo $event->type ?></span>
-                        </div>
-                    </div>
-                    <div class="event-info">
-                        <div class="log-row">
-                            <div class="description">
-                                <!-- Poner un límite de mostrar la descripción: poner botón de show more y ahí se muestra el evento a la derecha -->
-                                <span><?php echo $event->description ?></span>
+                        <div class="event-info">
+                            <div class="log-row">
+                                <div class="description">
+                                    <!-- Poner un límite de mostrar la descripción: poner botón de show more y ahí se muestra el evento a la derecha -->
+                                    <span><?php echo $event->description ?></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="post-date">
-                            <span><strong>Creation Date:</strong> <?php echo $event->creation_date ?></span>
-                            <!-- Location if it's in person -->
-                            <div class="location <?php echo $event->city ? '' : 'hidden' ?>">
-                                <span>
-                                    <span><?php echo $event->city ?></span>, <span><?php echo $event->country ?></span>
-                                </span>
+                            <div class="post-date">
+                                <span><strong>Creation Date:</strong> <?php echo $event->creation_date ?></span>
+                                <!-- Location if it's in person -->
+                                <div class="location <?php echo $event->city ? '' : 'hidden' ?>">
+                                    <span>
+                                        <span><?php echo $event->city ?></span>, <span><?php echo $event->country ?></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
         </div>
     </div>
     <!-- <div class="profile">

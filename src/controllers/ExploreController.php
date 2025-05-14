@@ -45,5 +45,5 @@
                 echo json_encode([]);
             }
         }
-}
+    }
 ?>

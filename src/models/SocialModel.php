@@ -512,6 +512,39 @@
                 return false;
             }
         }
+
+        public function searchEvents($texto) {
+        if (!$this->conexion) return false;
+
+        $texto = "%" . $this->conexion->real_escape_string($texto) . "%";
+        $sql = "SELECT *
+                FROM events
+                WHERE LOWER(name) LIKE ?
+                   OR LOWER(type) LIKE ?
+                   OR LOWER(subtype) LIKE ?
+                   OR LOWER(exchange_lang_1) LIKE ?
+                   OR LOWER(exchange_lang_2) LIKE ?
+                   OR LOWER(main_lang) LIKE ?
+                   OR LOWER(learning_lang) LIKE ?
+                   OR LOWER(city) LIKE ?
+                   OR LOWER(country) LIKE ?";
+        $stmt = $this->conexion->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("sssssssss", $texto, $texto, $texto, $texto, $texto, $texto, $texto, $texto, $texto);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $eventosEncontrados = [];
+            while ($row = $result->fetch_assoc()) {
+                $eventosEncontrados[] = $row;
+            }
+            $stmt->close();
+            return $eventosEncontrados;
+        } else {
+            error_log("Error al preparar la consulta para buscar eventos: " . $this->conexion->error);
+            return false;
+        }
+    }
     
         public function __destruct() {
             if ($this->conexion) {

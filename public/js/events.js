@@ -1,22 +1,20 @@
-const events = document.querySelectorAll('.feed .event');
 const profile = document.querySelector(".dashboard .profile");
 const feed = document.querySelector(".dashboard .feed");
 let isProfileVisible = false; // Inicialmente el perfil está oculto
 let currentActiveEventId = null; // Variable para almacenar el ID del evento actualmente mostrado
 
-events.forEach(event => {
-    event.addEventListener("click", () => {
-        const eventId = event.dataset.eventIdentifier;
+document.getElementById("resultados").addEventListener("click", (event) => {
+    const clickedEvent = event.target.closest('.event');
+    if (clickedEvent) {
+        const eventId = clickedEvent.dataset.eventIdentifier;
         console.log("Clicked on event ID:", eventId);
 
         if (eventId === currentActiveEventId && isProfileVisible) {
-            // Clic en el mismo evento que ya está abierto, hacer toggle de la visibilidad
             profile.classList.add("hidden");
             feed.classList.remove("profile-hidden");
             isProfileVisible = false;
             currentActiveEventId = null;
         } else {
-            // Clic en un evento diferente o el perfil está cerrado
             fetch(`event_details?id=${eventId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -27,20 +25,19 @@ events.forEach(event => {
                         feed.classList.add("profile-hidden");
                         isProfileVisible = true;
                     }
-                    currentActiveEventId = eventId; // Actualizar el ID del evento activo
+                    currentActiveEventId = eventId;
                 })
                 .catch(error => {
                     console.error("Error fetching event details:", error);
                 });
         }
-    });
+    }
 });
 
-// Inicialización
 profile.classList.add("hidden");
 feed.classList.remove("profile-hidden");
 function updateEvent(eventData) {
-    // Selecciona los elementos dentro de .profile que tenemos que actualizar
+    // Seleccionamos los elementos dentro de .profile que tenemos que actualizar
     const profileName = profile.querySelector(".header .event-name");
     const profileSubtypeExchange = profile.querySelector(".header .event-subtype .exchange-type");
     const profileExchangeLangs = profileSubtypeExchange.querySelector(".exchange-langs");
@@ -68,10 +65,10 @@ function updateEvent(eventData) {
         attendButtonSpan.textContent = "Attend";
     }
 
-    // Agregar el data-event-identifier al botón
+    // Agregamos el data-event-identifier al botón
     attendButton.dataset.eventId = eventData.id;
 
-    // Actualiza el contenido con los datos del evento
+    // Actualizamos el contenido con los datos del evento
     profileName.textContent = eventData.name;
     profileSubtypeExchange.classList.add("hidden", !eventData.subtype === 'Language Exchange');
     if (eventData.subtype === 'Language Exchange') {
@@ -96,7 +93,7 @@ function updateEvent(eventData) {
     profileEventType.textContent = eventData.type;
     if (profileCreationDateSpan) {
         const fullText = profileCreationDateSpan.textContent;
-        const datePart = fullText.substring(fullText.indexOf(':') + 2); // Extrae la parte después de ": "
+        const datePart = fullText.substring(fullText.indexOf(':') + 2);
         profileCreationDateSpan.textContent = datePart;
     } else {
         console.error("No se encontró el span de la fecha de creación en el perfil.");
@@ -197,10 +194,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function search(texto) {
+    // Obtenemos el elemento donde se muestran los resultados
+    var resultadosDiv = document.getElementById("resultados");
+    // Guardamos el HTML inicial en una variable global o en un atributo del elemento
+    if (!resultadosDiv.dataset.initialHtml) {
+        resultadosDiv.dataset.initialHtml = resultadosDiv.innerHTML;
+    }
     // Si no se ha introducido un valor en el input
     if (texto.length === 0) {
-        // Vacíamos los resultados que hubieran
-        document.getElementById("resultados").innerHTML = "";
+        // Restauramos los resultados iniciales
+        resultadosDiv.innerHTML = resultadosDiv.dataset.initialHtml;
         return;
     } else {
         // Creamos un nuevo objeto XMLHttpRequest para realizar peticiones
@@ -210,7 +213,7 @@ function search(texto) {
         request.onreadystatechange = estadoCambiado;
 
         // Abrimos la comunicación asíncrona y hacemos una petición GET
-        request.open("GET", "explore?texto="+texto, true);
+        request.open("GET", "events?texto=" + texto, true);
         // Enviamos la petición
         request.send(null);
 
@@ -222,75 +225,46 @@ function search(texto) {
                     // Intentamos parsear la respuesta como JSON
                     var resultados = JSON.parse(request.responseText);
                     var lista = "";
-        
+
                     if (resultados.length === 0) {
-                        lista = "<p class='error'>There are no results for: " + texto + "</p>";
-                    } else if (resultados[0] && resultados[0].password) {
-                        // Si el primer resultado tiene la propiedad 'username', asumimos que son usuarios
+                        lista = "<p class='error'>No hay resultados para: " + texto + "</p>";
+                    } else if (resultados) {
                         lista = "<div class='user-container'>";
-                        resultados.forEach(function(usuario) {
+                        resultados.forEach(function (event) {
                             lista += `
-                                <div class="user-result efecto">
-                                    <a href="profile?id=${usuario.id}">
-                                        <div class="user-info">
-                                        <img src="${usuario.profile_pic ? usuario.profile_pic : './public/img/pic_placeholder.png'}" alt="profile picture">
-                                            <div class="user-details">
-                                                <span class="nickname">${usuario.nickname}</span>
-                                                <span class="username">@${usuario.username}</span>
-                                            </div>
-                                        </div>
-                                        <div class="user-row">
-                                            <div class="bio">
-                                                <span>${usuario.bio ? usuario.bio : 'No bio available'}</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            `;
-                        });
-                        lista += "</div>";
-                    } else if (resultados[0] && resultados[0].description) {
-                        // Si el primer resultado tiene la propiedad 'description', asumimos que son logs
-                        lista = "<div class='log-container'>";
-                        resultados.forEach(function(log) {
-                            lista += `
-                                <div class="log efecto">
-                                    <div class="usuario">
-                                        <a href="profile?id=${log.user_id}">
-                                            <div class="log-user">
-                                                <img src="${log.profile_pic}" alt="profile picture">
-                                                <div class="info-usuario">
-                                                    <div class="nick-user">
-                                                        <span class="nickname">${log.nickname}</span>
-                                                        <span class="username">@${log.username}</span>
-                                                    </div>
+                                <div class="event efecto" data-event-identifier="${event.id}">
+                                    <div class="event-header usuario">
+                                        <div class="event-column">
+                                            <h3 class="event-name">${event.name}</h3>
+                                            
+                                            <div class="event-subtype">
+                                                <div class="${event.subtype == 'Language Exchange' ? 'exchange-type' : 'hidden' }">
+                                                    <span class="exchange-langs">${event.exchange_lang_1} - ${event.exchange_lang_2}</span>
                                                 </div>
+                                                <div class="main-lang ${event.main_lang ? '' : 'hidden' }">Event language: ${event.main_lang}</div>
+                                                <div class="learning-lang ${event.learning_lang ? '' : 'hidden' }">Target language: ${event.learning_lang}</div>
                                             </div>
-                                        </a>
-                                        <div class="log-column">
-                                            <div class="log-date"><span>${log.log_date}</span></div>
-                                            <div class="duration">
-                                                <span>${log.duration}</span>
-                                                <span>minutes</span>
-                                            </div>
+                                        </div>
+                                        <div class="event-right">
+                                            <div class="event-date"><span>${event.event_date}</span></div>
+                                            <span class="event-type">${event.type}</span>
                                         </div>
                                     </div>
-                                    <div class="log-data">
+                                    <div class="event-info">
                                         <div class="log-row">
                                             <div class="description">
-                                                <span>${log.description}</span>
-                                            </div>
-                                            <div class="log-column">
-                                                <div class="language">
-                                                    <span>${log.language}</span>
-                                                </div>
-                                                <div class="type">
-                                                    <span>${log.type}</span>
-                                                </div>
+                                                <!-- Poner un límite de mostrar la descripción: poner botón de show more y ahí se muestra el evento a la derecha -->
+                                                <span>${event.description}</span>
                                             </div>
                                         </div>
                                         <div class="post-date">
-                                            <span><strong>Post Date:</strong> ${log.post_date}</span>
+                                            <span><strong>Creation Date:</strong> ${event.creation_date}</span>
+                                            <!-- Location if it's in person -->
+                                            <div class="location ${event.city ? '' : 'hidden' }">
+                                                <span>
+                                                    <span>${event.city}</span>, <span>${event.country}</span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -298,21 +272,21 @@ function search(texto) {
                         });
                         lista += "</div>";
                     }
-        
+
                     // Introducimos los resultados en el div de id "resultados"
-                    document.getElementById("resultados").innerHTML = lista;
-        
-                    // Animación de aparición secuencial
+                    resultadosDiv.innerHTML = lista;
+
+                    // Animación de aparición secuencial (si la necesitas)
                     var elementos = document.querySelectorAll('.efecto');
-                    elementos.forEach(function(elemento, index) {
-                        setTimeout(function() {
+                    elementos.forEach(function (elemento, index) {
+                        setTimeout(function () {
                             elemento.classList.add('aparecer');
                         }, index * 200);
                     });
-        
+
                 } catch (error) {
                     console.error("Error al parsear la respuesta JSON:", error);
-                    document.getElementById("resultados").innerHTML = "<p class='error'>Error al procesar la respuesta del servidor.</p>";
+                    resultadosDiv.innerHTML = "<p class='error'>Error al procesar la respuesta del servidor.</p>";
                 }
             }
         }

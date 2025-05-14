@@ -245,8 +245,14 @@
                 exit();
             } elseif ($uri == 'events') {
                 $eventsController = new EventsController($SocialModel);
-                $BaseController->get_profile_data($_SESSION["user_id"]);
-                $eventsController->open_page();
+
+                if ($_SERVER["REQUEST_METHOD"] == "GET" & isset($_GET["texto"])) {
+                    $eventsController->procesarFormulario();
+                    exit();
+                } else {
+                    $BaseController->get_profile_data($_SESSION["user_id"]);
+                    $eventsController->open_page();
+                }
 
             } elseif ($uri == 'event_details') {
                 $eventsController = new EventsController($SocialModel);

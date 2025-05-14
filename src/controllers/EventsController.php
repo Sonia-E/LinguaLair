@@ -104,5 +104,26 @@
                 echo json_encode(['error' => 'ID de evento no válido']);
             }
         }
-}
+
+        public function procesarFormulario() {
+            // Recogemos el valor introducido en el input
+            $texto = isset($_GET["texto"]) ? $_GET["texto"] : "";
+            $logsEncontrados = [];
+
+            if ($texto !== "") {
+                // Pasamos el valor del input a minúsculas para una búsqueda no sensible a mayúsculas
+                $texto = strtolower($texto);
+
+                // Llamamos al método del modelo para buscar eventos
+                $logsEncontrados = $this->SocialModel->searchEvents($texto);
+
+                // Devolvemos el resultado en formato JSON
+                echo json_encode($logsEncontrados);
+                
+            } else {
+                // Si no hay texto de búsqueda, devolvemos un array vacío
+                echo json_encode([]);
+            }
+        }
+    }
 ?>

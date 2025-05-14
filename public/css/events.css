@@ -9,6 +9,10 @@
     align-items: stretch; /* Para que los hijos se estiren a la altura del dashboard */
 }
 
+.dashboard .feed .error {
+    color: var(--color-texto);
+}
+
 .dashboard .feed {
     margin: 10px;
     border-radius: 10px;
@@ -31,7 +35,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     opacity: 1;
-    transition: opacity 0.5s ease-in-out, width 0.5s ease-in-out; /* Transición para la aparición/desaparición */
+    transition: opacity 0.5s ease-in-out, width 0.5s ease-in-out;
 }
 
 .dashboard .profile.hidden {
@@ -43,11 +47,11 @@
     padding-left: 0;
     padding-right: 0;
     transition: opacity 0.3s ease-in-out, width 0.4s ease 0.4s, margin-left 0.4s ease 0.4s, 
-    margin-right 0.4s ease 0.4s, padding-left 0.4s ease 0.4s, padding-right 0.4s ease 0.1s; /* Retraso para que el ancho se reduzca después de la opacidad */
+    margin-right 0.4s ease 0.4s, padding-left 0.4s ease 0.4s, padding-right 0.4s ease 0.1s;
 }
 
 .dashboard .feed.profile-hidden {
-    flex-grow: 2; /* El feed ocupa más espacio cuando profile está oculto (ajusta el valor) */
+    flex-grow: 2;
 }
 .dashboard .feed .event {
     border-radius: 10px;
@@ -60,7 +64,7 @@
     font-family: "Tektur", sans-serif;
     font-weight: 600;
     overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
     outline: var(--border);
     color: var(--color-texto);
 }

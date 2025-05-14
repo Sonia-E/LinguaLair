@@ -14,7 +14,6 @@
             <input type="text" id="texto" onkeyup="search(this.value)" placeholder="Search for events!" autofocus>
         </form>
         <div class="following show">
-            <!-- si no hay search div no hay transición de aparición -->
             <div id="resultados">
                 <?php foreach ($events as $event) { ?>
                     <div class="event" data-event-identifier="<?php echo $event->id ?>">
@@ -38,7 +37,6 @@
                         <div class="event-info">
                             <div class="log-row">
                                 <div class="description">
-                                    <!-- Poner un límite de mostrar la descripción: poner botón de show more y ahí se muestra el evento a la derecha -->
                                     <span><?php echo $event->description ?></span>
                                 </div>
                             </div>
@@ -57,16 +55,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="profile">
-        <div class="search">
-            
-            <div class="following show">
-                
-            </div>
-        </div>
-        
-    </div> -->
-    <!-- <div class="feed"> -->
     <div class="profile hidden">
         <div class="header">
             <div class="event-column">

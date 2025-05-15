@@ -334,20 +334,194 @@
     
         public function levelUp($user_id) {
             if (!$this->conexion) return false;
-    
+
             $consulta = "UPDATE profile SET level = level + 1, experience = 0 WHERE user_id = ?";
             $stmt = $this->conexion->prepare($consulta);
-    
+
             if ($stmt) {
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();
-                $stmt->close();
-                return true;
+
+                if ($stmt->affected_rows > 0) {
+                    $stmt->close();
+                    $this->updateGameRole($user_id);
+                    //Obtener el nivel actualizado para retornarlo
+                    $query = "SELECT level FROM profile WHERE user_id = ?";
+                    $stmt = $this->conexion->prepare($query);
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    $stmt->close();
+                    return $row["level"];
+                } else {
+                    $stmt->close();
+                    return false;
+                }
             } else {
                 echo "Error al preparar la consulta para subir de nivel: " . $this->conexion->error;
                 return false;
             }
         }
+
+        public function getExcessExperience($user_id, $experiencia_ganada) {
+            if (!$this->conexion) return false;
+
+            // Obtener la experiencia actual del usuario
+            $query = "SELECT experience FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($query);
+            if (!$stmt) {
+                echo "Error al preparar la consulta: " . $this->conexion->error;
+                return false;
+            }
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $stmt->close();
+
+            if (!$row) {
+                echo "Error: No se encontró el usuario con ID " . $user_id;
+                return false;
+            }
+
+            $experiencia_actual = $row['experience'];
+            $nueva_experiencia = $experiencia_actual + $experiencia_ganada;
+
+            // Calcular el excedente de experiencia
+            if ($nueva_experiencia >= 100) {
+                $exceso_experiencia = $nueva_experiencia - 100;
+            } else {
+                $exceso_experiencia = 0; // Importante: manejar el caso de no excedente
+            }
+
+            return $exceso_experiencia;
+        }
+
+        public function obtenerRolUsuario($user_id) {
+            if (!$this->conexion) return false;
+            
+            $query = "SELECT game_roles FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($query);
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $stmt->close();
+            if ($row) {
+                return $row['game_roles'];
+            } else {
+                return null; // O un valor por defecto, como 'No Role'
+            }
+        }
+
+        public function getCurrentGameRole($user_id) {
+            if (!$this->conexion) {
+                echo "Error: No hay conexión a la base de datos.";
+                return null;
+            }
+
+            $query = "SELECT game_roles FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($query);
+
+            if (!$stmt) {
+                echo "Error al preparar la consulta: " . $this->conexion->error;
+                return null;
+            }
+
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $stmt->close();
+
+            if ($row) {
+                return $row['game_roles']; // Retorna el rol actual de la base de datos
+            } else {
+                return null; // Retorna null si no se encuentra el usuario o no tiene rol
+            }
+        }
+
+        private function updateGameRole($user_id) {
+            if (!$this->conexion) return false;
+
+            // Primero, obtener el nivel actual del usuario
+            $query = "SELECT level FROM profile WHERE user_id = ?";
+            $stmt = $this->conexion->prepare($query);
+
+            if (!$stmt) {
+                echo "Error al preparar la consulta para obtener el nivel: " . $this->conexion->error;
+                return false;
+            }
+
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $stmt->close();
+
+            if (!$row) {
+                echo "Error: No se encontró el usuario con ID " . $user_id;
+                return false;
+            }
+            $nivel_actual = $row['level'];
+
+
+            // Calcular el nuevo rol basado en el nivel
+            $nuevo_rol = $this->calcularRolPorNivel($nivel_actual);
+
+            if ($nuevo_rol) {
+                // Actualizar el rol del usuario en la tabla profile
+                $update_query = "UPDATE profile SET game_roles = ? WHERE user_id = ?";
+                $update_stmt = $this->conexion->prepare($update_query);
+
+                if (!$update_stmt) {
+                    echo "Error al preparar la consulta para actualizar el rol: " . $this->conexion->error;
+                    return false;
+                }
+
+                $update_stmt->bind_param("si", $nuevo_rol, $user_id);
+                if ($update_stmt->execute()) {
+                    // echo "Rol de usuario actualizado a: " . $nuevo_rol . "<br>";
+                    $update_stmt->close();
+                    return true;
+                } else {
+                    // echo "Error al actualizar el rol del usuario: " . $update_stmt->error . "<br>";
+                    $update_stmt->close();
+                    return false;
+                }
+            }
+            return true; //Si no hay nuevo rol, retorna true para no detener el proceso.
+        }
+
+        private function calcularRolPorNivel($nivel) {
+            // Mapeo de niveles a roles (ajusta esto según tus necesidades)
+            $roles = [
+                1 => 'Novice',
+                6 => 'Apprentice',     // Cambia de 5 a 6 para que sea *después* de los primeros 5 niveles
+                11 => 'Amateur',
+                16 => 'Journeyman',
+                21 => 'Adept',
+                26 => 'Ace',
+                31 => 'Expert',
+                36 => 'Exemplar',
+                41 => 'Mentor',
+                46 => 'Master',
+                51 => 'Grandmaster',
+            ];
+
+            // Encuentra el rol más alto que el usuario ha alcanzado
+            $rol_asignado = null;
+            foreach ($roles as $nivel_rol => $nombre_rol) {
+                if ($nivel >= $nivel_rol) {
+                    $rol_asignado = $nombre_rol;
+                } else {
+                    break; // Importante: deja de buscar cuando encuentres un nivel más alto
+                }
+            }
+            return $rol_asignado;
+        }
+
 
         /**
          * Counts the total number of logs for a specific user.

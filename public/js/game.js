@@ -1,3 +1,6 @@
+// Declarar nuevaExperiencia en el ámbito global
+window.nuevaExperiencia = 0; // Inicializarla con un valor por defecto
+
 function animateValue(obj, start, end, duration, callback) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -46,9 +49,12 @@ function updateExperienceAnimated(newExperience) {
     const experienceTextElement = document.getElementById('experience-text');
     const experienceBarElement = document.getElementById('experience-bar');
     const currentExperience = parseInt(experienceTextElement.innerText);
+
+    console.log('currentExperience in update: ', currentExperience);
+    
     const duration = 500;
 
-    if (newExperience === 0 && currentExperience !== 0) {
+    if (newExperience === 0) {
         const toFullDuration = Math.max(0, 500 * (1 - currentExperience / 100));
         animateValue(experienceTextElement, currentExperience, 100, toFullDuration, () => {
             animateProgressBar(experienceBarElement, currentExperience, 100, toFullDuration, () => {
@@ -65,6 +71,21 @@ function updateExperienceAnimated(newExperience) {
             updateTextPosition(); // Asegurar la posición correcta al final
         });
         animateProgressBar(experienceBarElement, currentExperience, newExperience, duration);
+    }
+
+    const experienceTextElement1 = document.getElementById('experience-text');
+    const resultingExperience = parseInt(experienceTextElement1.innerText);
+
+    console.log('resultingExperience: ', resultingExperience);
+    console.log('data.nuevaExperiencia: ', window.nuevaExperiencia);
+    if (!window.nuevaExperiencia === 0) {
+        setTimeout(() => {
+            animateValue(experienceTextElement, 0, newExperience, duration, () => {
+                experienceTextElement.innerText = `${resultingExperience}%`;
+                updateTextPosition()
+            });
+            animateProgressBar(experienceBarElement, 0, resultingExperience, duration);
+        }, "2000");
     }
 }
 
@@ -94,9 +115,12 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
             // --- Update user's experience bar and level ---
             const currentLevelElement = document.getElementById('level-value');
             const currentLevel = parseInt(currentLevelElement.innerText);
+            const newExperience = data.nuevaExperiencia;
+            window.nuevaExperiencia = newExperience; // Asignar el valor de la respuesta
 
-            updateExperienceAnimated(data.nuevaExperiencia);
+            updateExperienceAnimated(newExperience);
             updateLevel(data.nuevoNivel);
+
             console.log('Log guardado y experiencia actualizada:', data);
             document.getElementById('addLogForm').reset();
 
@@ -175,13 +199,19 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                                 popupAchievement.remove();
                                 // Después de mostrar el logro, verificamos si hubo subida de nivel
                                 if (data.nuevoNivel > currentLevel) {
+                                    let message = 'Level Up!';
+                                    let time = "1500";
+                                    if (data.nuevoRol && data.antiguoRol !== data.nuevoRol) {
+                                        message += ` You unlocked a new role: ${data.nuevoRol}!`;
+                                        time = "2000";
+                                    }
                                     // Crear y mostrar el popup de nivel
                                     const popupLevel = document.createElement('div');
                                     popupLevel.classList.add('popup');
                                     const popupBubbleLevel = document.createElement('div');
-                                    popupBubbleLevel.classList.add('speech-bubble', 'lebel-up-message');
+                                    popupBubbleLevel.classList.add('speech-bubble', 'level-up-message');
                                     const unlockedTextLevel = document.createElement('div');
-                                    unlockedTextLevel.textContent = 'Level Up!';
+                                    unlockedTextLevel.textContent = message;
                                     popupBubbleLevel.appendChild(unlockedTextLevel);
                                     popupLevel.appendChild(popupBubbleLevel);
                                     document.body.appendChild(popupLevel);
@@ -191,7 +221,7 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                                         setTimeout(() => {
                                             popupLevel.remove();
                                             location.reload();
-                                        }, 1500);
+                                        }, time);
                                     }, 100);
                                 } else {
                                     setTimeout(() => {
@@ -206,13 +236,21 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                         console.log("No se desbloquearon nuevos achievements.");
                         // Si no hay logro, verificamos si hubo subida de nivel
                         if (data.nuevoNivel > currentLevel) {
+                            let message = 'Level Up!';
+                            let time = "1500";
+                            if (data.nuevoRol && data.antiguoRol !== data.nuevoRol) {
+                                message += ` You unlocked a new role: ${data.nuevoRol}!`;
+                                const role = document.querySelector('.role');
+                                role.textContent = data.nuevoRol;
+                                time = "2000";
+                            }
                             // Crear y mostrar el popup de nivel
                             const popupLevel = document.createElement('div');
                             popupLevel.classList.add('popup');
                             const popupBubbleLevel = document.createElement('div');
-                            popupBubbleLevel.classList.add('speech-bubble', 'lebel-up-message');
+                            popupBubbleLevel.classList.add('speech-bubble', 'level-up-message');
                             const unlockedTextLevel = document.createElement('div');
-                            unlockedTextLevel.textContent = 'Level Up!';
+                            unlockedTextLevel.textContent = message;
                             popupBubbleLevel.appendChild(unlockedTextLevel);
                             popupLevel.appendChild(popupBubbleLevel);
                             document.body.appendChild(popupLevel);
@@ -221,8 +259,8 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                                 popupLevel.classList.add('show');
                                 setTimeout(() => {
                                     popupLevel.remove();
-                                    location.reload();
-                                }, 1500);
+                                    // location.reload();
+                                }, time);
                             }, 100);
                         } else {
                             setTimeout(() => {

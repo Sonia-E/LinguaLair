@@ -11,6 +11,15 @@ class LogController {
         $this->PermissionsModel = $PermissionsModel;
     }
 
+    public function obtainExcessExperience($user_id, $experience_gain) {
+        $excessExperience = $this->modelo->getExcessExperience($user_id, $experience_gain);
+        return $excessExperience;
+    }
+
+    public function addExcessExperience($user_id, $excessExperience) {
+        $this->modelo->addExperience($user_id, $excessExperience);
+    }
+
     public function procesarFormulario() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Gather data from log form
@@ -40,9 +49,32 @@ class LogController {
                     $nueva_experiencia = $profile_data_updated->experience;
                 }
 
-                header('Content-Type: application/json');
-                echo json_encode(['success' => true, 'nuevaExperiencia' => $nueva_experiencia, 'nuevoNivel' => $nuevo_nivel]);
-                exit();
+                // Verificar si se subió de nivel
+                if ($nuevo_nivel) {
+                    $antiguoRol = $this->modelo->getCurrentGameRole($user_id);
+                    // Obtener el nuevo rol del usuario
+                    $nuevoRol = $this->modelo->obtenerRolUsuario($user_id);
+                
+                    // Enviar la respuesta JSON con la información del nivel y el rol
+                    header('Content-Type: application/json');
+                    echo json_encode([
+                        'success' => true,
+                        'nuevaExperiencia' => $nueva_experiencia,
+                        'nuevoNivel' => $nuevo_nivel,
+                        'nuevoRol' => $nuevoRol,
+                        'antiguoRol' => $antiguoRol,
+                    ]);
+                    exit();
+
+                } else {
+                    header('Content-Type: application/json');
+                    echo json_encode([
+                        'success' => true,
+                        'nuevaExperiencia' => $nueva_experiencia,
+                        'nuevoNivel' => $nuevo_nivel,
+                    ]);
+                    exit();
+                }
             } else {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'error' => 'Error al guardar el log.']);
@@ -54,6 +86,8 @@ class LogController {
             exit();
         }
     }
+
+    
 
     // // Verificar permisos para eliminar logs
     // public function eliminarLog($logId) {

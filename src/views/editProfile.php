@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label for="bio">Write something about yourself:</label>
-                    <textarea id="bio" name="bio" class="form-control" placeholder="<?php echo $usuario->bio ?>"></textarea>
+                    <textarea id="bio" name="bio" class="form-control"><?php echo $usuario->bio ?></textarea>
                 </div>
 
                 <div class="form-group">

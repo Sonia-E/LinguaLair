@@ -45,6 +45,13 @@
 
     session_start();
 
+    // Verificar y procesar el exceso de experiencia para CADA URI
+    if (isset($_SESSION['excessExperience']) && $_SESSION['excessExperience'] > 0) {
+        $logController = new LogController($modelo);
+        $logController->addExcessExperience($_SESSION["user_id"], $_SESSION['excessExperience']);
+        $_SESSION['excessExperience'] = null;
+    }
+
     if (isset($_GET['action'])) {
         if ($_GET['action'] == 'load_more_logs')
             require_once 'src/views/load_more_logs.php';
@@ -148,6 +155,11 @@
             } elseif ($uri == 'log') {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $logController = new LogController($modelo);
+                    $excessExperience = $logController->obtainExcessExperience($_SESSION["user_id"], $_POST["duration"]);
+                    $_SESSION['excessExperience'] = $excessExperience;
+                    // if ($_SESSION['excessExperience'] > 0) {
+                    //     $logController->addExcessExperience($_SESSION["user_id"], $_SESSION['excessExperience']);
+                    // }
                     $logController->procesarFormulario();
                     exit();
                 }

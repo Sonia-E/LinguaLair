@@ -71,7 +71,8 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 ('delete_user', 'Permite eliminar usuarios.'),
                 ('ban_user', 'Permite banear usuarios.'),
                 ('create_events', 'Permite organizar eventos y publicarlos.'),
-                ('attend_in_person_events', 'Permite asistir a eventos en persona')";
+                ('attend_in_person_events', 'Permite asistir a eventos en persona'),
+                ('find_private_users', 'Permite encontrar usuarios con el perfil privado')";
 
             if ($mysqli->query($sql15) === TRUE) {
                 echo "<br>";
@@ -113,7 +114,8 @@ if ($mysqli = new mysqli("localhost", "foc", "foc")) {
                 ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'create_events')),
                 ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'attend_in_person_events')),
                 ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'create_events')),
-                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'attend_in_person_events'))";
+                ((SELECT id FROM roles WHERE name = 'premium'), (SELECT id FROM permissions WHERE name = 'attend_in_person_events')),
+                ((SELECT id FROM roles WHERE name = 'admin'), (SELECT id FROM permissions WHERE name = 'find_private_users'))";
 
             if ($mysqli->query($sql16) === TRUE) {
                 echo "<br>";

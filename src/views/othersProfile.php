@@ -33,7 +33,11 @@
                 <div class="info-usuario">
                     <div class="nick-user">
                         <div class="nickname"><span class="nick-text"><?php echo $other_user->nickname ?></span><span class="role"><?php echo $other_user->game_roles ?></span></div>
-                        <span class="username">@<?php echo $other_user->username ?></span>
+                        <span class="username">@<?php echo $other_user->username ?>
+                        <?php if ($other_user->is_public == 0) { ?>
+                            <ion-icon name="lock-closed" style="color: gray; font-size: 20px;"></ion-icon>
+                        <?php } ?> 
+                        </span>
                     </div>
                     
                     <div class="progress">

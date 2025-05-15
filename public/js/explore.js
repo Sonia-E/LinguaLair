@@ -47,7 +47,8 @@ function explore(texto) {
                                         <div class="user-info">
                                         <img src="${usuario.profile_pic ? usuario.profile_pic : './public/img/pic_placeholder.png'}" alt="profile picture">
                                             <div class="user-details">
-                                                <span class="nickname">${usuario.nickname}</span>
+                                                <span class="nickname">${usuario.nickname}
+                                                <span class='Private' ${usuario.is_public ? 'hidden' : ''}>${usuario.is_public ? '' : 'Private'}</span></span>
                                                 <span class="username">@${usuario.username}</span>
                                             </div>
                                         </div>

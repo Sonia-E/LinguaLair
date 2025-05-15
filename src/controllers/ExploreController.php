@@ -29,8 +29,12 @@
                 if (preg_match('/^@/', $texto)) {
                     // Meter método que busque en la tabla usuarios
                     $texto_usuario = ltrim($texto, '@');
-                    $usuario = $this->SocialModel->exploreUsers($texto_usuario);
-
+                    if ($_SESSION['user_role'] === 'admin') {
+                        $usuario = $this->SocialModel->exploreUsers($texto_usuario);
+                    } else {
+                        $usuario = $this->SocialModel->explorePublicUsers($texto_usuario);
+                    }
+                    
                     // Devolvemos el resultado en formato JSON
                     echo json_encode($usuario);
                 } else {

@@ -133,3 +133,10 @@ a {
     text-decoration: none;
     color: var(--color-texto);
 }
+
+.private {
+    border: 2px dotted var(--highlight);
+    border-radius: 5px;
+    padding: 0px 3px;
+    color: var(--highlight);
+}

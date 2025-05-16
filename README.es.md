@@ -30,7 +30,7 @@ Además, ¡puedes conectar con otros amantes de otros idiomas para crear comunid
     composer require phpmailer/phpmailer
     ```
 
-Una vez instalado todo, solo tienes que introducir la siguiente dirección en tu navegador: <code>http://localhost/LinguaLair/</code>. Puedes usar cualquier navegador, aunque el proyecto se realizó usando Google Chrome y Microsoft Edge como navegadores principales para su visualización.
+Una vez instalado todo e iniciar los módulos de Apache y MySQL en XAMPP, solo tienes que introducir la siguiente dirección en tu navegador: <code>http://localhost/LinguaLair/</code>. Puedes usar cualquier navegador, aunque el proyecto se realizó usando Google Chrome y Microsoft Edge como navegadores principales para su visualización.
 
 ## Cómo usar
 

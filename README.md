@@ -30,7 +30,7 @@ And what's more, you can connect with other language lovers to create a thriving
     composer require phpmailer/phpmailer
     ```
 
-Once everything is installed, you just need to go to the following address in your browser: <code>http://localhost/LinguaLair/</code>. You can use any preferred browser, but the application was developed using Google Chrome and Microsoft Edge as the main browsers for visualization.
+Once everything is installed and the Apache and MySQL modules in XAMPP are running, you just need to go to the following address in your browser: <code>http://localhost/LinguaLair/</code>. You can use any preferred browser, but the application was developed using Google Chrome and Microsoft Edge as the main browsers for visualization.
 
 ## Usage
 

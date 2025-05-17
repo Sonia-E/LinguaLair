@@ -257,28 +257,34 @@
             } elseif ($uri == 'check_achievements') {
                 $achievementsController = new AchievementsController($modelo, $StatsModel);
                 $user_id = $_SESSION["user_id"];
+
+                $unlockedAchievements = []; // Array para almacenar los logros desbloqueados
+
                 $unlockedLogAchievementId = $achievementsController->checkAndUnlockLogsAchievement($user_id);
-                $unlockedGrammarAchievementId = $achievementsController->checkAndUnlockGrammarAchievement($user_id);
-
-                $response = ["unlocked" => false]; // Inicializamos la respuesta
-
                 if ($unlockedLogAchievementId !== null) {
                     $achievementInfo = $StatsModel->getAchievementById($unlockedLogAchievementId);
-                    $response = [
-                        "unlocked" => true,
-                        "achievement_id" => $unlockedLogAchievementId,
-                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!",
-                        "achievement" => $achievementInfo
-                    ];
-                } elseif ($unlockedGrammarAchievementId !== null) {
-                    $achievementInfo = $StatsModel->getAchievementById($unlockedGrammarAchievementId);
-                    $response = [
-                        "unlocked" => true,
-                        "achievement_id" => $unlockedGrammarAchievementId,
-                        "message" => "¡Has desbloqueado el logro: " . $achievementInfo->name . "!",
-                        "achievement" => $achievementInfo
-                    ];
+                    $unlockedAchievements[] = $achievementInfo;
                 }
+
+                $unlockedGrammarAchievementId = $achievementsController->checkAndUnlockGrammarAchievement($user_id);
+                if ($unlockedGrammarAchievementId !== null) {
+                    $achievementInfo = $StatsModel->getAchievementById($unlockedGrammarAchievementId);
+                    $unlockedAchievements[] = $achievementInfo;
+                }
+
+                $unlockedVocabularyAchievementId = $achievementsController->checkAndUnlockVocabularyAchievement($user_id);
+                if ($unlockedVocabularyAchievementId !== null) {
+                    $achievementInfo = $StatsModel->getAchievementById($unlockedVocabularyAchievementId);
+                    $unlockedAchievements[] = $achievementInfo;
+                }
+
+                $unlockedWritingAchievementId = $achievementsController->checkAndUnlockWritingAchievement($user_id);
+                if ($unlockedWritingAchievementId !== null) {
+                    $achievementInfo = $StatsModel->getAchievementById($unlockedWritingAchievementId);
+                    $unlockedAchievements[] = $achievementInfo;
+                }
+
+                $response = ["unlocked" => !empty($unlockedAchievements), "achievements" => $unlockedAchievements];
 
                 http_response_code(200);
                 echo json_encode($response);

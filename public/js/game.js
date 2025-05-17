@@ -112,11 +112,10 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // --- Update user's experience bar and level ---
             const currentLevelElement = document.getElementById('level-value');
             const currentLevel = parseInt(currentLevelElement.innerText);
             const newExperience = data.nuevaExperiencia;
-            window.nuevaExperiencia = newExperience; // Asignar el valor de la respuesta
+            window.nuevaExperiencia = newExperience;
 
             updateExperienceAnimated(newExperience);
             updateLevel(data.nuevoNivel);
@@ -124,7 +123,6 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
             console.log('Log guardado y experiencia actualizada:', data);
             document.getElementById('addLogForm').reset();
 
-            // --- Close the popup ---
             const popupCerrar = document.getElementById('myPopup');
             const overlayCerrar = document.getElementById('overlay');
 
@@ -135,28 +133,6 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                 overlayCerrar.style.visibility = "hidden";
             }
 
-            // --- Reaload the feed content only if it exists in the current page ---
-            const feed = document.querySelector('.feed');
-
-            if (feed) {
-                fetch('get_feed')
-                    .then(feedResponse => feedResponse.text())
-                    .then(feedHtml => {
-                        const followingDiv = document.querySelector('.following.show');
-                        if (followingDiv) {
-                            followingDiv.innerHTML = feedHtml;
-                        } else {
-                            console.error('No se encontró el elemento .following.show para recargar el feed.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al recargar el feed:', error);
-                    });
-            }
-
-            // --- Check if new added log unlocks an achievement ---
-            let achievementUnlocked = false;
-
             fetch('check_achievements')
                 .then(feedResponse => {
                     if (!feedResponse.ok) {
@@ -165,86 +141,60 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                     return feedResponse.json();
                 })
                 .then(dataAchievement => {
-                    if (dataAchievement.unlocked && dataAchievement.achievement) {
-                        achievementUnlocked = true;
-                        // Crear y mostrar el popup de logro
-                        const popupAchievement = document.createElement('div');
-                        popupAchievement.classList.add('popup');
-                        const popupBubbleAchievement = document.createElement('div');
-                        popupBubbleAchievement.classList.add('speech-bubble', 'achievement-message');
-                        const unlockedTextAchievement = document.createElement('div');
-                        unlockedTextAchievement.textContent = 'New Achievement Unlocked!';
-                        popupBubbleAchievement.appendChild(unlockedTextAchievement);
-                        const iconDivAchievement = document.createElement('div');
-                        iconDivAchievement.classList.add('achievement-icon');
-                        const iconImgAchievement = document.createElement('img');
-                        iconImgAchievement.src = dataAchievement.achievement.icon;
-                        iconImgAchievement.alt = dataAchievement.achievement.name;
-                        iconDivAchievement.appendChild(iconImgAchievement);
-                        popupBubbleAchievement.appendChild(iconDivAchievement);
-                        const nameHeadingAchievement = document.createElement('h3');
-                        nameHeadingAchievement.classList.add('achievement-name');
-                        nameHeadingAchievement.textContent = dataAchievement.achievement.name;
-                        popupBubbleAchievement.appendChild(nameHeadingAchievement);
-                        const descriptionParagraphAchievement = document.createElement('p');
-                        descriptionParagraphAchievement.classList.add('achievement-description');
-                        descriptionParagraphAchievement.textContent = dataAchievement.achievement.description;
-                        popupBubbleAchievement.appendChild(descriptionParagraphAchievement);
-                        popupAchievement.appendChild(popupBubbleAchievement);
-                        document.body.appendChild(popupAchievement);
+                    const unlockedAchievements = [];
+                    if (dataAchievement.unlocked && Array.isArray(dataAchievement.achievements) && dataAchievement.achievements.length > 0) {
+                        unlockedAchievements.push(...dataAchievement.achievements);
+                    } else if (dataAchievement.unlocked && dataAchievement.achievement) {
+                        unlockedAchievements.push(dataAchievement.achievement);
+                    }
 
-                        setTimeout(() => {
-                            popupAchievement.classList.add('show');
+                    const showAchievementPopup = (achievement) => {
+                        return new Promise(resolve => {
+                            const popupAchievement = document.createElement('div');
+                            popupAchievement.classList.add('popup');
+                            const popupBubbleAchievement = document.createElement('div');
+                            popupBubbleAchievement.classList.add('speech-bubble', 'achievement-message');
+                            const unlockedTextAchievement = document.createElement('div');
+                            unlockedTextAchievement.textContent = 'New Achievement Unlocked!';
+                            popupBubbleAchievement.appendChild(unlockedTextAchievement);
+                            const iconDivAchievement = document.createElement('div');
+                            iconDivAchievement.classList.add('achievement-icon');
+                            const iconImgAchievement = document.createElement('img');
+                            iconImgAchievement.src = achievement.icon;
+                            iconImgAchievement.alt = achievement.name;
+                            iconDivAchievement.appendChild(iconImgAchievement);
+                            popupBubbleAchievement.appendChild(iconDivAchievement);
+                            const nameHeadingAchievement = document.createElement('h3');
+                            nameHeadingAchievement.classList.add('achievement-name');
+                            nameHeadingAchievement.textContent = achievement.name;
+                            popupBubbleAchievement.appendChild(nameHeadingAchievement);
+                            const descriptionParagraphAchievement = document.createElement('p');
+                            descriptionParagraphAchievement.classList.add('achievement-description');
+                            descriptionParagraphAchievement.textContent = achievement.description;
+                            popupBubbleAchievement.appendChild(descriptionParagraphAchievement);
+                            popupAchievement.appendChild(popupBubbleAchievement);
+                            document.body.appendChild(popupAchievement);
+
                             setTimeout(() => {
-                                popupAchievement.remove();
-                                // Después de mostrar el logro, verificamos si hubo subida de nivel
-                                if (data.nuevoNivel > currentLevel) {
-                                    let message = 'Level Up!';
-                                    let time = "1500";
-                                    if (data.nuevoRol && data.antiguoRol !== data.nuevoRol) {
-                                        message += ` You unlocked a new role: ${data.nuevoRol}!`;
-                                        time = "2000";
-                                    }
-                                    // Crear y mostrar el popup de nivel
-                                    const popupLevel = document.createElement('div');
-                                    popupLevel.classList.add('popup');
-                                    const popupBubbleLevel = document.createElement('div');
-                                    popupBubbleLevel.classList.add('speech-bubble', 'level-up-message');
-                                    const unlockedTextLevel = document.createElement('div');
-                                    unlockedTextLevel.textContent = message;
-                                    popupBubbleLevel.appendChild(unlockedTextLevel);
-                                    popupLevel.appendChild(popupBubbleLevel);
-                                    document.body.appendChild(popupLevel);
+                                popupAchievement.classList.add('show');
+                                setTimeout(() => {
+                                    popupAchievement.remove();
+                                    resolve();
+                                }, 3500);
+                            }, 100);
+                        });
+                    };
 
-                                    setTimeout(() => {
-                                        popupLevel.classList.add('show');
-                                        setTimeout(() => {
-                                            popupLevel.remove();
-                                            location.reload();
-                                        }, time);
-                                    }, 100);
-                                } else {
-                                    setTimeout(() => {
-                                        location.reload();
-                                    }, "1000");
-                                }
-                            }, 3500);
-                        }, 100);
-
-                        console.log("Achievement desbloqueado:", dataAchievement);
-                    } else {
-                        console.log("No se desbloquearon nuevos achievements.");
-                        // Si no hay logro, verificamos si hubo subida de nivel
-                        if (data.nuevoNivel > currentLevel) {
+                    const showLevelUpPopup = (newLevel, newRole, antiguoRol) => {
+                        return new Promise(resolve => {
                             let message = 'Level Up!';
-                            let time = "1500";
-                            if (data.nuevoRol && data.antiguoRol !== data.nuevoRol) {
-                                message += ` You unlocked a new role: ${data.nuevoRol}!`;
+                            let time = 1500;
+                            if (newRole && antiguoRol !== newRole) {
+                                message += ` You unlocked a new role: ${newRole}!`;
                                 const role = document.querySelector('.role');
-                                role.textContent = data.nuevoRol;
-                                time = "2000";
+                                if (role) role.textContent = newRole;
+                                time = 2000;
                             }
-                            // Crear y mostrar el popup de nivel
                             const popupLevel = document.createElement('div');
                             popupLevel.classList.add('popup');
                             const popupBubbleLevel = document.createElement('div');
@@ -259,15 +209,31 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
                                 popupLevel.classList.add('show');
                                 setTimeout(() => {
                                     popupLevel.remove();
-                                    // location.reload();
+                                    resolve();
                                 }, time);
                             }, 100);
-                        } else {
-                            setTimeout(() => {
-                                location.reload();
-                            }, "1000");
+                        });
+                    };
+
+                    const processAchievementsAndLevel = async () => {
+                        if (unlockedAchievements.length > 0) {
+                            for (const achievement of unlockedAchievements) {
+                                await showAchievementPopup(achievement);
+                            }
                         }
-                    }
+
+                        if (data.nuevoNivel > currentLevel) {
+                            await showLevelUpPopup(data.nuevoNivel, data.nuevoRol, data.antiguoRol);
+                        }
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 500);
+                    };
+
+                    processAchievementsAndLevel();
+
+                    console.log("Achievement data:", dataAchievement);
                 })
                 .catch(error => {
                     console.error('Error al verificar el achievement:', error);

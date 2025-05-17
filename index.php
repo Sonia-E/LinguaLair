@@ -36,6 +36,7 @@
     use Sonia\LinguaLair\Controllers\AchievementsController;
     use Sonia\LinguaLair\Controllers\NotificationsController;
     use Sonia\LinguaLair\Controllers\IncidentsController;
+    use Sonia\LinguaLair\Controllers\PremiumController;
 
     $StatsController = new StatsController($modelo, $StatsModel);
     $BaseController = new BaseController($modelo, $SocialModel, $StatsController);
@@ -181,6 +182,33 @@
             } elseif ($uri == 'delete_log') {
                 $logController = new LogController($modelo, $PermissionsModel);
                 $logController->deleteUserLog($_SESSION["user_id"]);
+                exit();
+
+            } elseif ($uri == 'edit_log') {
+                $PremiumController = new PremiumController($PermissionsModel, $modelo);
+                $PremiumController->processEditLogForm();
+                exit();
+
+            } elseif ($uri == 'get_log_data') {
+                $PremiumController = new PremiumController($PermissionsModel, $modelo);
+                $data = json_decode(file_get_contents('php://input'), true);
+                $logIdentifier = $data['log_identifier'] ?? null;
+
+                if ($logIdentifier) {
+                    // Busca los datos del log en tu base de datos usando $logIdentifier
+                    $logData = $PremiumController->getLogData($logIdentifier);
+
+                    if ($logData) {
+                        $response = ['success' => true, 'log' => $logData];
+                    } else {
+                        $response = ['success' => false, 'error' => 'Log not found.'];
+                    }
+                } else {
+                    $response = ['success' => false, 'error' => 'Missing log_identifier.'];
+                }
+
+                header('Content-Type: application/json');
+                echo json_encode($response);
                 exit();
 
             } elseif ($uri == 'follow_user') {

@@ -124,6 +124,31 @@
             }
             return false;
         }
+
+        public function editLog($log_id, $description, $language, $type, $duration, $log_date, $post_date) {
+            if (!$this->conexion) return false;
+
+            $consulta = "UPDATE logs SET description = ?, language = ?, type = ?, duration = ?, log_date = ?, post_date = ?
+                        WHERE id = ?";
+
+            $stmt = $this->conexion->prepare($consulta);
+
+            if ($stmt) {
+                $stmt->bind_param("ssssssi", $description, $language, $type, $duration, $log_date, $post_date, $log_id);
+                if ($stmt->execute()) {
+                    $affectedRows = $stmt->affected_rows;
+                    $stmt->close();
+                    return $affectedRows > 0; // Devuelve true si se modificó al menos una fila
+                } else {
+                    echo "Error al editar log: " . $stmt->error;
+                    $stmt->close();
+                    return false;
+                }
+            } else {
+                echo "Error al preparar la consulta de edición: " . $this->conexion->error;
+                return false;
+            }
+        }
     
         public function __destruct() {
             if ($this->conexion) {

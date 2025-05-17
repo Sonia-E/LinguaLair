@@ -878,3 +878,11 @@ button.your-feed {
     border-radius: 5px;
     cursor: pointer;
 }
+
+#EditLogPopup {
+    display: block;
+}
+
+#EditLogPopup button {
+    height: fit-content;
+}

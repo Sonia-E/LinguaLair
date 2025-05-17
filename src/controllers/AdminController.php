@@ -3,7 +3,6 @@
 namespace Sonia\LinguaLair\controllers;
 
 class AdminController {
-    private $modelo;
     private $PermissionsModel;
 
     public function __construct($PermissionsModel) {

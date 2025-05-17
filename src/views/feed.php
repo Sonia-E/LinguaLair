@@ -78,7 +78,7 @@
                         </div>
                         <div class="post-date">
                             <span><strong>Post Date:</strong> <?php echo $log['post_date'] ?></span>
-                            <?php if ($userRole == 'admin' || $userRole == 'premium' || $log['user_id'] == $loggedInUserId): ?>
+                            <?php if ($userRole == 'admin' || $userRole == 'premium' && $log['user_id'] == $loggedInUserId || $log['user_id'] == $loggedInUserId): ?>
                                 <div class="log_options_btn"><ion-icon name="ellipsis-horizontal-outline"></ion-icon></div>
                             <?php endif; ?>
                         </div>
@@ -87,16 +87,18 @@
                 
                 <div class="log-options-popup">
                     <div class="options-buttons">
-                        <?php if ($userRole == 'admin'): ?>
+                        <?php if ($userRole == 'standard' || $userRole == 'admin' || $userRole == 'premium'): ?>
                             <div class="delete_log"><ion-icon name="trash-outline"></ion-icon><span>Delete Log</span></div>
                         <?php endif; ?>
-                        <?php if ($userRole == 'admin' && $log['user_id'] == $loggedInUserId || $userRole == 'premium' && $log['user_id'] == $loggedInUserId): ?>
+                        <?php if ($userRole == 'admin' || $userRole == 'premium' && $log['user_id'] == $loggedInUserId): ?>
                             <div class="edit_log"><ion-icon name="create-outline"></ion-icon><span>Edit Log</span></div>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
             <?php include 'src/views/deleteLog.php' ?>
+            <!-- ME HE QUEDADO AQUÍ -->
+            <?php include 'src/views/editLog.php' ?>
         </div>
     <?php } ?>
 
@@ -162,38 +164,5 @@
             }
         });
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-    const logOptionButtons = document.querySelectorAll('.log_options_btn');
-    console.log("saludos desde botón options");
-
-    logOptionButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation(); // Evitar que el clic se propague a otros elementos
-
-            const logContainer = this.closest('.log-container');
-            const optionsPopup = logContainer.querySelector('.log-options-popup');
-
-            // Ocultar cualquier otro popup abierto
-            document.querySelectorAll('.log-options-popup.show').forEach(otherPopup => {
-                if (otherPopup !== optionsPopup) {
-                    otherPopup.classList.remove('show');
-                }
-            });
-
-            // Mostrar u ocultar el popup actual
-            optionsPopup.classList.toggle('show');
-        });
-    });
-
-    // Ocultar el popup cuando se hace clic fuera de él
-    document.addEventListener('click', function(event) {
-        document.querySelectorAll('.log-options-popup.show').forEach(optionsPopup => {
-            if (!event.target.closest('.log-container') || !event.target.closest('.log_options_btn')) {
-                optionsPopup.classList.remove('show');
-            }
-        });
-    });
-});
 </script>
 <script type="text/javascript" src="public/js/logs.js"></script>

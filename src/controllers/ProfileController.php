@@ -32,12 +32,6 @@
             // Buscar al usuario por nombre de usuario O por correo electrónico
             $usuario = $this->modelo->getUserByUsernameOrEmail($login_identifier);
 
-            // if ($usuario && password_verify($password, $usuario->password)) {
-            //     return $usuario;
-            // } else {
-            //     return null;
-            // }
-
             if ($usuario && $password == $usuario->password) { // borrar esta comprobación y usar la de
                 return $usuario;                               // arriba cuando ya haya password_hash() en el registro
             } else {

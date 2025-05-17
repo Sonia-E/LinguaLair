@@ -118,47 +118,18 @@ class LogController {
     //     }
     //     // ... redireccionar o mostrar mensaje ...
     // }
-
-    // Verificar permisos para editar logs
-    public function editarLog($logId, $newData) {
-        $userId = $_SESSION['user_id'];
-        $log = $this->modelo->getLogById($logId);
-    
-        if ($log) {
-            if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'edit_own_log')) {
-                // El usuario es el creador y tiene permiso para editar sus logs
-                if ($this->modelo->updateLog($logId, $newData)) {
-                    // Éxito al editar
-                } else {
-                    // Error al editar
-                }
-            } elseif ($this->PermissionsModel->hasPermission($userId, 'edit_any_log')) {
-                // El usuario tiene permiso para editar cualquier log (admin/premium)
-                if ($this->modelo->updateLog($logId, $newData)) {
-                    // Éxito al editar
-                } else {
-                    // Error al editar
-                }
-            } else {
-                // No tiene permiso
-            }
-        } else {
-            // Log no encontrado
-        }
-        // ...
-    }
     
     public function deleteUserLog($userId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log_identifier'])) {
             $logIdentifier = $_POST['log_identifier'];
             $parts = explode('_', $logIdentifier);
 
-            if (count($parts) === 2) {
-                $username = $parts[0];
-                $logIdToDelete = intval($parts[1]);
+            if (count($parts) >= 2) {
+                $logIdToDelete = intval(array_pop($parts)); // Obtiene el último elemento como ID
+                $username = implode('_', $parts);   // Une el resto como username
 
                 // Verificar si el log existe y pertenece al usuario logueado (opcional pero recomendado)
-                $loggedInUsername = $_SESSION['username'] ?? null; // Asumiendo que tienes el username en la sesión
+                $loggedInUsername = $_SESSION['username'] ?? null;
                 $logToDelete = $this->modelo->findLogByUsernameAndId($username, $logIdToDelete);
 
                 if ($logToDelete && $loggedInUsername === $username) {

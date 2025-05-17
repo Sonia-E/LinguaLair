@@ -174,6 +174,7 @@ editLogBtns.forEach(editLogBtn => {
                             // Asegúrate de que el popup sea visible ANTES de rellenar
                             if (EditLogPopup.classList.contains('show')) {
                                 document.getElementById('edit_description').value = data.log.description;
+                                document.getElementById('edit_description').focus();
                                 document.getElementById('edit_language').value = data.log.language;
                                 // Establecer la opción selected para el tipo de actividad
                             const typeSelect = document.getElementById('edit_type');

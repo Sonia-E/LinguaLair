@@ -26,7 +26,7 @@ class PremiumController {
                 $logIdToEdit = intval(array_pop($parts)); // Obtiene el último elemento como ID
                 $username = implode('_', $parts);   // Une el resto como username
 
-                // Verificar si el log existe y pertenece al usuario logueado (opcional pero recomendado)
+                // Verificar si el log existe y pertenece al usuario logueado
                 $loggedInUsername = $_SESSION['username'] ?? null;
                 $logToEdit = $this->modelo->findLogByUsernameAndId($username, $logIdToEdit);
 
@@ -37,7 +37,7 @@ class PremiumController {
                         $response = ['success' => true, 'message' => 'Log editted successfully.'];
                     } else {
                         // El usuario tiene permiso para editar su propio log (admin y premium)
-                        $response = ['success' => false, 'message' => 'Error editting log: no edit_own_log.'];
+                        $response = ['success' => false, 'message' => 'Error editting log.'];
                     }
                 } 
                 elseif ($this->PermissionsModel->hasPermission($user_id, 'edit_any_log')) {

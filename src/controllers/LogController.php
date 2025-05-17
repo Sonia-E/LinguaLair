@@ -29,6 +29,7 @@ class LogController {
             $duration = $_POST["duration"];
             $log_date = $_POST["date"];
             $user_id = $_SESSION["user_id"];
+            $antiguoRol = $this->modelo->getCurrentGameRole($user_id);
 
             // Save new log in database
             $log_guardado = $this->modelo->addLog($user_id, $description, $language, $type, $duration, $log_date);
@@ -51,7 +52,6 @@ class LogController {
 
                 // Verificar si se subió de nivel
                 if ($nuevo_nivel) {
-                    $antiguoRol = $this->modelo->getCurrentGameRole($user_id);
                     // Obtener el nuevo rol del usuario
                     $nuevoRol = $this->modelo->obtenerRolUsuario($user_id);
                 

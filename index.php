@@ -158,9 +158,6 @@
                     $logController = new LogController($modelo);
                     $excessExperience = $logController->obtainExcessExperience($_SESSION["user_id"], $_POST["duration"]);
                     $_SESSION['excessExperience'] = $excessExperience;
-                    // if ($_SESSION['excessExperience'] > 0) {
-                    //     $logController->addExcessExperience($_SESSION["user_id"], $_SESSION['excessExperience']);
-                    // }
                     $logController->procesarFormulario();
                     exit();
                 }

@@ -136,9 +136,8 @@
             if ($stmt) {
                 $stmt->bind_param("ssssssi", $description, $language, $type, $duration, $log_date, $post_date, $log_id);
                 if ($stmt->execute()) {
-                    $affectedRows = $stmt->affected_rows;
                     $stmt->close();
-                    return $affectedRows > 0; // Devuelve true si se modificó al menos una fila
+                    return true;
                 } else {
                     echo "Error al editar log: " . $stmt->error;
                     $stmt->close();

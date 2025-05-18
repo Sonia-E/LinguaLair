@@ -33,7 +33,7 @@
             return false;
         }
 
-        // Obtener todos los permisos de un usuario (a través de su rol)
+        // Obtener todos los permisos de un usuario
         public function getUserPermissions($userId) {
             if (!$this->conexion) return false;
             $sql = "SELECT p.name FROM user u
@@ -91,7 +91,7 @@
         public function deleteUserAndRelatedData($userId) {
             if (!$this->conexion) return false;
 
-            // Iniciar una transacción para asegurar la integridad de los datos
+            // Iniciamos una transacción para asegurar la integridad de los datos
             $this->conexion->begin_transaction();
     
             try {
@@ -102,12 +102,12 @@
                 $stmtDeleteUser->execute();
                 $stmtDeleteUser->close();
     
-                // Si todo fue exitoso, confirmar la transacción
+                // Si todo fue exitoso, confirmamos la transacción
                 $this->conexion->commit();
                 return true;
     
             } catch (\Exception $e) {
-                // Si ocurrió algún error, deshacer la transacción
+                // Si ocurrió algún error, deshacemos la transacción
                 $this->conexion->rollback();
                 error_log("Error al eliminar usuario y sus datos: " . $e->getMessage());
                 return false;
@@ -116,7 +116,7 @@
 
         public function banUser($userId) {
             if (!$this->conexion) return false;
-            $sql = "UPDATE user SET banned = 1 WHERE id = ?"; // Asume una columna 'banned' (BOOLEAN o TINYINT)
+            $sql = "UPDATE user SET banned = 1 WHERE id = ?";
             $stmt = $this->conexion->prepare($sql);
             if ($stmt) {
                 $stmt->bind_param("i", $userId);

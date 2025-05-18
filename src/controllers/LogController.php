@@ -50,12 +50,12 @@ class LogController {
                     $nueva_experiencia = $profile_data_updated->experience;
                 }
 
-                // Verificar si se subió de nivel
+                // Verificamos si se subió de nivel
                 if ($nuevo_nivel) {
-                    // Obtener el nuevo rol del usuario
+                    // Obtenemos el nuevo rol del usuario
                     $nuevoRol = $this->modelo->obtenerRolUsuario($user_id);
                 
-                    // Enviar la respuesta JSON con la información del nivel y el rol
+                    // Enviamos la respuesta JSON con la información del nivel y el rol
                     header('Content-Type: application/json');
                     echo json_encode([
                         'success' => true,
@@ -86,38 +86,6 @@ class LogController {
             exit();
         }
     }
-
-    
-
-    // // Verificar permisos para eliminar logs
-    // public function eliminarLog($logId) {
-    //     $userId = $_SESSION['user_id'];
-    //     $log = $this->modelo->getLogById($logId); // Necesitas esta función en tu modelo
-    
-    //     if ($log) {
-    //         if ($log['user_id'] == $userId && $this->PermissionsModel->hasPermission($userId, 'delete_own_log')) {
-    //             // El usuario es el creador del log y tiene permiso para eliminar sus propios logs
-    //             if ($this->modelo->deleteLog($logId)) {
-    //                 // Éxito al eliminar
-    //             } else {
-    //                 // Error al eliminar
-    //             }
-    //         } elseif ($this->PermissionsModel->hasPermission($userId, 'delete_any_log')) {
-    //             // El usuario tiene permiso para eliminar cualquier log (admin)
-    //             if ($this->modelo->deleteLog($logId)) {
-    //                 // Éxito al eliminar
-    //             } else {
-    //                 // Error al eliminar
-    //             }
-    //         } else {
-    //             // El usuario no tiene permiso
-    //             // Mostrar mensaje de error
-    //         }
-    //     } else {
-    //         // Log no encontrado
-    //     }
-    //     // ... redireccionar o mostrar mensaje ...
-    // }
     
     public function deleteUserLog($userId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log_identifier'])) {
@@ -128,7 +96,7 @@ class LogController {
                 $logIdToDelete = intval(array_pop($parts)); // Obtiene el último elemento como ID
                 $username = implode('_', $parts);   // Une el resto como username
 
-                // Verificar si el log existe y pertenece al usuario logueado (opcional pero recomendado)
+                // Verificamos si el log existe y pertenece al usuario logueado (opcional pero recomendado)
                 $loggedInUsername = $_SESSION['username'] ?? null;
                 $logToDelete = $this->modelo->findLogByUsernameAndId($username, $logIdToDelete);
 
@@ -156,7 +124,6 @@ class LogController {
             header('Content-Type: application/json');
             echo json_encode($response);
         } else {
-            // Manejar peticiones incorrectas
             header('HTTP/1.1 400 Bad Request');
             echo json_encode(['success' => false, 'message' => 'Invalid request.']);
         }

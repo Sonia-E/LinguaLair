@@ -55,7 +55,7 @@
                 5  => 'bronze',
             ];
         
-            // Obtener las fechas de publicación de los logs del usuario ordenadas por fecha descendente
+            // Obtenemos las fechas de publicación de los logs del usuario ordenadas por fecha descendente
             $logDates = $this->StatsModel->geDatesLogsByType($user_id, $type);
         
             if (empty($logDates)) {
@@ -107,7 +107,7 @@
                 5  => 'bronze',
             ];
         
-            // Obtener las fechas de publicación de los logs del usuario ordenadas por fecha descendente
+            // Obtenemos las fechas de publicación de los logs del usuario ordenadas por fecha descendente
             $logDates = $this->StatsModel->geDatesLogsByType($user_id, $type);
         
             if (empty($logDates)) {
@@ -159,7 +159,7 @@
                 5  => 'bronze',
             ];
         
-            // Obtener las fechas de publicación de los logs del usuario ordenadas por fecha descendente
+            // Obtenemos las fechas de publicación de los logs del usuario ordenadas por fecha descendente
             $logDates = $this->StatsModel->geDatesLogsByType($user_id, $type);
         
             if (empty($logDates)) {

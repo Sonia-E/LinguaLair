@@ -19,10 +19,10 @@
                     </div>
                     
                     <div class="progress">
-                        <span class="level"><span id="level-value"><?php echo $usuario->level ?></span></span>
+                        <span class="level"><span class="level-value"><?php echo $usuario->level ?></span></span>
                         <div class="life-bar-container">
-                            <div class="life-bar" id="experience-bar" style="width: <?php echo $usuario->experience ?>%;">
-                                <span id="experience-value"><span id="experience-text"><?php echo $usuario->experience ?>%</span></span>
+                            <div class="life-bar experience-bar" style="width: <?php echo $usuario->experience ?>%;">
+                                <span class="experience-value"><span class="experience-text"><?php echo $usuario->experience ?>%</span></span>
                             </div>
                         </div>
                     </div>
@@ -97,25 +97,24 @@
 <script>
     
     function buscarIsoPorNombre(nombrePais) {
-  var allCountries = $.fn.countrySelect.getCountryData();
-  const nombrePaisLower = nombrePais.toLowerCase();
+    var allCountries = $.fn.countrySelect.getCountryData();
+    const nombrePaisLower = nombrePais.toLowerCase();
   
-  for (var i = 0; i < allCountries.length; i++) {
-    const nombreEnListaLower = allCountries[i].name.toLowerCase(); // Use 'name' instead of 'n'
-    if (nombreEnListaLower.includes(nombrePaisLower)) {
-      return allCountries[i].iso2; // Use 'iso2' instead of 'i'
+    for (var i = 0; i < allCountries.length; i++) {
+        const nombreEnListaLower = allCountries[i].name.toLowerCase();
+        if (nombreEnListaLower.includes(nombrePaisLower)) {
+        return allCountries[i].iso2;
+        }
     }
-  }
 
-  return null;
-}
+    return null;
+    }
 
-    // Obtener el valor de la variable PHP y usar la función JavaScript
-  var paisDesdePHP = "<?php echo $nombrePaisPHP; ?>";
-//   console.log(paisDesdePHP);
-  var isoCode = buscarIsoPorNombre(paisDesdePHP);
-  console.log("El código ISO de " + paisDesdePHP + " es: " + isoCode);
-  document.querySelector(".flag").classList.add(isoCode);
+    // Obtenemos el valor de la variable PHP y usar la función JavaScript
+    var paisDesdePHP = "<?php echo $nombrePaisPHP; ?>";
+    var isoCode = buscarIsoPorNombre(paisDesdePHP);
+    console.log("El código ISO de " + paisDesdePHP + " es: " + isoCode);
+    document.querySelector(".flag").classList.add(isoCode);
 
 </script>
 
@@ -123,13 +122,13 @@
     let successMessage = "<?php echo $_SESSION['success_message'] ?>"
 
     if (successMessage) {
-    // Crear y mostrar el popup de éxito
+    // Creamos y mostramos el popup de éxito
     const popup = document.createElement('div');
-    popup.classList.add('popup', 'edit-profile-popup'); // Reutilizamos 'popup' y añadimos una clase específica
+    popup.classList.add('popup', 'edit-profile-popup');
     const popupBubble = document.createElement('div');
     popupBubble.classList.add('speech-bubble');
     const successText = document.createElement('div');
-    successText.textContent = 'Profile updated successfully!'; // Mensaje de éxito
+    successText.textContent = 'Profile updated successfully!';
     popupBubble.appendChild(successText);
     popup.appendChild(popupBubble);
     document.body.appendChild(popup);
@@ -139,7 +138,7 @@
       setTimeout(() => {
         popup.remove();
         <?php echo $_SESSION['success_message'] = null ?>
-      }, 1500); // Duración del mensaje
+      }, 1500);
     }, 100);
   }
 

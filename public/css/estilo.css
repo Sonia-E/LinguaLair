@@ -435,7 +435,7 @@ header {
     background-color: var(--color-barra-lateral);
     font-family: "Tektur", sans-serif;
     font-weight: 600;
-    outline: var(--border);  /* NO SÉ SI BORDE */
+    outline: var(--border);
 }
 header .usuario {
     align-items: center;
@@ -520,11 +520,11 @@ header .stats .logs {
     display: flex;
     margin-top: 3px;
     justify-content: center;
-    height: 74.5vh; /* Maintain the desired height */
+    height: 74.5vh;
     border-radius: 10px;
     background-color: var(--color-barra-lateral);
     align-items: center;
-    outline: var(--border);  /* NO SÉ SI BORDE */
+    outline: var(--border);
 }
 
 .dashboard .feed {
@@ -536,7 +536,7 @@ header .stats .logs {
     overflow-y: auto;
     overflow-x: hidden;
     box-shadow: var(--box-shadow);
-    outline: var(--border);  /* NO SÉ SI BORDE */
+    outline: var(--border);
 }
 
 /* Feed */
@@ -625,19 +625,17 @@ header .stats .logs {
     }
 }
 
-
-
 /* Feed data */
 /* Right Side */
 .dashboard .right-feed {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center; /* Keep horizontal centering of feed-data */
+    align-items: center;
     margin: 10px;
-    width: 30%; /* Maintain the desired width */
+    width: 30%;
     min-height: 96%;
-    height: 96%; /* Make it the same height as the feed */
+    height: 96%;
     justify-content: center;
 }
 
@@ -813,7 +811,7 @@ button.your-feed {
         2px 2px 0 black;
     padding: 12px;
     z-index: 1000;
-    animation: slideUpFadeInBounce 0.7s ease-out forwards; /* Modificamos el nombre y la duración */
+    animation: slideUpFadeInBounce 0.7s ease-out forwards;
     }
     
     .speech-bubble::before {
@@ -834,7 +832,7 @@ button.your-feed {
     border-left: 10px solid transparent;
     }
     
-    /* Definición de la animación con rebote */
+    /* Animación con rebote */
     @keyframes slideUpFadeInBounce {
     0% {
         bottom: -100%;
@@ -856,21 +854,21 @@ button.your-feed {
 .popup.achievement-popup {
     bottom: 20px;
     left: 20px;
-    transform: translateX(0); /* Elimina el centrado horizontal */
+    transform: translateX(0);
 }
 
 .popup.level-up-popup {
     bottom: 20px;
     right: 20px;
-    left: auto; /* Anula el left: 50% */
-    transform: translateX(0); /* Elimina el centrado horizontal */
+    left: auto;
+    transform: translateX(0);
 }
 
 .popup.edit-profile-popup {
     bottom: 410px;
     right: 880px;
     left: 10px;
-    transform: translateX(0); /* Elimina el centrado horizontal */
+    transform: translateX(0);
 }
 
 .barra-lateral .usuario:hover {

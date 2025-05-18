@@ -26,13 +26,13 @@
         $logs = $SocialModel->getLogsForUsers($usersToShowLogs, $initialLogLimit);
         $totalLogCount = $SocialModel->getTotalLogCountForUsers($usersToShowLogs);
     } else {
-        // Obtener la lista de IDs de los usuarios que el usuario logueado sigue
+        // Obtenemos la lista de IDs de los usuarios que el usuario logueado sigue
         $followingIds = $SocialModel->getFollowingUsers($loggedInUserId);
 
-        // Inicializar el array de usuarios a mostrar con el ID del usuario logueado
+        // Inicializamos el array de usuarios a mostrar con el ID del usuario logueado
         $usersToShowLogs = [$loggedInUserId];
 
-        // Agregar los IDs de los usuarios seguidos al array, si existen y es un array
+        // Agregamos los IDs de los usuarios seguidos al array, si existen y es un array
         if ($followingIds && is_array($followingIds)) {
             $usersToShowLogs = array_merge($usersToShowLogs, $followingIds);
         }
@@ -103,7 +103,6 @@
                 </div>
             </div>
             <?php include 'src/views/deleteLog.php' ?>
-            <!-- ME HE QUEDADO AQUÍ -->
             <?php include 'src/views/editLog.php' ?>
         </div>
     <?php } ?>
@@ -120,11 +119,11 @@
     let currentLogCount = <?php echo count($logs); ?>;
     const logsToLoad = 5;
     let isLoading = false;
-    const totalLogCount = <?php echo $totalLogCount; ?>; // Make sure this is available in your JS
+    const totalLogCount = <?php echo $totalLogCount; ?>;
 
     if (logContainer) {
         logContainer.addEventListener('click', function(event) {
-            const loadMoreButton = event.target.closest('#load-more-logs'); // Use closest for robustness
+            const loadMoreButton = event.target.closest('#load-more-logs');
 
             if (loadMoreButton && !isLoading && currentLogCount < totalLogCount) {
                 isLoading = true;
@@ -138,7 +137,6 @@
                             logContainer.insertAdjacentHTML('beforeend', data);
                             currentLogCount += logsToLoad;
 
-                            // Move the button container to the end (if you still want this)
                             const loadMoreContainer = document.querySelector('.load-more-container');
                             if (loadMoreContainer) {
                                 logContainer.appendChild(loadMoreContainer);

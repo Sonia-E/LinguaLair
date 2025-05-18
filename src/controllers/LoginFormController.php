@@ -1,9 +1,6 @@
 <?php
     namespace Sonia\LinguaLair\controllers;
-
-   // Iniciar una nueva sesión o reanudar la existente 
-//    session_start();
-
+    
     class LoginFormController {
         private $modelo;
         public $errores = [];
@@ -17,7 +14,7 @@
         }
     
         public function check_login($login_identifier, $password) {
-            // Buscar al usuario por nombre de usuario O por correo electrónico
+            // Buscamos al usuario por nombre de usuario o por correo electrónico
             $usuario = $this->modelo->getUserByUsernameOrEmail($login_identifier);
 
             if ($usuario && password_verify($password, $usuario->password)) {
@@ -31,18 +28,6 @@
                 }
                 return null;
             }
-
-            // if ($usuario && $password == $usuario->password) { // borrar esta comprobación y usar la de
-            //     return $usuario;                               // arriba cuando ya haya password_hash() en el registro
-            // } else {
-            //     if (!$usuario) {
-            //         $this->errores['username'] = "Incorrect username or email";
-            //     }
-            //     if ($usuario && $password !== $usuario->password) {
-            //         $this->errores['password'] = "Incorrect password";
-            //     }
-            //     return null;
-            // }
         }
 
         public function procesarFormulario() {
@@ -91,7 +76,5 @@
         public function getErrores() {
             return $this->errores;
         }
-
-    
 }
 ?>

@@ -74,7 +74,7 @@
                     $studyDate = $fila['study_date'];
                     $totalMinutes = (int) $fila['total_minutes'];
     
-                    $horasPorDia[$studyDate] = round($totalMinutes / 60, 2); // Almacenar en horas
+                    $horasPorDia[$studyDate] = round($totalMinutes / 60, 2); // Almacenamos en horas
                 }
                 return $horasPorDia;
             } else {
@@ -203,9 +203,9 @@
                     $totalMinutes = (int) $fila['total_minutes'];
     
                     if ($totalMinutes < 60) {
-                        $horasPorDia[$studyDate] = $totalMinutes; // Almacenar en minutos si es menos de una hora
+                        $horasPorDia[$studyDate] = $totalMinutes; // Almacenamos en minutos si es menos de una hora
                     } else {
-                        $horasPorDia[$studyDate] = round($totalMinutes / 60, 2); // Almacenar en horas
+                        $horasPorDia[$studyDate] = round($totalMinutes / 60, 2); // Almacenamos en horas
                     }
                 }
                 return $horasPorDia;
@@ -239,7 +239,7 @@
                     $studyDate = $fila['study_date'];
                     $type = $fila['type'];
                     $totalMinutes = (int) $fila['total_minutes'];
-                    $totalHours = round($totalMinutes / 60, 2); // Convertir a horas
+                    $totalHours = round($totalMinutes / 60, 2); // Convertimos a horas
         
                     if (!isset($horasPorTipoPorDia[$type])) {
                         $horasPorTipoPorDia[$type] = [];
@@ -252,47 +252,6 @@
                 return null;
             }
         }
-
-        // public function obtenerHorasPorTipoPorIdioma($user_id, $language) {
-        //     if (!$this->conexion) return null;
-        
-        //     $consulta = "SELECT DATE(log_date) AS study_date,
-        //                         type,
-        //                         SUM(duration) AS total_minutes
-        //                     FROM logs
-        //                     WHERE user_id = ? AND language = ?
-        //                     GROUP BY DATE(log_date), type
-        //                     ORDER BY DATE(log_date) ASC, type ASC";
-        
-        //     $stmt = $this->conexion->prepare($consulta);
-        
-        //     if ($stmt) {
-        //         $stmt->bind_param("is", $user_id, $language);
-        //         $stmt->execute();
-        //         $resultado = $stmt->get_result();
-        //         $stmt->close();
-        
-        //         $horasPorTipo = [];
-        //         while ($fila = $resultado->fetch_assoc()) {
-        //             $studyDate = $fila['study_date'];
-        //             $type = $fila['type'];
-        //             $totalMinutes = (int) $fila['total_minutes'];
-        //             $totalHours = round($totalMinutes / 60, 2); // Convertir a horas
-        
-        //             if (!isset($horasPorTipo[$type])) {
-        //                 $horasPorTipo[$type] = [
-        //                     'type' => $type,
-        //                     'dates' => []
-        //                 ];
-        //             }
-        //             $horasPorTipo[$type]['dates'][$studyDate] = $totalHours;
-        //         }
-        //         return $horasPorTipo;
-        //     } else {
-        //         echo "Error al preparar la consulta para obtener las horas por tipo por idioma: " . $this->conexion->error;
-        //         return null;
-        //     }
-        // }
 
         public function obtenerEstadisticasPorIdioma($user_id, $language) {
             $estadisticas = [];
@@ -337,16 +296,16 @@
                 return [];
             }
 
-            // Filtrar los logs por el idioma especificado
+            // Filtramos los logs por el idioma especificado
             $languageLogs = array_filter($logs, function ($log) use ($language) {
                 return $log->language === $language;
             });
 
-            // Sumar las horas (calculadas desde minutos) por tipo para el idioma especificado
+            // Sumamos las horas (calculadas desde minutos) por tipo para el idioma especificado
             foreach ($languageLogs as $log) {
                 $type = $log->type;
-                $durationInMinutes = (int) $log->duration; // Asegúrate de que duration sea un número entero
-                $hours = $durationInMinutes / 60; // Convertir minutos a horas
+                $durationInMinutes = (int) $log->duration;
+                $hours = $durationInMinutes / 60; // Convertimos minutos a horas
 
                 $totalHours += $hours;
 

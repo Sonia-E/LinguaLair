@@ -25,7 +25,7 @@ class NotificationModel {
             $stmt->bind_param("sssi", $userId, $type, $content, $relatedId);
             $result = $stmt->execute();
             $stmt->close();
-            return $result; // Devuelve true en caso de éxito, false en caso de error
+            return $result;
         } else {
             error_log("Error al preparar la consulta para guardar la notificación: " . $this->conexion->error);
             return false;
@@ -64,7 +64,7 @@ class NotificationModel {
             $stmt->bind_param("i", $userId);
             $result = $stmt->execute();
             $stmt->close();
-            return $result; // Devuelve true en caso de éxito, false en caso de error
+            return $result;
         } else {
             error_log("Error al preparar la consulta para marcar notificaciones como leídas: " . $this->conexion->error);
             return false;

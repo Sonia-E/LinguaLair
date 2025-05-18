@@ -9,7 +9,6 @@ class AdminController {
         $this->PermissionsModel = $PermissionsModel;
     }
 
-    // Verificar permisos para eliminar o banear usuarios
     public function eliminarUsuario($userIdToDelete) {
         $currentUserId = $_SESSION['user_id'];
         if ($this->PermissionsModel->hasPermission($currentUserId, 'delete_user')) {
@@ -30,7 +29,6 @@ class AdminController {
         }
     }
     
-    // Ejemplo de método para banear un usuario (necesitarías una columna 'banned' en la tabla 'user')
     public function banearUsuario($userIdToBan) {
         $currentUserId = $_SESSION['user_id'];
         if ($this->PermissionsModel->hasPermission($currentUserId, 'ban_user')) {
@@ -46,7 +44,7 @@ class AdminController {
             $_SESSION['mensaje'] = "No tienes permiso para banear usuarios.";
             $_SESSION['tipo_mensaje'] = 'warning';
         }
-        header('Location: /admin/usuarios'); // Ejemplo de redirección
+        header('Location: /admin/usuarios');
         exit();
     }
 }

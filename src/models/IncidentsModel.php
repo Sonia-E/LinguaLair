@@ -26,7 +26,7 @@ class IncidentsModel {
         }
 
         try {
-            // Preparar la consulta SQL para la inserción.
+            // Preparamos la consulta SQL para la inserción.
             $sql = "INSERT INTO incidents (user_id, username, user_email, incident_type, description, urgency)
                     VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conexion->prepare($sql);
@@ -36,23 +36,23 @@ class IncidentsModel {
                 return null;
             }
 
-            // Vincular los parámetros a la consulta preparada.
+            // Vinculamos los parámetros a la consulta preparada.
             $stmt->bind_param("isssss", $userId, $username, $userEmail, $incidentType, $description, $urgency);
 
-            // Ejecutar la consulta.
+            // Ejecutamos la consulta.
             $stmt->execute();
 
-            // Verificar si la inserción fue exitosa.
+            // Verificamos si la inserción fue exitosa.
             if ($stmt->affected_rows <= 0) {
                 error_log("No se pudo insertar la incidencia. Detalles: " . $stmt->error);
                 $stmt->close();
                 return null;
             }
 
-            // Obtener el ID de la incidencia recién insertada.
+            // Obtenemos el ID de la incidencia recién insertada.
             $incidentId = $this->conexion->insert_id;
 
-            // Recuperar los datos de la incidencia insertada para retornar.
+            // Recuperamos los datos de la incidencia insertada para retornar.
             $sql_select = "SELECT id, user_id, username, user_email, incident_type, description, urgency, creation_date, state FROM incidents WHERE id = ?";
             $stmt_select = $this->conexion->prepare($sql_select);
 
@@ -73,17 +73,17 @@ class IncidentsModel {
                 return null;
             }
 
-            // Cerrar las declaraciones preparadas.
+            // Cerramos las declaraciones preparadas.
             $stmt->close();
             $stmt_select->close();
 
-            // Enviar correo electrónico
+            // Enviamos correo electrónico
             $this->enviarCorreoNotificacion($newIncident);
 
             return $newIncident;
 
         } catch (\Exception $e) {
-            // Registrar el error en el log para su posterior análisis.
+            // Registramos el error en el log para su posterior análisis.
             error_log("Error al insertar la incidencia: " . $e->getMessage());
             return null;
         }
@@ -95,11 +95,11 @@ class IncidentsModel {
         try {
             // Configuración del servidor
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';  // O tu servidor SMTP
+            $mail->Host       = 'smtp.gmail.com';
             $mail->Port       = 587;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'soniaenjutom94@gmail.com';  // Tu correo
+            $mail->Username   = 'soniaenjutom94@gmail.com';
             $mail->Password   =  $smtp_password; // Contraseña de aplicación
 
             // Configuración del correo

@@ -1,4 +1,4 @@
-let originalDefaultColor = Chart.defaults.color; // Guardar el color por defecto original
+let originalDefaultColor = Chart.defaults.color; // Guardamos el color por defecto original
 let chartInstances = {}; // Objeto para almacenar las instancias de los gráficos
 
         function applyDarkMode(darkModeEnabled) {
@@ -6,7 +6,7 @@ let chartInstances = {}; // Objeto para almacenar las instancias de los gráfico
                 Chart.defaults.color = 'rgb(221, 221, 221)';
                 localStorage.setItem('darkMode', 'enabled');
             } else {
-                Chart.defaults.color = originalDefaultColor; // Restaurar el color original
+                Chart.defaults.color = originalDefaultColor; // Restauramos el color original
                 localStorage.setItem('darkMode', 'disabled');
             }
             updateAllChartColors();
@@ -19,7 +19,7 @@ let chartInstances = {}; // Objeto para almacenar las instancias de los gráfico
             const textColor = isDarkMode ? 'rgb(221, 221, 221)' : originalDefaultColor;
             const gridlineColor = isDarkMode ? 'rgb(82, 82, 82)' : 'rgba(0, 0, 0, 0.1)';
 
-            // Actualizar colores comunes a todos los tipos de gráficos (si aplica)
+            // Actualizamos colores comunes a todos los tipos de gráficos (si aplica)
             if (chartInstance.options.scales) {
                 for (const scaleId in chartInstance.options.scales) {
                     chartInstance.options.scales[scaleId].ticks.color = textColor;
@@ -30,13 +30,11 @@ let chartInstances = {}; // Objeto para almacenar las instancias de los gráfico
                 chartInstance.options.plugins.legend.labels.color = textColor;
             }
 
-            // Actualizar colores específicos del tipo de gráfico
+            // Actualizamos colores específicos del tipo de gráfico
             chartInstance.data.datasets.forEach(dataset => {
-                if (chartInstance.config.type === 'pie') {
-                    // Los colores de fondo y borde del pie chart se establecen al crear el gráfico, pero se pueden modificar aquí si es necesario.
-                } else {
-                    dataset.borderColor = isDarkMode ? 'rgba(255,255,255,1)' : 'transparent'; // Establecer el borde a blanco o transparente
-                    dataset.borderWidth = isDarkMode ? 2 : 0; // Establecer el ancho del borde a 1 o 0
+                if (chartInstance.config.type !== 'pie') {
+                    dataset.borderColor = isDarkMode ? 'rgba(255,255,255,1)' : 'transparent';
+                    dataset.borderWidth = isDarkMode ? 2 : 0;
                 }
             });
             chartInstance.update();
@@ -78,23 +76,23 @@ estadisticasPorIdioma.forEach(idiomaStats => {
         const typePercentages = idiomaStats.type_percentages;
         const typeColors = {};
 
-        // Seleccionar el contenedor de gráficos *dentro* de la pestaña del idioma actual
+        // Seleccionamos el contenedor de gráficos *dentro* de la pestaña del idioma actual
         const tabId = `${language}-tab`; // ID de la pestaña (ej: japanese-tab)
-        const languageTab = document.getElementById(tabId); // Obtener el elemento de la pestaña
-        const typeChartsContainer = languageTab.querySelector('.pie-area'); // Seleccionar .chart dentro de la pestaña
+        const languageTab = document.getElementById(tabId); // Obtenemos el elemento de la pestaña
+        const typeChartsContainer = languageTab.querySelector('.pie-area'); // Seleccionamos el .chart dentro de la pestaña
         const area = languageTab.querySelector(".area");
 
         if (typeChartsContainer) { // Si se encuentra el contenedor de gráficos
-            // Crear un nuevo div para contener el gráfico de este idioma
+            // Creamos un nuevo div para contener el gráfico de este idioma
             const chartContainer = document.createElement('div');
             chartContainer.classList.add('chart');
 
-            // Crear un nuevo canvas para el gráfico
+            // Creamos un nuevo canvas para el gráfico
             const canvas = document.createElement('canvas');
             canvas.id = `type-pie-chart-${language.replace(/\s+/g, '-').toLowerCase()}`; // ID único
             chartContainer.appendChild(canvas);
 
-            // Añadir el contenedor del gráfico al contenedor de la pestaña
+            // Añadimos el contenedor del gráfico al contenedor de la pestaña
             typeChartsContainer.insertBefore(chartContainer, area);
 
             const ctxType = canvas.getContext('2d');
@@ -103,10 +101,10 @@ estadisticasPorIdioma.forEach(idiomaStats => {
             const typeDataValues = Object.values(typePercentages);
             const typeBackgroundColors = []; // Array para almacenar los colores
 
-            // Generar colores y almacenarlos en el objeto typeColors
+            // Generamos colores y almacenarlos en el objeto typeColors
             typeLabels.forEach(typeLabel => {
                 const color = randomRgb();
-                typeColors[typeLabel] = color; // Almacenar el color usando el type como clave
+                typeColors[typeLabel] = color; // Almacenamos el color usando el type como clave
                 typeBackgroundColors.push(color);
             });
 
@@ -144,7 +142,7 @@ estadisticasPorIdioma.forEach(idiomaStats => {
             });
             chartInstances[`type-pie-chart-${language.replace(/\s+/g, '-').toLowerCase()}`] = languagePieChart;
 
-            // Almacenar el objeto de colores específico del idioma en el elemento de la pestaña
+            // Almacenamos el objeto de colores específico del idioma en el elemento de la pestaña
             languageTab.dataset.typeColors = JSON.stringify(typeColors);
         } else {
             console.error(`No se encontró el contenedor .chart dentro de la pestaña ${tabId}`);
@@ -152,33 +150,31 @@ estadisticasPorIdioma.forEach(idiomaStats => {
     }
 });
 
-// Tabs system
-
+// ---------------------------------- Tabs system
 tabButtons.forEach(button => {
     button.addEventListener('click', () => {
         const language = button.dataset.language;
 
-        // Desactivar todos los botones y ocultar todos los contenidos
+        // Desactivamos todos los botones y ocultar todos los contenidos
         tabButtons.forEach(btn => btn.classList.remove('active-tab'));
         tabContents.forEach(content => content.style.display = 'none');
         
 
-        // Activar el botón clicado y mostrar el contenido correspondiente
+        // Activamos el botón clicado y mostrar el contenido correspondiente
         button.classList.add('active-tab');
         if (language === 'all') {
             document.querySelector('.all').style.display = 'block';
-            // No necesitamos hacer nada específico con los gráficos aquí, asumimos que el de "All" está visible
         } else {
             const targetContent = document.getElementById(language + '-tab');
             if (targetContent) {
                 targetContent.style.display = 'block';
 
-                // Obtener el objeto de colores específico del idioma desde el dataset
+                // Obtenemos el objeto de colores específico del idioma desde el dataset
                 const languageTypeColors = JSON.parse(targetContent.dataset.typeColors || '{}');
 
                 // --- Gráfico de barras de la semana actual ----
                 //------------------------------------------------
-                // Obtener el canvas del gráfico del idioma
+                // Obtenemos el canvas del gráfico del idioma
                 const weekChartCanvas = targetContent.querySelector('canvas[id$="-week-chart"]');
                 if (weekChartCanvas) {
                     const newId = `${language.toLowerCase().replace(' ', '-')}-week-chart`;
@@ -186,12 +182,12 @@ tabButtons.forEach(button => {
 
                     const fetchedCanvas = document.getElementById(newId);
 
-                    // Destruir el gráfico existente si lo hay
+                    // Destruimos el gráfico existente si lo hay
                     if (fetchedCanvas && fetchedCanvas.__chart) {
                         fetchedCanvas.__chart.destroy();
                     }
 
-                    // Crear el gráfico de barras para el idioma activo
+                    // Creamos el gráfico de barras para el idioma activo
                     const languageStats = estadisticasPorIdioma.find(stats => stats.idioma === language);
                     const barDataLanguage = {
                         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Etiquetas de los días de la semana
@@ -274,14 +270,14 @@ tabButtons.forEach(button => {
                                 plugins: [chartAreaBorder]
                             });
                             chartInstances[`${language.toLowerCase().replace(' ', '-')}-week-chart`] = myBarChartLanguage;
-                            // Almacenar la instancia del gráfico en el canvas para futuras destrucciones
+                            // Almacenamos la instancia del gráfico en el canvas para futuras destrucciones
                             fetchedCanvas.__chart = myBarChartLanguage;
                         }
                     }
                 }
 
                 // --- Gráfico de barras del mes actual ----
-                //------------------------------------------------
+                //-------------------------------------------
                 const monthChartCanvas = targetContent.querySelector('canvas[id$="-month-chart"]');
                 if (monthChartCanvas) {
                     const newIdMonth = `${language.toLowerCase().replace(' ', '-')}-month-chart`;
@@ -362,7 +358,7 @@ tabButtons.forEach(button => {
                     }
                 }
                 
-                // --- Gráfico de barras del año actual ----
+                // ---- Gráfico de barras del año actual ----
                 //--------------------------------------------
                 const yearChartCanvas = targetContent.querySelector('canvas[id$="-year-chart"]');
                 if (yearChartCanvas) {
@@ -433,7 +429,7 @@ tabButtons.forEach(button => {
                                     },
                                     plugins: {
                                         legend: {
-                                            display: true, // Mostrar leyenda para los tipos
+                                            display: true, // Mostramos leyenda para los tipos
                                         },
                                         chartAreaBorder: { borderColor: 'gray', borderWidth: 1, borderDash: [5, 5], borderDashOffset: 1 }
                                     }
@@ -448,12 +444,12 @@ tabButtons.forEach(button => {
             }
             document.querySelector('.all').style.display = 'none';
         }
-        // Aplicar el modo oscuro al cambiar de tab
+        // Aplicamos el modo oscuro al cambiar de tab
         applyDarkMode(localStorage.getItem('darkMode') === 'enabled');
     });
 });
 
-// Actualizar el gráfico inicialmente (si es necesario, por defecto "All" ya tiene datos)
+// Actualizamos el gráfico inicialmente (si es necesario, por defecto "All" ya tiene datos)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.all').style.display = 'block';
     tabContents.forEach(content => content.style.display = 'none');
@@ -483,14 +479,14 @@ function randomRgb() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Iterar sobre el array de porcentajes para llenar los arrays de Chart.js
+// Iteramos sobre el array de porcentajes para llenar los arrays de Chart.js
 for (const language in languagePercentages) {
     if (languagePercentages.hasOwnProperty(language)) {
         pieLabels.push(language);
         pieDataValues.push(languagePercentages[language]);
         const color = randomRgb();
-        pieBackgroundColors.push(color); // Generar y añadir el color al array
-        languageColors[language] = color; // Guardar el color para el idioma
+        pieBackgroundColors.push(color); // Generamos y añadimos el color al array
+        languageColors[language] = color; // Guardamos el color para el idioma
     }
 }
 
@@ -547,15 +543,15 @@ function isDateInCurrentWeek(dateString) {
     return checkDate >= firstDayOfWeek && checkDate <= lastDayOfWeek;
 }
 
-// Iterar sobre el array de estadísticas por idioma para el gráfico de barras
+// Iteramos sobre el array de estadísticas por idioma para el gráfico de barras
 estadisticasPorIdioma.forEach(idiomaStats => {
     if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('solo_horas')) {
         const languageLabel = idiomaStats.idioma;
         const languageData = [];
         const currentWeekStudyDays = {};
-        const backgroundColor = languageColors[languageLabel] || randomRgb(); // Reutilizar el color o generar uno nuevo si no existe
+        const backgroundColor = languageColors[languageLabel] || randomRgb(); // Reutilizamos el color o generamos uno nuevo si no existe
 
-        // Filtrar las solo_horas para la semana actual
+        // Filtramos las solo_horas para la semana actual
         for (const date in idiomaStats.solo_horas) {
             if (idiomaStats.solo_horas.hasOwnProperty(date) && isDateInCurrentWeek(date)) {
                 currentWeekStudyDays[date] = idiomaStats.solo_horas[date];
@@ -647,7 +643,7 @@ function isDateInCurrentMonthWeek(dateString, weekNumber) {
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const weekStartDate = new Date(firstDayOfMonth);
 
-    // Ajustar para que la semana empiece el lunes (si no lo hace por defecto)
+    // Ajustamos para que la semana empiece el lunes
     const dayOfWeek = firstDayOfMonth.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
     if (dayOfWeek !== 1) {
         const daysToSubtract = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
@@ -665,11 +661,11 @@ function isDateInCurrentMonthWeek(dateString, weekNumber) {
     return date >= weekStartDate && date <= weekEndDate && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
 }
 
-// Iterar sobre el array de estadísticas por idioma
+// Iteramos sobre el array de estadísticas por idioma
 estadisticasPorIdioma.forEach(idiomaStats => {
     if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('solo_horas')) {
         const languageLabel = idiomaStats.idioma;
-        const languageMonthlyData = [0, 0, 0, 0, 0]; // Inicializar datos para 5 semanas
+        const languageMonthlyData = [0, 0, 0, 0, 0]; // Inicializamos datos para 5 semanas
         const backgroundColor = languageColors[languageLabel] || randomRgb();
 
         for (let i = 1; i <= 5; i++) {
@@ -678,7 +674,7 @@ estadisticasPorIdioma.forEach(idiomaStats => {
                     languageMonthlyData[i - 1] += idiomaStats.solo_horas[date];
                 }
             }
-            languageMonthlyData[i - 1] = parseFloat(languageMonthlyData[i - 1].toFixed(2)); // Redondear
+            languageMonthlyData[i - 1] = parseFloat(languageMonthlyData[i - 1].toFixed(2));
         }
 
         monthlyBarData.datasets.push({
@@ -729,7 +725,7 @@ const monthlyTotalBarData = {
     datasets: []
 };
 
-// Iterar sobre el array de estadísticas por idioma
+// Iteramos sobre el array de estadísticas por idioma
 estadisticasPorIdioma.forEach(idiomaStats => {
     if (idiomaStats.hasOwnProperty('idioma') && idiomaStats.hasOwnProperty('solo_horas')) {
         const languageLabel = idiomaStats.idioma;
@@ -744,7 +740,7 @@ estadisticasPorIdioma.forEach(idiomaStats => {
             }
         }
 
-        // Redondear los totales mensuales
+        // Redondeamos los totales mensuales
         const roundedTotals = languageMonthlyTotals.map(total => parseFloat(total.toFixed(2)));
 
         monthlyTotalBarData.datasets.push({

@@ -1,4 +1,3 @@
-<?php //include 'views/base.php' ?>
 <?php include 'src/views/base.php'; ?>
 <!-- Iniciamos la estructura -->
 <?php startblock('contenido') ?>
@@ -14,7 +13,7 @@
                 foreach ($userLanguages as $language) {
                     $buttonClass = 'tab';
                     if ($language === $lastLanguage) {
-                        $buttonClass .= ' last'; // Añade una clase para el último botón
+                        $buttonClass .= ' last';
                     }
                     echo '<button class="' . $buttonClass . '" data-language="' . htmlspecialchars($language) . '">' . htmlspecialchars(ucfirst($language)) . '</button>';
                     if ($language !== $lastLanguage) {

@@ -34,16 +34,12 @@
                         <?php if (isset($errores['password'])): ?>
                             <div class="error-message"><?php echo htmlspecialchars($errores['password']); ?></div>
                         <?php endif; ?>
-                        <!-- <a href="#" class="forgot-password">Forgot password?</a> -->
                     </div>
                     <button type="submit" class="sign-in-button">Sign in</button>
                 </form>
                 <div class="separator">
                     <span>or</span>
                 </div>
-                <!-- <button class="google-sign-in">
-                    <i class="fab fa-google"></i> Sign in with Google
-                </button> -->
                 <p class="create-account">Are you new? <a href="signup">Create an Account</a></p>
             </div>
         </div>

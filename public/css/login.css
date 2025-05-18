@@ -15,14 +15,14 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
-    width: 1000px; /* Adjust as needed */
+    width: 1000px;
     height: 700px;
     overflow: hidden;
 }
 
 .left-side {
-    background-color: #f7e0ee; /* Light teal */
-    color: #37474f; /* Dark grey */
+    background-color: #f7e0ee;
+    color: #37474f;
     padding: 40px;
     text-align: center;
     flex: 1;
@@ -54,7 +54,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
-    color: #a62666; /* Teal accent */
+    color: #a62666;
 }
 
 .logo h2 {
@@ -99,19 +99,6 @@ body {
     outline: none;
 }
 
-.forgot-password {
-    display: block;
-    text-align: right;
-    margin-top: 5px;
-    font-size: 0.85em;
-    color: #a626a6;
-    text-decoration: none;
-}
-
-.forgot-password:hover {
-    text-decoration: underline;
-}
-
 .sign-in-button {
     background-color: #37474f;
     color: #fff;
@@ -146,30 +133,6 @@ body {
 
 .separator span {
     padding: 0 10px;
-}
-
-.google-sign-in {
-    background-color: #fff;
-    color: #37474f;
-    padding: 10px 20px;
-    border: 1px solid #cfd8dc;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: border-color 0.3s ease;
-}
-
-.google-sign-in i {
-    color: #db4437; /* Google red */
-    margin-right: 10px;
-}
-
-.google-sign-in:hover {
-    border-color: #26a69a;
 }
 
 .create-account {

@@ -29,6 +29,34 @@ Además, ¡puedes conectar con otros amantes de otros idiomas para crear comunid
     ```bash
     composer require phpmailer/phpmailer
     ```
+- Poder recibir correos con PHPMailer: en <code>IncidentsModel.php</code> tenemos la siguiente configuración del servidor:
+
+    ```php
+    // Configuración del servidor
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->Port       = 587;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'soniaenjutom94@gmail.com';
+    $mail->Password   =  $smtp_password; // Contraseña de aplicación
+    ```
+    Por seguridad la contraseña de aplicación no se ha incluido directamente sino que se importa de un archivo PHP externo que deberás crear. La importación se realiza también en <code>IncidentsModel.php</code>:
+
+    ```php
+    require_once 'SMTP_password.php';
+    ```
+    Crea un archivo con este nombre <code>SMTP_password.php</code> en la raíz del proyecto. En su interior añade lo siguiente:
+
+    ```php
+    <?php
+    global $smtp_password;
+    $smtp_password = "[tu contraseña de aplicación]";
+    ?>
+    ```
+    La contraseña de aplicación deberás generarla dependiendo de que sistema de correo uses (Gmail, Outlook, etc.); aquí se ha utilizado Gmail, por eso el host es <code>smtp.gmail.com</code>.
+
+    Para crear dicha contraseña en Gmail, accede a <code>https://support.google.com/mail/answer/185833?hl=es</code> y pulsa sobre [Crea y gestiona contraseñas de aplicación](https://myaccount.google.com/apppasswords).
 
 ## Base de datos LinguaLair
 

@@ -65,20 +65,13 @@
                 <div class="separator">
                     <span>or</span>
                 </div>
-                <!-- <button class="google-sign-in">
-                    <i class="fab fa-google"></i> Sign up with Google
-                </button> -->
                 <p class="create-account">Do you already have an account? <a href="login">Sign in to your Account</a></p>
             </div>
         </div>
-        <!-- Load jQuery from CDN so can run demo immediately -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="libreria/countrySelect/countrySelect.js"></script>
 		<script>
 			$("#country_selector").countrySelect({
-				// defaultCountry: "jp",
-				// onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-				// responsiveDropdown: true,
 				preferredCountries: ['es', 'gb', 'us']
 			});
 		</script>

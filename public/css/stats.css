@@ -51,7 +51,6 @@
 }
 
 .all {
-    /* border: 2px solid blue; */
     border-radius: 10px;
     height: 85%;
     display: flex;
@@ -74,7 +73,7 @@
 
 .general {
     display: flex;
-    width: 100%; /* Asegura que ocupe todo el ancho */
+    width: 100%;
     gap: 100px;
     overflow: hidden;
 }
@@ -140,12 +139,12 @@
 
 .charts {
     display: flex;
-    flex-direction: column; /* Apilar los gráficos verticalmente */
+    flex-direction: column;
     width: 50%;
 }
 
 .charts .chart {
-    margin-bottom: 20px; /* Espacio entre los gráficos */
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -158,13 +157,13 @@
 }
 
 .charts .chart:last-child {
-    margin-bottom: 0; /* Eliminar el margen inferior del último gráfico */
+    margin-bottom: 0;
 }
 
 .languages-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el ancho mínimo según necesites */
-    gap: 15px; /* Espacio entre los elementos del grid */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 .all-langs .language-area {

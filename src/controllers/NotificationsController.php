@@ -17,17 +17,17 @@ class NotificationsController {
     public function getNotifications() {
         $userId = $_SESSION['user_id'];
 
-        // Obtener las notificaciones del usuario.
+        // Obtenemos las notificaciones del usuario.
         $notifications = $this->notificationModel->getNotificationsByUserId($userId);
 
-        // Marcar las notificaciones como leídas.
+        // Marcamos las notificaciones como leídas.
         $this->notificationModel->markAsReadByUserId($userId);
 
         return $notifications;
     }
 
     public function saveNotification() {
-        // Verificar si es una petición POST y si se enviaron los datos necesarios.
+        // Verificamos si es una petición POST y si se enviaron los datos necesarios.
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405); // Método no permitido
             echo json_encode(['error' => 'Method Not Allowed']);
@@ -45,14 +45,14 @@ class NotificationsController {
         $content = $_POST['content'];
         $relatedId = isset($_POST['related_id']) ? intval($_POST['related_id']) : null;
 
-        // Validar los datos (por ejemplo, que el user_id sea un entero positivo).
+        // Validamos los datos 
         if ($userId <= 0) {
              http_response_code(400); // Bad Request
             echo json_encode(['error' => 'Invalid user ID']);
             return;
         }
 
-        // Guardar la notificación.
+        // Guardamos la notificación.
         $result = $this->notificationModel->saveNotification($userId, $type, $content, $relatedId);
 
         if ($result) {

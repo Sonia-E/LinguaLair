@@ -130,8 +130,8 @@
 }
 
 .unfollowButton {
-    transition: background-color 0.3s ease; /* Solo transición de color */
-    overflow: hidden; /* Oculta el contenido que se desplaza fuera */
+    transition: background-color 0.3s ease;
+    overflow: hidden;
 }
 
 .profile .header .edit:hover, .profile .header .followButton:hover, .unfollowButton:hover {
@@ -273,13 +273,14 @@
     font-weight: 900;
     color: rgb(154, 230, 154);
     background-color: rgba(230, 230, 230, 0.486);
+    border-radius: 5px;
 }
 
 .header .life-bar {
-    background-color: rgb(120, 219, 120); /* Color de la barra de vida */
+    background-color: rgb(120, 219, 120);
     height: 100%;
-    display: flex; /* Habilita Flexbox */
-    align-items: center; /* Centra el contenido verticalmente */
+    display: flex;
+    align-items: center;
     justify-content: center;
     color: rgb(48, 34, 54);
     font-size: 1em;

@@ -1,6 +1,5 @@
 <?php
     // Controlador frontal
-    // namespace Sonia\LinguaLair;
     
     // Composer's autoloading
     require __DIR__ . '/vendor/autoload.php';
@@ -31,7 +30,6 @@
     $IncidentsModel = new IncidentsModel($server, $user, $password, $database);
 
     // Controllers imports
-    require_once 'src/controllers/controladores.php';
     use Sonia\LinguaLair\Controllers\LoginFormController;
     use Sonia\LinguaLair\Controllers\SignupFormController;
     use Sonia\LinguaLair\Controllers\StatsController;
@@ -55,7 +53,7 @@
 
     session_start();
 
-    // Verificar y procesar el exceso de experiencia para CADA URI
+    // Verificamos y procesamos el exceso de experiencia para CADA URI
     if (isset($_SESSION['excessExperience']) && $_SESSION['excessExperience'] > 0) {
         $logController = new LogController($modelo);
         $logController->addExcessExperience($_SESSION["user_id"], $_SESSION['excessExperience']);
@@ -76,14 +74,14 @@
                 $BaseController->get_profile_data($_SESSION["user_id"]);
                 require 'src/views/home.php';
             } elseif ($uri == 'login') {
-                // Comprobar si ya existe una sesión
+                // Comprobamos si ya existe una sesión
                 if (isset($_SESSION["user_id"])) {
-                    // Si ya hay una sesión, redirigir al usuario a la página principal
+                    // Si ya hay una sesión, redirigimos al usuario a la página principal
                     $BaseController->get_profile_data($_SESSION["user_id"]);
                     header("Location: /LinguaLair/");
                     exit();
                 } else {
-                    // Si no hay sesión, verificar si es un envío de formulario (POST)
+                    // Si no hay sesión, verificamos si es un envío de formulario (POST)
                     $loginForm = new LoginFormController($modelo);
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $succes = $loginForm->procesarFormulario();
@@ -95,7 +93,7 @@
                             require 'src/views/login.php';
                         }
                     } else {
-                        // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                        // Si no hay sesión y no es un envío de formulario, mostramos la página de login
                         $loginForm->open_page();
                     }
                 }
@@ -116,20 +114,20 @@
                     }
 
             } elseif ($uri == 'set_profile') {
-                // si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario
-                // Comprobar si ya existe una sesión
+                // Si ya hay sesión con user id redirigir a lingualair, si no, procesar formulario
+                // Comprobamos si ya existe una sesión
                 if (isset($_SESSION["user_id"])) {
-                    // Si ya hay una sesión, redirigir al usuario a la página principal
+                    // Si ya hay una sesión, redirigimos al usuario a la página principal
                     header("Location: /LinguaLair/");
                     exit();
                 } else {
-                    // Si no hay sesión, verificar si es un envío de formulario
+                    // Si no hay sesión, verificamos si es un envío de formulario
                     $profileForm = new ProfileController($modelo);
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $profileForm->procesarFormulario();
                         exit();
                     } else {
-                        // Si no hay sesión y no es un envío de formulario, mostrar la página de login
+                        // Si no hay sesión y no es un envío de formulario, mostramos la página de login
                         $profileForm->open_form();
                     }
                 }
@@ -201,7 +199,6 @@
                 $logIdentifier = $data['log_identifier'] ?? null;
 
                 if ($logIdentifier) {
-                    // Busca los datos del log en tu base de datos usando $logIdentifier
                     $logData = $PremiumController->getLogData($logIdentifier);
 
                     if ($logData) {
@@ -231,21 +228,19 @@
                 if (isset($_SESSION['user_id']) && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
                     $userIdToDelete = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : null;
             
-                    if ($userIdToDelete !== null && $userIdToDelete !== $_SESSION['user_id']) { // No permitir auto-eliminación (opcional)
+                    if ($userIdToDelete !== null && $userIdToDelete !== $_SESSION['user_id']) { // No permitir autoeliminación
             
                         $AdminController = new AdminController($PermissionsModel);
                         $AdminController->eliminarUsuario($userIdToDelete);
 
                         
                         header('Location: /LinguaLair/');
-                        // Mostrar algún popup con mensaje de "User deleted successfully"
                         exit();
 
                     } else {
-                        // Manejar el caso en que no se proporcionó ID válido o se intenta auto-eliminar
                         $_SESSION['mensaje'] = "ID de usuario no válido para eliminar.";
                         $_SESSION['tipo_mensaje'] = 'warning';
-                        header('Location: /LinguaLair/'); // Redireccionar a la lista de usuarios
+                        header('Location: /LinguaLair/');
                         exit();
                     }
                 } else {
@@ -345,10 +340,7 @@
                 }
                 
             } elseif ($uri == 'log_out') {
-                // Inicializar la sesión.
-                session_start();
-
-                // Destruir todas las variables de sesión.
+                // Destruimos todas las variables de sesión.
                 $_SESSION = array();
 
                 if (ini_get("session.use_cookies")) {
@@ -359,16 +351,16 @@
                     );
                 }
 
-                // Destruir la sesión.
+                // Destruimos la sesión.
                 session_destroy();
 
                 header("Location: /LinguaLair/");
                 exit;
                 
-            } else {
-                // Cargar una página de error
+            } else { // Si la página no existe
+                // Cargamos una página de error
                 header("HTTP/1.0 404 Not Found");
-                // Mostrar un mensaje de error
+                // Mostramos un mensaje de error
                 echo '<html><body><h1>Page Not Found</h1></body></html>';
             }
         }

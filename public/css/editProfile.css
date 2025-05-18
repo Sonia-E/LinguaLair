@@ -131,8 +131,8 @@
 .login-form .radio-group {
     margin-top: 1em;
     display: flex;
-    justify-content: center; /* Alinea los pares de radio buttons horizontalmente */
-    gap: 50px; /* Espacio entre los pares */
+    justify-content: center;
+    gap: 50px;
 }
 
 .radio-item {
@@ -141,7 +141,7 @@
 }
 
 .radio-item input[type="radio"] {
-    margin-right: 5px; /* Espacio entre el radio button y el texto */
+    margin-right: 5px;
 }
 
 select {

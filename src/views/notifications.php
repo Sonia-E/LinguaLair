@@ -8,8 +8,7 @@
             <?php if (!empty($notifications)): ?>
             <div class="unlocked-achievements-container"> <?php foreach ($notifications as $notification): ?>
                 <div class="achievement-item">  <?php
-                    // Aquí adaptamos el código para mostrar la información de la notificación
-                    $icon = ''; // Inicializamos la variable del icono
+                    $icon = '';
                     switch ($notification['type']) {
                         case 'follow':
                             $icon = '<ion-icon name="people-outline"></ion-icon>';
@@ -33,7 +32,7 @@
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-            <p>You have no notifications</p>
+            <p class="no-notifs">You have no notifications</p>
             <?php endif; ?>
         </div>
     </div>

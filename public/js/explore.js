@@ -31,7 +31,7 @@ function explore(texto) {
             // Comprobamos si se han recibido los datos y si la comunicación es correcta
             if (request.readyState === 4 && request.status === 200) {
                 try {
-                    // Intentamos parsear la respuesta como JSON
+                    // Parseamos la respuesta como JSON
                     var resultados = JSON.parse(request.responseText);
                     var lista = "";
         

@@ -1,5 +1,5 @@
-// Declarar nuevaExperiencia en el ámbito global
-window.nuevaExperiencia = 0; // Inicializarla con un valor por defecto
+// Declaramos nuevaExperiencia en el ámbito global
+window.nuevaExperiencia = 0;
 
 function animateValue(obj, start, end, duration, callback) {
     let startTimestamp = null;
@@ -22,8 +22,6 @@ function animateProgressBar(obj, start, end, duration, callback) {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         obj.style.width = Math.floor(progress * (end - start) + start) + '%';
-        // Actualizar la posición del texto durante la animación de la barra
-        updateTextPosition();
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else if (callback) {
@@ -33,72 +31,93 @@ function animateProgressBar(obj, start, end, duration, callback) {
     window.requestAnimationFrame(step);
 }
 
-function updateTextPosition() {
-    const experienceBar = document.getElementById('experience-bar');
-    const experienceText = document.getElementById('experience-text');
-
-    if (experienceBar && experienceText) {
-        const barWidth = experienceBar.offsetWidth;
-        const textWidth = experienceText.offsetWidth;
+function updateTextPosition(experienceBarElement, experienceTextElement) {
+    if (experienceBarElement && experienceTextElement) {
+        const barWidth = experienceBarElement.offsetWidth;
+        const textWidth = experienceTextElement.offsetWidth;
         const marginLeft = Math.max(0, (barWidth - textWidth) / 2);
-        experienceText.style.marginLeft = `${marginLeft}px`;
+        experienceTextElement.style.marginLeft = `${marginLeft}px`;
     }
 }
 
 function updateExperienceAnimated(newExperience) {
-    const experienceTextElement = document.getElementById('experience-text');
-    const experienceBarElement = document.getElementById('experience-bar');
-    const currentExperience = parseInt(experienceTextElement.innerText);
-
-    console.log('currentExperience in update: ', currentExperience);
-    
+    const experienceTextElements = document.querySelectorAll('.experience-text');
+    const experienceBarElements = document.querySelectorAll('.experience-bar');
+    const currentExperiences = Array.from(experienceTextElements).map(el => parseInt(el.innerText));
     const duration = 500;
 
     if (newExperience === 0) {
-        const toFullDuration = Math.max(0, 500 * (1 - currentExperience / 100));
-        animateValue(experienceTextElement, currentExperience, 100, toFullDuration, () => {
-            animateProgressBar(experienceBarElement, currentExperience, 100, toFullDuration, () => {
-                experienceTextElement.innerText = '0%';
-                experienceBarElement.style.width = '0%';
-                updateTextPosition(); // Asegurar la posición correcta en 0
-                animateValue(experienceTextElement, 0, newExperience, duration);
-                animateProgressBar(experienceBarElement, 0, newExperience, duration);
+        // Si la nueva experiencia es 0, animamos desde la experiencia actual hasta 100,
+        // luego a 0, para cada barra.
+        experienceBarElements.forEach((barElement, index) => {
+            const currentExperience = currentExperiences[index];
+            const toFullDuration = Math.max(0, 500 * (1 - currentExperience / 100));
+
+            animateValue(experienceTextElements[index], currentExperience, 100, toFullDuration, () => {
+                animateProgressBar(barElement, currentExperience, 100, toFullDuration, () => {
+                    experienceTextElements[index].innerText = '0%';
+                    barElement.style.width = '0%';
+                    updateTextPosition(barElement, experienceTextElements[index]);
+                    animateValue(experienceTextElements[index], 0, newExperience, duration);
+                    animateProgressBar(barElement, 0, newExperience, duration);
+                });
             });
         });
     } else {
-        animateValue(experienceTextElement, currentExperience, newExperience, duration, () => {
-            experienceTextElement.innerText = `${newExperience}%`;
-            updateTextPosition(); // Asegurar la posición correcta al final
+        // Si la nueva experiencia no es 0, animamos directamente desde la experiencia actual
+        // a la nueva experiencia, para cada barra.
+        experienceBarElements.forEach((barElement, index) => {
+            const currentExperience = currentExperiences[index];
+            animateValue(experienceTextElements[index], currentExperience, newExperience, duration, () => {
+                experienceTextElements[index].innerText = `${newExperience}%`;
+                updateTextPosition(barElement, experienceTextElements[index]);
+            });
+            animateProgressBar(barElement, currentExperience, newExperience, duration);
         });
-        animateProgressBar(experienceBarElement, currentExperience, newExperience, duration);
     }
 
-    const experienceTextElement1 = document.getElementById('experience-text');
+    const experienceTextElement1 = document.querySelector('.experience-text');
     const resultingExperience = parseInt(experienceTextElement1.innerText);
 
     console.log('resultingExperience: ', resultingExperience);
     console.log('data.nuevaExperiencia: ', window.nuevaExperiencia);
     if (!window.nuevaExperiencia === 0) {
         setTimeout(() => {
-            animateValue(experienceTextElement, 0, newExperience, duration, () => {
-                experienceTextElement.innerText = `${resultingExperience}%`;
-                updateTextPosition()
+            experienceBarElements.forEach((barElement, index) => {
+                animateValue(experienceTextElements[index], 0, newExperience, duration, () => {
+                    experienceTextElements[index].innerText = `${resultingExperience}%`;
+                    updateTextPosition(barElement, experienceTextElements[index]);
+                });
+                animateProgressBar(barElement, 0, resultingExperience, duration);
             });
-            animateProgressBar(experienceBarElement, 0, resultingExperience, duration);
         }, "2000");
     }
 }
 
 function updateLevel(newLevel) {
-    const levelValueElement = document.getElementById('level-value');
-    levelValueElement.innerText = newLevel;
+    const levelValueElements = document.querySelectorAll('.level-value');
+    levelValueElements.forEach(levelValueElement => {
+        levelValueElement.innerText = newLevel;
+    });
 }
 
-// Llama a updateTextPosition al cargar la página para posicionar el texto inicial
-document.addEventListener('DOMContentLoaded', updateTextPosition);
+// Llamamos a updateTextPosition al cargar la página para posicionar el texto inicial
+document.addEventListener('DOMContentLoaded', () => {
+    const experienceBarElements = document.querySelectorAll('.experience-bar');
+    const experienceTextElements = document.querySelectorAll('.experience-text');
+    experienceBarElements.forEach((barElement, textElement) => {
+        updateTextPosition(barElement, textElement);
+    });
+});
 
-// Llama a updateTextPosition si la ventana cambia de tamaño
-window.addEventListener('resize', updateTextPosition);
+// Llamamos a updateTextPosition si la ventana cambia de tamaño
+window.addEventListener('resize', () => {
+    const experienceBarElements = document.querySelectorAll('.experience-bar');
+    const experienceTextElements = document.querySelectorAll('.experience-text');
+     experienceBarElements.forEach((barElement, textElement) => {
+        updateTextPosition(barElement, textElement);
+    });
+});
 
 document.getElementById('addLogForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -112,8 +131,8 @@ document.getElementById('addLogForm').addEventListener('submit', function(event)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const currentLevelElement = document.getElementById('level-value');
-            const currentLevel = parseInt(currentLevelElement.innerText);
+            const currentLevelElements = document.querySelectorAll('.level-value');
+            const currentLevel = parseInt(currentLevelElements[0].innerText);
             const newExperience = data.nuevaExperiencia;
             window.nuevaExperiencia = newExperience;
 

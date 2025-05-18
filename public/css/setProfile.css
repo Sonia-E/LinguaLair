@@ -15,7 +15,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
-    width: 1000px; /* Adjust as needed */
+    width: 1000px;
     height: 700px;
     overflow: hidden;
 }
@@ -43,7 +43,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #a62666; /* Teal accent */
+    color: #a62666;
 }
 
 .logo h2 {
@@ -105,8 +105,8 @@ body {
     border-radius: 5px;
     font-size: 1em;
     box-sizing: border-box;
-    resize: none; /* Prevent resizing */
-    min-height: 100px; /* Set a reasonable minimum height */
+    resize: none;
+    min-height: 100px;
 }
 
 .form-group input[type="text"]:focus,
@@ -134,8 +134,8 @@ body {
 .radio-group {
     margin-top: 1em;
     display: flex;
-    justify-content: center; /* Alinea los pares de radio buttons horizontalmente */
-    gap: 50px; /* Espacio entre los pares */
+    justify-content: center; 
+    gap: 50px;
 }
 
 .radio-item {
@@ -144,7 +144,7 @@ body {
 }
 
 .radio-item input[type="radio"] {
-    margin-right: 5px; /* Espacio entre el radio button y el texto */
+    margin-right: 5px;
 }
 
 select {

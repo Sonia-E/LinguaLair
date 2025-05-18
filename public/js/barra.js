@@ -55,13 +55,13 @@ botonesLog.forEach(boton => {
     });
 });
 
-// Cerrar el popup al hacer clic en el overlay
+// Cerramos el popup al hacer clic en el overlay
 overlay.addEventListener("click", () => {
     popup.classList.remove("show");
     overlay.style.visibility = "hidden";
 });
 
-// Opcional: Cerrar el popup con un botón dentro
+// Cerramos el popup con el botón de dentro
 if (closeButton) {
     closeButton.addEventListener("click", () => {
         popup.classList.remove("show");
@@ -74,7 +74,7 @@ palanca.addEventListener("click",()=>{
     body.classList.toggle("dark-mode");
     circulo.classList.toggle("pulsado");
 
-    // Guardar el estado en localStorage
+    // Guardamos el estado en localStorage
     if (body.classList.contains("dark-mode")) {
         localStorage.setItem("darkMode", "enabled");
     } else {
@@ -92,24 +92,10 @@ cloud.addEventListener("click",()=>{
     const pieAreas = document.querySelectorAll('.pie-area');
     const miniBarraLateral = document.querySelector(".mini-barra-lateral");
     pieAreas.forEach(pieArea => {
-    if (pieArea && miniBarraLateral) {
-        pieArea.style.left = "13%";
-    } else if(pieArea && !miniBarraLateral) {
-        pieArea.style.left = "18.5%";
-    }
-});
+        if (pieArea && miniBarraLateral) {
+            pieArea.style.left = "13%";
+        } else if(pieArea && !miniBarraLateral) {
+            pieArea.style.left = "18.5%";
+        }
+    });
 })
-
-
-// function getFlagEmoji(countryCode) {
-//     return [...countryCode.toUpperCase()].map(char => 
-//         String.fromCodePoint(127397 + char.charCodeAt())
-//     ).reduce((a, b) => `${a}${b}`);
-//   }
-  
-//   const flagReplace = document.querySelectorAll('[data-flag]');
-//   flagReplace.forEach(s => s.innerHTML = getFlagEmoji(s.dataset.flag))
-{/* <span data-flag="GB"></span>
-<span data-flag="US"></span>
-<span data-flag="CA"></span>
-<span data-flag="FR"></span> */}

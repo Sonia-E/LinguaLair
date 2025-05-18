@@ -96,8 +96,8 @@
         $_SESSION['error_message'] = null;
         $array_usuario = $this->modelo->getUser($user_id);
         $usuario = $array_usuario[0][0];
-        // 1. Validación y saneamiento de los datos
 
+        // 1. Validación y saneamiento de los datos
         /**
          * Sanea una cadena de texto.
          *
@@ -141,13 +141,13 @@
             $bg_pic_path = $this->procesarImagen($files['bg_pic'], 'public/img/');
         }
 
-        // 3. Obtener los valores de los campos de checkbox y radio
+        // 3. Obtenemos los valores de los campos de checkbox y radio
         $fluent_visible = isset($post['fluent_visible']) ? 1 : 0;
         $on_hold_visible = isset($post['on_hold_visible']) ? 1 : 0;
         $dabbling_visible = isset($post['dabbling_visible']) ? 1 : 0;
         $future_visible = isset($post['future_visible']) ? 1 : 0;
 
-        // Modificar los valores basados en la visibilidad
+        // Modificamos los valores basados en la visibilidad
         $fluent = ($fluent_visible == 0) ? '' : $fluent;
         $on_hold = ($on_hold_visible == 0) ? '' : $on_hold;
         $dabbling = ($dabbling_visible == 0) ? '' : $dabbling;
@@ -176,7 +176,7 @@
             $public,
             $profile_pic_path, // Usar las rutas de los archivos
             $bg_pic_path,
-            null       // Agregado para gameRoles
+            null // Agregado para gameRoles
         );
 
         if ($actualizacionExitosa && $updateNickname) {
@@ -202,28 +202,28 @@
     function procesarImagen(array $file, string $destination_folder): string
     {
         $nombre_archivo = basename($file['name']);
-        $ruta_destino = $destination_folder . $nombre_archivo; //ojo con esto, puede sobreescribir archivos
+        $ruta_destino = $destination_folder . $nombre_archivo;
         $tipo_archivo = pathinfo($ruta_destino, PATHINFO_EXTENSION);
         $tamano_maximo = 2 * 1024 * 1024; // 10MB
 
-        // Validar tipo de archivo
+        // Validamos tipo de archivo
         $tipos_permitidos = array('jpg', 'jpeg', 'png', 'gif');
-        if (!in_array(strtolower($tipo_archivo), $tipos_permitidos)) { //convertimos a lowercase para evitar problemas
+        if (!in_array(strtolower($tipo_archivo), $tipos_permitidos)) { // Convertimos a lowercase para evitar problemas
             $_SESSION['error_message'] = "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
             header("Location: edit_profile");
             exit;
         }
 
-        // Validar tamaño del archivo
+        // Validamos tamaño del archivo
         if ($file['size'] > $tamano_maximo) {
             $_SESSION['error_message'] = "File size too large. Maximum size is 10MB.";
             header("Location: edit_profile");
             exit;
         }
 
-        // Mover el archivo a la ubicación deseada
+        // Movemos el archivo a la ubicación deseada
         if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
-            return $ruta_destino; // Retornar la ruta del archivo guardado
+            return $ruta_destino; // Retornamos la ruta del archivo guardado
         } else {
             $_SESSION['error_message'] = "Error uploading file.";
             header("Location: edit_profile");
@@ -238,13 +238,13 @@
         $other_user = $array_usuario[0][0];
         $logs = $array_usuario[0][1];
 
-        // Contar los logs del usuario
+        // Contamos los logs del usuario
         $other_totalLogs = $this->modelo->contarLogsUsuario($user_id);
 
-        // Obtener el total de horas de estudio
+        // Obtenemos el total de horas de estudio
         $other_totalHoras = $this->modelo->obtenerTotalHorasUsuario($user_id);
 
-        // Obtener el total de minutos para the title control
+        // Obtenemos el total de minutos para the title control
         $other_totalMinutosRaw = $this->modelo->obtenerTotalMinutosUsuario($user_id);
 
         $isFollowing = false;

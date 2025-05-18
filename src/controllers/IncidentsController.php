@@ -14,15 +14,13 @@ class IncidentsController {
         $user_email = $_POST['user_email'] ?? null;
         $incident_type = $_POST['incident_type'] ?? '';
         $description = $_POST['description'] ?? '';
-        $urgency = $_POST['urgency'] ?? 'medium'; // Valor por defecto si no se selecciona
-        $userId = $_SESSION['user_id'] ?? 0; // Asegúrate de obtener el ID del usuario desde el formulario.
+        $urgency = $_POST['urgency'] ?? 'medium';
+        $userId = $_SESSION['user_id'] ?? 0;
 
-        // 2. Validar los datos (¡Importante!)
+        // 2. Validar los datos
         if (empty($username) || empty($incident_type) || empty($description) || empty($userId)) {
             $error = "Por favor, complete todos los campos obligatorios.";
-            // Aquí deberías incluir la lógica para mostrar el error al usuario en la vista.
-            // Por ejemplo: include 'vista_formulario_incidencia.php'; // Pasa $error a la vista
-            return; // Detiene la ejecución después de mostrar el error.
+            return;
         }
 
         // 3. Insertar la incidencia usando el modelo

@@ -88,18 +88,16 @@
                         'country' => $event->country,
                         'event_time' => $event->event_time,
                         'long_description' => $event->long_description,
-                        'attending' => $isAttending // Añade el estado de asistencia a la respuesta
+                        'attending' => $isAttending
                     ];
     
                     header('Content-Type: application/json');
                     echo json_encode($response);
                 } else {
-                    // Manejar el caso en que no se encuentra el evento
                     http_response_code(404);
                     echo json_encode(['error' => 'Evento no encontrado']);
                 }
             } else {
-                // Manejar el caso en que no se proporciona un ID válido
                 http_response_code(400);
                 echo json_encode(['error' => 'ID de evento no válido']);
             }

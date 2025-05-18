@@ -36,7 +36,7 @@
             $userData = $this->modelo->getUser($userId);
     
             if ($userData) {
-                $userLanguages = $this->modelo->getUserLanguages($userId); // Obtener los idiomas del usuario
+                $userLanguages = $this->modelo->getUserLanguages($userId); // Obtenemos los idiomas del usuario
     
                 $estadisticasPorIdioma = [];
             if ($userLanguages) {

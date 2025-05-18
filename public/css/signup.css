@@ -15,7 +15,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
-    width: 500px; /* Adjust as needed */
+    width: 500px;
     min-height: 750px;
     overflow: hidden;
 }
@@ -34,7 +34,7 @@ body {
     align-items: center;
     margin-top: -20px;
     margin-bottom: -5px;
-    color: #a62666; /* Teal accent */
+    color: #a62666;
 }
 
 .logo h2 {
@@ -119,30 +119,6 @@ body {
 
 .separator span {
     padding: 0 10px;
-}
-
-.google-sign-in {
-    background-color: #fff;
-    color: #37474f;
-    padding: 10px 20px;
-    border: 1px solid #cfd8dc;
-    border-radius: 5px;
-    font-size: 1em;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: border-color 0.3s ease;
-}
-
-.google-sign-in i {
-    color: #db4437; /* Google red */
-    margin-right: 10px;
-}
-
-.google-sign-in:hover {
-    border-color: #26a69a;
 }
 
 .create-account {

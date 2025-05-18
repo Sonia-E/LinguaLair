@@ -78,10 +78,9 @@
     
                 if ($resultado && $resultado->num_rows > 0) {
                     $usuario = $resultado->fetch_object();
-                    $logsUsuario = $this->getLogs($id); // Usamos el método de la clase
+                    $logsUsuario = $this->getLogs($id);
                     $datos_usuario[] = array($usuario, $logsUsuario);
                     return $datos_usuario;
-                    // return [$usuario, $logsUsuario]; // Devolvemos un array con usuario y logs
                 } else {
                     return null;
                 }
@@ -107,9 +106,9 @@
                 $resultado = $stmt->get_result();
                 if ($row = $resultado->fetch_assoc()) {
                     $languagesString = $row['languages'];
-                    // Dividir la cadena de idiomas por la coma y eliminar espacios en blanco
+                    // Dividimos la cadena de idiomas por la coma y eliminar espacios en blanco
                     $languagesArray = array_map('trim', explode(',', $languagesString));
-                    // Filtrar para eliminar cadenas vacías que puedan resultar de comas múltiples
+                    // Filtramos para eliminar cadenas vacías que puedan resultar de comas múltiples
                     return array_filter(array_unique($languagesArray));
                 }
                 $stmt->close();
@@ -135,7 +134,7 @@
                     $fila = $resultado->fetch_assoc();
                     $enum_definition = $fila['Type'];
         
-                    // Extraer los valores del ENUM
+                    // Extraemos los valores del ENUM
                     preg_match('/enum\((.*?)\)/i', $enum_definition, $matches);
         
                     if (isset($matches[1])) {
@@ -148,7 +147,7 @@
                 return null;
             }
         
-            return []; // Devolver un array vacío si no se encuentra la definición del ENUM
+            return []; // Devolvemos un array vacío si no se encuentra la definición del ENUM
         }
     
         /**
@@ -171,7 +170,7 @@
                 $consulta .= " WHERE logs.user_id = ?";
             }
 
-            $consulta .= " ORDER BY logs.post_date DESC"; // Add the ORDER BY clause
+            $consulta .= " ORDER BY logs.post_date DESC";
 
             $stmt = $this->conexion->prepare($consulta);
 
@@ -207,7 +206,7 @@
                 return [];
             }
     
-            // Calcular la duración total y la duración por idioma
+            // Calculamos la duración total y la duración por idioma
             foreach ($logs as $log) {
                 $language = $log->language;
                 $duration = intval($log->duration); // Asegurarse de que la duración sea un entero
@@ -236,39 +235,6 @@
             $userLogs = $this->getLogs($user_id);
             return $this->calculateLanguagePercentagesByDuration($userLogs);
         }
-
-        // Calculo de porcentajes por número de logs totates: borrar si al final no hago nada con esto:
-        // a lo mejor puedo reutilizarlo para sacar los logs totales de ese idioma para su pestaña específica
-        // public function calculateLanguagePercentages(array $logs) {
-        //     $languageCounts = [];
-        //     $totalLogs = count($logs);
-    
-        //     if ($totalLogs === 0) {
-        //         return $languageCounts; // Return empty array if no logs
-        //     }
-    
-        //     foreach ($logs as $log) {
-        //         $language = $log->language;
-        //         if (isset($languageCounts[$language])) {
-        //             $languageCounts[$language]++;
-        //         } else {
-        //             $languageCounts[$language] = 1;
-        //         }
-        //     }
-    
-        //     $languagePercentages = [];
-        //     foreach ($languageCounts as $language => $count) {
-        //         $percentage = ($count / $totalLogs) * 100;
-        //         $languagePercentages[$language] = round($percentage, 2); // Round to 2 decimal places
-        //     }
-    
-        //     return $languagePercentages;
-        // }
-    
-        // public function getLanguagePercentagesForUser($user_id) {
-        //     $userLogs = $this->getLogs($user_id);
-        //     return $this->calculateLanguagePercentages($userLogs);
-        // }
     
         public function addLog($user_id, $description, $language, $type, $duration, $log_date) {
             if (!$this->conexion) return false;
@@ -345,7 +311,7 @@
                 if ($stmt->affected_rows > 0) {
                     $stmt->close();
                     $this->updateGameRole($user_id);
-                    //Obtener el nivel actualizado para retornarlo
+                    //Obtenemos el nivel actualizado para retornarlo
                     $query = "SELECT level FROM profile WHERE user_id = ?";
                     $stmt = $this->conexion->prepare($query);
                     $stmt->bind_param("i", $user_id);
@@ -367,7 +333,7 @@
         public function getExcessExperience($user_id, $experiencia_ganada) {
             if (!$this->conexion) return false;
 
-            // Obtener la experiencia actual del usuario
+            // Obtenemos la experiencia actual del usuario
             $query = "SELECT experience FROM profile WHERE user_id = ?";
             $stmt = $this->conexion->prepare($query);
             if (!$stmt) {
@@ -388,11 +354,11 @@
             $experiencia_actual = $row['experience'];
             $nueva_experiencia = $experiencia_actual + $experiencia_ganada;
 
-            // Calcular el excedente de experiencia
+            // Calculamos el excedente de experiencia
             if ($nueva_experiencia >= 100) {
                 $exceso_experiencia = $nueva_experiencia - 100;
             } else {
-                $exceso_experiencia = 0; // Importante: manejar el caso de no excedente
+                $exceso_experiencia = 0;
             }
 
             return $exceso_experiencia;
@@ -411,7 +377,7 @@
             if ($row) {
                 return $row['game_roles'];
             } else {
-                return null; // O un valor por defecto, como 'No Role'
+                return null;
             }
         }
 
@@ -445,7 +411,7 @@
         private function updateGameRole($user_id) {
             if (!$this->conexion) return false;
 
-            // Primero, obtener el nivel actual del usuario
+            // Primero, obtenemos el nivel actual del usuario
             $query = "SELECT level FROM profile WHERE user_id = ?";
             $stmt = $this->conexion->prepare($query);
 
@@ -467,11 +433,11 @@
             $nivel_actual = $row['level'];
 
 
-            // Calcular el nuevo rol basado en el nivel
+            // Calculamos el nuevo rol basado en el nivel
             $nuevo_rol = $this->calcularRolPorNivel($nivel_actual);
 
             if ($nuevo_rol) {
-                // Actualizar el rol del usuario en la tabla profile
+                // Actualizamos el rol del usuario en la tabla profile
                 $update_query = "UPDATE profile SET game_roles = ? WHERE user_id = ?";
                 $update_stmt = $this->conexion->prepare($update_query);
 
@@ -482,11 +448,9 @@
 
                 $update_stmt->bind_param("si", $nuevo_rol, $user_id);
                 if ($update_stmt->execute()) {
-                    // echo "Rol de usuario actualizado a: " . $nuevo_rol . "<br>";
                     $update_stmt->close();
                     return true;
                 } else {
-                    // echo "Error al actualizar el rol del usuario: " . $update_stmt->error . "<br>";
                     $update_stmt->close();
                     return false;
                 }
@@ -498,7 +462,7 @@
             // Mapeo de niveles a roles (ajusta esto según tus necesidades)
             $roles = [
                 1 => 'Novice',
-                6 => 'Apprentice',     // Cambia de 5 a 6 para que sea *después* de los primeros 5 niveles
+                6 => 'Apprentice',
                 11 => 'Amateur',
                 16 => 'Journeyman',
                 21 => 'Adept',
@@ -516,7 +480,7 @@
                 if ($nivel >= $nivel_rol) {
                     $rol_asignado = $nombre_rol;
                 } else {
-                    break; // Importante: deja de buscar cuando encuentres un nivel más alto
+                    break; // Deja de buscar cuando encuentres un nivel más alto
                 }
             }
             return $rol_asignado;
@@ -691,7 +655,7 @@
             if (!$this->conexion) return false;
     
             $consulta = "INSERT INTO profile (user_id, bio, native_lang, languages, is_public, profile_pic, bg_pic, game_roles) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //cambiar active a public
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conexion->prepare($consulta);
     
             if ($stmt) {
@@ -847,21 +811,18 @@
             if ($stmt) {
                 $stmt->bind_param($types, ...$params);
                 $stmt->execute();
-                $error = $stmt->error; // Capturar el error antes de cerrar la sentencia
+                $error = $stmt->error;
                 $stmt->close();
-                if ($error) { // Comprobar si hubo un error
+                if ($error) {
                     echo "Error al actualizar el perfil: " . $error;
-                    return false; // Devolver false en caso de error
+                    return false;
                 }
-                return true; // Devolver true si la ejecución fue exitosa, incluso si no se modificaron filas
+                return true; // Devolvemos true si la ejecución fue exitosa, incluso si no se modificaron filas
             } else {
                 echo "Error al preparar la consulta para actualizar el perfil: " . $this->conexion->error;
                 return false;
             }
         }
-
-
-
 
         public function findLogByUsernameAndId($username, $logId) {
             if (!$this->conexion) {
@@ -883,7 +844,7 @@
                 $stmt->close();
                 return $log;
             } else {
-                return false; // Error al preparar la consulta
+                return false;
             }
         }
 
@@ -899,9 +860,9 @@
                 $stmt->bind_param("i", $logId);
                 $result = $stmt->execute();
                 $stmt->close();
-                return $result; // Retorna true en caso de éxito, false en caso de error
+                return $result;
             } else {
-                return false; // Error al preparar la consulta
+                return false;
             }
         }
     

@@ -73,55 +73,6 @@
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <!-- Language JSON list -->
-        <script>
-            const nativeLanguage1 = document.getElementById('language1');
-            const nativeLanguage2 = document.getElementById('language2');
-            const learningLanguage1 = document.getElementById('language3');
-            const learningLanguage2 = document.getElementById('language4');
-            const learningLanguage3 = document.getElementById('language5');
-            const gistUrl = 'https://gist.githubusercontent.com/joshuabaker/d2775b5ada7d1601bcd7b31cb4081981/raw/languages.json'; // Reemplaza con la URL RAW de tu Gist
-
-            fetch(gistUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(languageData => {
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = ''; // Valor vacío
-                    defaultOption.textContent = 'Select a language (optional)'; // Texto descriptivo
-                    defaultOption.selected = true; // Hacer que esta opción esté seleccionada por defecto
-
-                    // Añadir la opción por defecto a los selects de idiomas nativos
-                    nativeLanguage1.appendChild(defaultOption.cloneNode(true));
-                    nativeLanguage2.appendChild(defaultOption.cloneNode(true));
-
-                    // Añadir la opción por defecto a los selects de idiomas aprendiendo
-                    learningLanguage1.appendChild(defaultOption.cloneNode(true));
-                    learningLanguage2.appendChild(defaultOption.cloneNode(true));
-                    learningLanguage3.appendChild(defaultOption.cloneNode(true));
-
-                    languageData.forEach(language => {
-                        const option = document.createElement('option');
-                        option.value = language.name;
-                        option.textContent = `${language.name} (${language.native})`;
-
-                        // Añadir las opciones de idioma a los selects de idiomas nativos
-                        nativeLanguage1.appendChild(option.cloneNode(true));
-                        nativeLanguage2.appendChild(option.cloneNode(true));
-
-                        // Añadir las opciones de idioma a los selects de idiomas aprendiendo
-                        learningLanguage1.appendChild(option.cloneNode(true));
-                        learningLanguage2.appendChild(option.cloneNode(true));
-                        learningLanguage3.appendChild(option.cloneNode(true));
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching or parsing language data:', error);
-                    // Puedes mostrar un mensaje de error al usuario aquí si lo deseas
-                });
-        </script>
+        <script type="text/javascript" src="public/js/profile.js"></script>
     </body>
 </html>

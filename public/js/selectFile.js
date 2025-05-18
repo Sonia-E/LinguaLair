@@ -4,6 +4,8 @@
 	
 	A JavaScript function which lets you customize the browse button and its selection text. 
 	This function simply emulates the browse button using an ordinary input button as a trigger.
+
+	--------------- Modified by Sonia-E to allow multiple files saving in the same form
 */
 
 const selectFile = function() {
@@ -47,10 +49,10 @@ const selectFile = function() {
 
 	selectFile.prototype.simulate = () => {
 		if (this.choose != null) {
-			let chooseButton = document.getElementById(this.choose + "_button"); //find button
-			let choose = document.getElementById(this.choose); // find input
-			if (typeof choose != 'undefined' && chooseButton ) { //check if chooseButton exists
-				chooseButton.addEventListener('click', () => choose.click()); // add click
+			let chooseButton = document.getElementById(this.choose + "_button");
+			let choose = document.getElementById(this.choose);
+			if (typeof choose != 'undefined' && chooseButton ) {
+				chooseButton.addEventListener('click', () => choose.click());
 			} else {
 				this.msg('Could not find element ' + this.choose);
 			}
@@ -60,7 +62,7 @@ const selectFile = function() {
 	}
 };
 
-window.onload = function() { //enclose the script in window.onload
+window.onload = function() {
 	var getProfile = new selectFile;
 	getProfile.targets('profile_pic', 'selected_profile');
 	getProfile.simulate();

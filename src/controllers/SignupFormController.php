@@ -5,8 +5,8 @@
         private $modelo;
         private $errores = [];
 
-        public function __construct($modelo) { // Accept the $modelo instance
-            $this->modelo = $modelo; // Assign the passed $modelo to the class property
+        public function __construct($modelo) {
+            $this->modelo = $modelo;
         }
 
     
@@ -56,7 +56,7 @@
         $email = $_POST["email"] ?? '';
         $country = $_POST["country"] ?? '';
 
-        // Llamar al método de validación
+        // Llamamos al método de validación
         if ($this->check_data($username, $passwordNoHash, $email, $confirm_password)) {
             // Si los datos son válidos, intentar registrar al usuario
             $passwordHash = password_hash($passwordNoHash, PASSWORD_DEFAULT);

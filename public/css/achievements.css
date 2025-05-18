@@ -1,19 +1,19 @@
 .dashboard {
     height: 74.5vh;
     display: flex;
-    justify-content: center; /* Mantén esto si lo necesitas */
+    justify-content: center;
     align-items: stretch;
 }
 .dashboard .achievements {
     margin: 10px;
     border-radius: 10px;
-    min-height: 71vh; /* O un valor similar */
+    min-height: 71vh;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
     display: flex;
-    flex-direction: column; /* Para que los elementos de la lista se apilen verticalmente */
-    align-items: center; /* Si quieres centrar los elementos de la lista horizontalmente */
+    flex-direction: column;
+    align-items: center;
     padding: 30px;
     overflow-y: auto;
     outline: var(--border);
@@ -92,4 +92,9 @@
     font-weight: 600;
     font-size: 20px;
     border-radius: 10px;
+}
+
+.no-notifs {
+    text-align: center;
+    color: var(--color-texto);
 }

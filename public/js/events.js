@@ -222,7 +222,7 @@ function search(texto) {
             // Comprobamos si se han recibido los datos y si la comunicación es correcta
             if (request.readyState === 4 && request.status === 200) {
                 try {
-                    // Intentamos parsear la respuesta como JSON
+                    // Parseamos la respuesta como JSON
                     var resultados = JSON.parse(request.responseText);
                     var lista = "";
 
@@ -276,7 +276,7 @@ function search(texto) {
                     // Introducimos los resultados en el div de id "resultados"
                     resultadosDiv.innerHTML = lista;
 
-                    // Animación de aparición secuencial (si la necesitas)
+                    // Animación de aparición secuencial
                     var elementos = document.querySelectorAll('.efecto');
                     elementos.forEach(function (elemento, index) {
                         setTimeout(function () {

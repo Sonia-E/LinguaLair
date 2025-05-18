@@ -16,7 +16,7 @@ Además, ¡puedes conectar con otros amantes de otros idiomas para crear comunid
 ## Qué necesitas para empezar
 
 - XAMPP con PHP y MySQL: https://www.apachefriends.org/download.html
-- Creación de la base de datos con el script <code>bd.php</code>: <span style='color: red;'>FALTA ESTOOOOOOOOOOO</span>
+- Crear la la base de datos con el script <code>bd.php</code>: Explicado en el apartado "[Base de datos LinguaLair](#base-de-datos)"
 - Composer: manejador de paquetes para PHP: https://getcomposer.org/download/
 - Framework PHPUnit: para la realización de las pruebas unitarias:
 
@@ -30,9 +30,46 @@ Además, ¡puedes conectar con otros amantes de otros idiomas para crear comunid
     composer require phpmailer/phpmailer
     ```
 
-Una vez instalado todo e iniciar los módulos de Apache y MySQL en XAMPP, solo tienes que introducir la siguiente dirección en tu navegador: <code>http://localhost/LinguaLair/</code>. Puedes usar cualquier navegador, aunque el proyecto se realizó usando Google Chrome y Microsoft Edge como navegadores principales para su visualización.
+## Base de datos LinguaLair
+
+### Usuario
+
+El usuario utilizado en phpMyAdmin es el usuario root:
+
+```bash
+Usuario: root, Servidor: localhost, Contraseña: [no tiene]
+```
+Puedes usar el usuario que desees, pero tendrás que modificar dichos datos de conexión en 3 archivos diferentes del proyecto:
+
+1. <code>bd.php</code>: Debes modificar lo siguiente al comienzo del código:
+```php
+<?php
+// Creamos la conexión
+if ($mysqli = new mysqli("localhost", "root", "")) {
+```
+2. <code>index.php</code>
+3. <code>feed.php</code>
+
+Para estos 2 archivos, deberás buscar para ambos en el principio del código la siguiente declaración de variables y modificarlas según las credenciales que escojas; no cambies el nombre de la base de datos ("LinguaLair"):
+
+```php
+// Conection variables
+$server = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'LinguaLair';
+```
+
+### Dos formas de crear la base de datos
+
+1. <strong>Creación automática:</strong> En <code>bd.php</code> al principio hay una línea de código que comprueba si ya existe la base de datos <code>LinguaLair</code>: si ya existe, no volverá a crearla y hacer las inserciones de datos; si no existe, sí lo hará. Esto es posible porque en <code>index.php</code>, el controlador frontal, importa <code>bd.php</code> antes del enrutamiento. Por ello, basta con ir a la siguiente dirección de la aplicación web y así se creará automáticamente la base de datos: <code>http://localhost/LinguaLair/</code>
+
+2. <strong>Creación manual:</strong> Si por el contrario, se desea crear manualmente, escribe <code>http://localhost/LinguaLair/bd/bd.php</code> en tu navegador y verás los mensajes de creación de la base de datos.
+
 
 ## Cómo usar
+
+- Aplicación web LinguaLair: Una vez instalado todo e iniciar los módulos de Apache y MySQL en XAMPP, solo tienes que introducir la siguiente dirección en tu navegador: <code>http://localhost/LinguaLair/</code>. Puedes usar cualquier navegador, aunque el proyecto se realizó usando Google Chrome y Microsoft Edge como navegadores principales para su visualización.
 
 - Realizar pruebas unitarias:
     - Sin detalles:

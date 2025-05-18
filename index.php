@@ -5,21 +5,30 @@
     // Composer's autoloading
     require __DIR__ . '/vendor/autoload.php';
 
+    // Importamos bd.php para que compruebe si ya existe la bd y si no existe, la crea
+    require_once 'bd/bd.php';
+    // Importamos librería de la estructura
     require_once './libreria/ti.php';
+
+    // Conection variables
+    $server = 'localhost';
+    $user = 'root';
+    $password = '';
+    $database = 'LinguaLair';
 
     // Model import
     use Sonia\LinguaLair\Models\modelo;
-    $modelo = new Modelo("localhost", "foc", "foc", 'LinguaLair');
+    $modelo = new Modelo($server, $user, $password, $database);
     use Sonia\LinguaLair\Models\PermissionsModel;
-    $PermissionsModel = new PermissionsModel("localhost", "foc", "foc", 'LinguaLair');
+    $PermissionsModel = new PermissionsModel($server, $user, $password, $database);
     use Sonia\LinguaLair\Models\StatsModel;
-    $StatsModel = new StatsModel("localhost", "foc", "foc", 'LinguaLair', $modelo);
+    $StatsModel = new StatsModel($server, $user, $password, $database, $modelo);
     use Sonia\LinguaLair\Models\NotificationModel;
-    $NotificationModel = new NotificationModel("localhost", "foc", "foc", 'LinguaLair');
+    $NotificationModel = new NotificationModel($server, $user, $password, $database);
     use Sonia\LinguaLair\Models\SocialModel;
-    $SocialModel = new SocialModel("localhost", "foc", "foc", 'LinguaLair', $NotificationModel, $modelo);
+    $SocialModel = new SocialModel($server, $user, $password, $database, $NotificationModel, $modelo);
     use Sonia\LinguaLair\Models\IncidentsModel;
-    $IncidentsModel = new IncidentsModel("localhost", "foc", "foc", 'LinguaLair');
+    $IncidentsModel = new IncidentsModel($server, $user, $password, $database);
 
     // Controllers imports
     require_once 'src/controllers/controladores.php';

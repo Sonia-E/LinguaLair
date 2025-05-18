@@ -16,7 +16,7 @@ And what's more, you can connect with other language lovers to create a thriving
 ## Getting started
 
 - XAMPP with PHP and MySQL: https://www.apachefriends.org/download.html
-- Database creation with the <code>bd.php</code> script: <span style='color: red;'>FALTA ESTOOOOOOOOOOO</span>
+- Database creation with the <code>bd.php</code> script: Explanation at "[LinguaLair Database](#base-de-datos)"
 - Composer: Dependency manager for PHP: https://getcomposer.org/download/
 - PHPUnit Framework: Used to perform unit tests:
 
@@ -30,10 +30,45 @@ And what's more, you can connect with other language lovers to create a thriving
     composer require phpmailer/phpmailer
     ```
 
-Once everything is installed and the Apache and MySQL modules in XAMPP are running, you just need to go to the following address in your browser: <code>http://localhost/LinguaLair/</code>. You can use any preferred browser, but the application was developed using Google Chrome and Microsoft Edge as the main browsers for visualization.
+## LinguaLair Database
+
+### User
+
+The user used for phpMyAdmin is the root user:
+
+```bash
+User: root, Server: localhost, Password: [no password]
+```
+You may use any user you desire, but be aware that if you do so, you will have to modify these connection credentials in 3 different files from the project:
+
+1. <code>bd.php</code>: At the beginning of the code, modify the following:
+```php
+<?php
+// Creamos la conexión
+if ($mysqli = new mysqli("localhost", "root", "")) {
+```
+2. <code>index.php</code>
+3. <code>feed.php</code>
+
+As for these 2 files, you have to find at the beginning of both codes the following declaration of variables and modify them according to the credentials of your choosing. Just don't change the database name ("LinguaLair"):
+
+```php
+// Conection variables
+$server = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'LinguaLair';
+```
+
+### Database creation: two methods
+
+1. <strong>Automatic Creation:</strong> At the  beginning of <code>bd.php</code> there's a line of code that checks if the <code>LinguaLair</code> database already exists or not: if it already does, it won't be created again and no data insertions will be done to it; if it doesn't exist, it will be created as well as the data insertions will be done. This is possible because in <code>index.php</code>, the front controller, <code>bd.php</code> is imported before the path routing. This way, simply go to the following application address and the databse will automatically be created: <code>http://localhost/LinguaLair/</code>
+
+2. <strong>Manual Creation:</strong> If instead you want to do it yourself, just go to <code>http://localhost/LinguaLair/bd/bd.php</code> in your browser and you will see the database creation messages.
 
 ## Usage
 
+- Once everything is installed and the Apache and MySQL modules in XAMPP are running, you just need to go to the following address in your browser: <code>http://localhost/LinguaLair/</code>. You can use any preferred browser, but the application was developed using Google Chrome and Microsoft Edge as the main browsers for visualization.
 - How to perform unit tests:
     - Not in detail:
 

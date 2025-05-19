@@ -129,11 +129,11 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                     echo "Inserción para tabla role_permissions realizada con éxito";
                 } else {
                     echo "<br>";
-                    echo "Error insertando datos para tabla role_permissions: " . $mysqli->error; // Importante mostrar el error
+                    echo "Error insertando datos para tabla role_permissions: " . $mysqli->error;
                 }
             } else {
                 echo "<br>";
-                echo "Error creando la tabla role_permissions: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla role_permissions: " . $mysqli->error;
             }
 
             //#######################################
@@ -199,9 +199,9 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 echo "Tabla user creada con éxito";
 
                 //Insertamos datos
-                $sql1 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','hola@gmail', 'Spain', '2')";
-                $sql2 = "INSERT INTO user (username, password,  email, country) VALUES ('Sauron','bu','hola1@gmail', 'Mordor')";
-                $sql3 = "INSERT INTO user (username, password,  email, country) VALUES ('Kakashi','bu','hola2@gmail', 'Konoha')";
+                $sql1 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','chieloveslangs@gmail', 'Spain', '2')";
+                $sql2 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Sauron', 'Saurooon', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','sauron@gmail', 'United Kingdom', '1')";
+                $sql3 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Kakashi', 'best boi', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','kakashi@gmail', 'Japan', '3')";
                 
                 if ($mysqli->query($sql1) && $mysqli->query($sql2) && $mysqli->query($sql3)) {
                     echo "<br>";
@@ -290,11 +290,12 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
 
                 //Insertamos datos
                 $sql1 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, num_followers, num_following, is_public, profile_pic, bg_pic) 
-                VALUES ('1', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, '1', '1', TRUE, 'public/img/Qi\'ra avatar.jpg', 'public/img/WWX1.jpg')";
-                $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
-                VALUES ('2', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
-                $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, is_public) 
-                VALUES ('3', 'Mi bio', 'Spanish', 'Japanese, Chinese', '5', '10', FALSE, TRUE)";
+                VALUES ('1', '31 | Coding student | Translator (EN-ES), singer & wannabe polyglot and music producer |', 
+                'Spanish', 'Japanese, Chinese', '5', '10', FALSE, '1', '1', TRUE, 'public/img/Qi\'ra avatar.jpg', 'public/img/WWX1.jpg')";
+                $sql2 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, num_followers, num_following, is_public, profile_pic, bg_pic) 
+                VALUES ('2', 'One ring to rule them all', 'English', 'Japanese, Chinese', '1', '20', FALSE, '1', '1', FALSE, 'public/img/pic_placeholder.png', 'public/img/bg_pic_placeholder.png')";
+                $sql3 = "INSERT INTO profile (user_id, bio, native_lang, languages, level, experience, dark_mode, num_followers, num_following, is_public, profile_pic, bg_pic) 
+                VALUES ('3', 'こんにちは、皆さん！ Hola a todos!', 'Japanese', 'Spanish, Chinese', '1', '10', FALSE, '1', '1', TRUE, 'public/img/pic_placeholder.png', 'public/img/bg_pic_placeholder.png')";
                 
                 if ($mysqli->query($sql1) === TRUE && $mysqli->query($sql2) === TRUE && $mysqli->query($sql3) === TRUE) {
                     echo "<br>";
@@ -334,17 +335,27 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 $sql2 = "INSERT INTO logs (user_id, description, language, type, duration, log_date, post_date)
                 VALUES ('1', 'Fusce metus elit, dignissim vitae malesuada vehicula, scelerisque viverra ligula. Suspendisse facilisis ultricies lacus eget varius.',
                 'Japanese', 'grammar', '15', '2025-03-31', '2024-10-27 15:30:00')";
+
+                // Insertamos el primer registro (corregido)
+                $sql3 = "INSERT INTO logs (user_id, description, language, type, duration, log_date, post_date)
+                VALUES ('2', 'Fusce metus elit, dignissim vitae malesuada vehicula, scelerisque viverra ligula. Suspendisse facilisis ultricies lacus eget varius. Fusce lacus nulla, porta vel tempus eu, semper sit amet felis. Aenean vitae nunc eget turpis tristique sodales a at nunc. Suspendisse quis orci nec leo euismod vestibulum. Ut luctus leo.',
+                'Chinese', 'vocabulary', '30', '2025-03-31', '2025-04-01 00:00:00')";
+            
+                // Insertamos el segundo registro
+                $sql4 = "INSERT INTO logs (user_id, description, language, type, duration, log_date, post_date)
+                VALUES ('3', 'Fusce metus elit, dignissim vitae malesuada vehicula, scelerisque viverra ligula. Suspendisse facilisis ultricies lacus eget varius.',
+                'Spanish', 'grammar', '15', '2025-03-31', '2024-10-27 15:30:00')";
             
                 if ($mysqli->query($sql1) === TRUE && $mysqli->query($sql2) === TRUE) {
                     echo "<br>";
                     echo "Inserción para tabla logs realizada con éxito";
                 } else {
                     echo "<br>";
-                    echo "Error insertando datos para tabla logs: " . $mysqli->error; // Importante mostrar el error
+                    echo "Error insertando datos para tabla logs: " . $mysqli->error;
                 }
             } else {
                 echo "<br>";
-                echo "Error creando la tabla logs: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla logs: " . $mysqli->error;
             }
 
             //#######################################
@@ -429,7 +440,7 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 }
             } else {
                 echo "<br>";
-                echo "Error creando la tabla events: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla events: " . $mysqli->error;
             }
 
             //---------------------------------------------------------------RELATION TABLES
@@ -516,7 +527,7 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 echo "Tabla booking creada con éxito";
             } else {
                 echo "<br>";
-                echo "Error creando la tabla booking: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla booking: " . $mysqli->error;
             }
 
             //#######################################
@@ -540,7 +551,7 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 echo "Tabla notifications creada con éxito";
             } else {
                 echo "<br>";
-                echo "Error creando la tabla notifications: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla notifications: " . $mysqli->error;
             }
 
             //#######################################
@@ -573,7 +584,7 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 echo "Tabla incidents creada con éxito";
             } else {
                 echo "<br>";
-                echo "Error creando la tabla incidents: " . $mysqli->error; // Importante mostrar el error
+                echo "Error creando la tabla incidents: " . $mysqli->error;
             }
 
         } 

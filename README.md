@@ -94,6 +94,16 @@ $database = 'LinguaLair';
 
 2. <strong>Manual Creation:</strong> If instead you want to do it yourself, just go to <code>http://localhost/LinguaLair/bd/bd.php</code> in your browser and you will see the database creation messages.
 
+### Users created by the database for testing
+
+You can signup as a new user of your choosing, but you can also use one of our three sample users with a different assigned role each:
+
+1.	<strong><code>chieloveslangs</code>:</strong> Main user with the <code>ADMIN</code> role and public profile
+2.	<strong><code>Sauron</code>:</strong> user with private profile and the <code>STANDARD</code> role: role for common users and newcomers
+3.	<strong><code>Kakashi</code>:</strong> user with the <code>PREMIUM</code> role and public role
+
+Thanks to these sample users, you can test each role's unique functionalities. If you want to use any of them, simply add these usernames and the access password <code>contrasenia</code> in the login process.
+
 ## Usage
 
 - Once everything is installed and the Apache and MySQL modules in XAMPP are running, you just need to go to the following address in your browser: <code>http://localhost/LinguaLair/</code>. You can use any preferred browser, but the application was developed using Google Chrome and Microsoft Edge as the main browsers for visualization.
@@ -113,3 +123,7 @@ $database = 'LinguaLair';
         ```bash
         .\vendor\bin\phpunit --filter testProcesarFormularioSuccess tests\unit\SignupFormControllerTest.php
         ```
+If you have any more doubts, you can check here some user manuals:
+
+- [Quick Guide](https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Gu%C3%ADa%20R%C3%A1pida.pdf)
+- [User Manual](https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Manual%20de%20usuario.pdf)

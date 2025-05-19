@@ -94,6 +94,16 @@ $database = 'LinguaLair';
 
 2. <strong>Creación manual:</strong> Si por el contrario, se desea crear manualmente, escribe <code>http://localhost/LinguaLair/bd/bd.php</code> en tu navegador y verás los mensajes de creación de la base de datos.
 
+### Usuarios de la base de datos para pruebas
+
+Puedes elegir registrarte con el usuario que desees, pero también se crean tres usuarios de ejemplo cada uno con un rol diferente:
+
+1.	<strong><code>chieloveslangs</code>:</strong> usuario principal con el rol <code>ADMIN</code> y perfil público
+2.	<strong><code>Sauron</code>:</strong> usuario con el perfil privado y el rol <code>STANDARD</code>: rol para usuarios normales y recién registrados
+3.	<strong><code>Kakashi</code>:</strong> usuario con el rol <code>PREMIUM</code> y perfil público
+
+De esta forma puedes probar las funcionalidades para cada tipo de usuario. Para usar cualquiera de ellos, basta con poner estos nombres de usuario y la contraseña de acceso <code>contrasenia</code> en el inicio de sesión.
+
 
 ## Cómo usar
 
@@ -115,3 +125,8 @@ $database = 'LinguaLair';
         ```bash
         .\vendor\bin\phpunit --filter testProcesarFormularioSuccess  tests\unit\SignupFormControllerTest.php 
         ```
+
+Si tienes más dudas, aquí puedes consultar los siguientes manuales:
+
+- [Guía Rápida](https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Gu%C3%ADa%20R%C3%A1pida.pdf)
+- [Manual de usuario](https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Manual%20de%20usuario.pdf)

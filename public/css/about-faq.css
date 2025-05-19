@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 .dashboard {
-    overflow: hidden;
+    /* Añadimos scrollbar */
+    overflow-y: auto;
+    /* Eliminamos scrollbar horizontal */
+    overflow-x: hidden;
 }
 .container {
     max-width: 800px;
@@ -98,4 +101,14 @@
     display: block;
     opacity: 1;
     height: auto;
+}
+
+.faq-answer a {
+    text-decoration: none;
+    color: var(--highlight);
+}
+
+.faq-answer a:hover {
+    color: var(--pp-btn-hover);
+    cursor: pointer;
 }

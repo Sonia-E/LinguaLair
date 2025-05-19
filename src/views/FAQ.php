@@ -47,6 +47,19 @@
                 LinguaLair offers both free and paid plans. The free plan gives you access to basic features, while the paid plans offer additional features.
             </div>
         </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                Do you need more help?
+            </div>
+            <div class="faq-answer">
+                Check the following documents to help you start this journey with Lingualair:
+                <ul>
+                    <li><a href="https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Gu%C3%ADa%20R%C3%A1pida.pdf">Quick Guide</a>: Get easily started!</li>
+                    <li><a href="https://github.com/Sonia-E/LinguaLair/blob/main/manuales/Manual%20de%20usuario.pdf">User Manual</a>: Learn everything in detail about LinguaLair!</li>
+                </ul>
+                Is it still not clear enough? You can contact us <a href="contact">here</a>!
+            </div>
+        </div>
     </div>
     <script>
         const faqItems = document.querySelectorAll('.faq-item');

@@ -4,7 +4,8 @@ include 'src/views/base.php';
 
 ?>
 <?php startblock('contenido') ?>
-    <div class="dashboard">
+<link rel="stylesheet" type="text/css" href="public/css/home.css"/>
+    <div class="dashboard home">
         <div class="feed">
             <div class="button-group">
                 <button class="your-feed">Your Feed</button>

@@ -57,7 +57,7 @@
 }
   
 .efecto.aparecer {
-opacity: 1;
+    opacity: 1;
 }
 
 .search .user-container {
@@ -139,4 +139,18 @@ a {
     border-radius: 5px;
     padding: 0px 3px;
     color: var(--highlight);
+}
+
+@media (max-width: 900px) {
+    .search #resultados {
+        flex-direction: row;
+
+    }
+    .search .user-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .search .user-result, .search .log {
+        width: fit-content;
+    }
 }

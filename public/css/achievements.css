@@ -98,3 +98,23 @@
     text-align: center;
     color: var(--color-texto);
 }
+
+@media (max-width: 900px) {
+    section {
+        width: 100%;
+        min-height: 30vh;
+    }
+    .dashboard {
+        display: flex;
+        justify-content: center;
+        height: max-content;
+        flex-direction: column;
+    }
+    .dashboard .achievements {
+        max-height: 70vh;
+        min-height: 0;
+        width: 97%;
+        display: flex;
+        flex-direction: column;
+    }
+}

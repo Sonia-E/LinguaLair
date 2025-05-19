@@ -1,0 +1,30 @@
+@media (max-width: 900px) {
+    section {
+        width: 100%;
+        min-height: 30vh;
+    }
+    .home {
+        display: flex;
+        height: max-content;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .dashboard .feed {
+        max-height: 70vh;;
+        width: 97%;
+        display: flex;
+        flex-direction: column;
+    }
+    .dashboard .feed .log {
+        min-height: 150px;
+        width: 300px;
+        margin: 10px;
+    }
+    .dashboard .right-feed {
+        width: 97%;
+    }
+    .feed-data .button-group {
+        padding: 10px;
+        margin-bottom: 0;
+    }
+}

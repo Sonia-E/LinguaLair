@@ -58,6 +58,18 @@ And what's more, you can connect with other language lovers to create a thriving
 
     To generate this password in Gmail, go to <code>https://support.google.com/mail/answer/185833?hl=en</code> and click on [Create and manage your app passwords](https://myaccount.google.com/apppasswords).
 
+    Lastly, don't forget to change the following email address in order to receive the incidents emails to the addresses you prefer:
+
+    ```php
+    $mail->Username   = 'soniaenjutom94@gmail.com'; // This changes depending on Gmail, Outlook, etc.
+    $mail->Password   =  $smtp_password; // App password
+
+    // Email configuration
+    $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Sender
+    $mail->addAddress('soniaenjutom94@gmail.com'); // Addressee
+    $mail->addReplyTo('soniaenjutom94@gmail.com', 'Incidents Management System');
+    ```
+
 ## LinguaLair Database
 
 ### User

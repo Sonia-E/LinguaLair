@@ -58,6 +58,18 @@ Además, ¡puedes conectar con otros amantes de otros idiomas para crear comunid
 
     Para crear dicha contraseña en Gmail, accede a <code>https://support.google.com/mail/answer/185833?hl=es</code> y pulsa sobre [Crea y gestiona contraseñas de aplicación](https://myaccount.google.com/apppasswords).
 
+    Por último, no olvides cambiar el siguiente correo para poder recibir los correos de las incidencias a las direcciones que desees:
+
+    ```php
+    $mail->Username   = 'soniaenjutom94@gmail.com'; // Esto cambia dependiendo de si usas Gmail, Outlook, etc.
+    $mail->Password   =  $smtp_password; // Contraseña de aplicación
+
+    // Configuración del correo
+    $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Remitente
+    $mail->addAddress('soniaenjutom94@gmail.com'); // Destinatario
+    $mail->addReplyTo('soniaenjutom94@gmail.com', 'Incidents Management System');
+    ```
+
 ## Base de datos LinguaLair
 
 ### Usuario

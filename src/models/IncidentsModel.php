@@ -104,7 +104,7 @@ class IncidentsModel {
 
             // Configuración del correo
             $mail->setFrom('soniaenjutom94@gmail.com', 'Incidents Management System'); // Remitente
-            $mail->addAddress('soniaenjutom94@gmail.com'); // Destinatario - ¡Cambiar!
+            $mail->addAddress('soniaenjutom94@gmail.com'); // Destinatario
             $mail->addReplyTo('soniaenjutom94@gmail.com', 'Incidents Management System');
 
             $mail->SMTPOptions = array(

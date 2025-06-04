@@ -139,3 +139,4 @@
 
 </script>
 <script type="text/javascript" src="public/js/profile.js"></script>
+<script type="text/javascript" src="public/js/otherProfile.js"></script>

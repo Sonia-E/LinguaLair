@@ -199,9 +199,9 @@ if ($mysqli = new mysqli("localhost", "root", "")) {
                 echo "Tabla user creada con éxito";
 
                 //Insertamos datos
-                $sql1 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','chieloveslangs@gmail', 'Spain', '2')";
-                $sql2 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Sauron', 'Saurooon', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','sauron@gmail', 'United Kingdom', '1')";
-                $sql3 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Kakashi', 'best boi', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','kakashi@gmail', 'Japan', '3')";
+                $sql1 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('chieloveslangs','~Chie~', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','chieloveslangs@gmail.com', 'Spain', '2')";
+                $sql2 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Sauron', 'Saurooon', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','sauron@gmail.com', 'United Kingdom', '1')";
+                $sql3 = "INSERT INTO user (username, nickname, password,  email, country, role_id) VALUES ('Kakashi', 'best boi', '$2y$10\$at3Nz5ecT.LjkLoGoZLIeuS.rtgJUvDwALY84wlBXpJMStBywItZa','kakashi@gmail.com', 'Japan', '3')";
                 
                 if ($mysqli->query($sql1) && $mysqli->query($sql2) && $mysqli->query($sql3)) {
                     echo "<br>";

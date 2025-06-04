@@ -534,12 +534,29 @@ const barData = {
     datasets: [] // Array para almacenar los datasets de cada idioma
 };
 
-// Función para verificar si una fecha está en la semana actual
 function isDateInCurrentWeek(dateString) {
-    const today = new Date();
-    const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1))); // Primer día de la semana (Lunes)
-    const lastDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 7)); // Último día de la semana (Domingo)
     const checkDate = new Date(dateString);
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    // Calcular el primer día de la semana (Lunes)
+    const dayOfWeekToday = today.getDay();
+    const diffToMonday = dayOfWeekToday === 0 ? -6 : 1 - dayOfWeekToday;
+    
+    const firstDayOfWeek = new Date(today);
+    firstDayOfWeek.setDate(today.getDate() + diffToMonday);
+    firstDayOfWeek.setHours(0, 0, 0, 0);
+
+    // Calcular el último día de la semana (Domingo)
+    const lastDayOfWeek = new Date(firstDayOfWeek);
+    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
+    lastDayOfWeek.setHours(23, 59, 59, 999);
+
+    // Normalizar la fecha a verificar a medianoche para una comparación precisa
+    checkDate.setHours(0, 0, 0, 0);
+
     return checkDate >= firstDayOfWeek && checkDate <= lastDayOfWeek;
 }
 

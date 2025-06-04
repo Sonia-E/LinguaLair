@@ -163,7 +163,7 @@
 }
 
 .unfollowButton:hover::before {
-    transform: translate(-125%, -50%);
+    transform: translate(-111%, -50%);
 }
 
 .profile .header .avatar {
